@@ -1,0 +1,85 @@
+{
+  "variant": {
+    "label": "Debug",
+    "keywordSettings": {
+      "buildType": "debug"
+    },
+    "description": "Emit debug information without performing optimizations"
+  },
+  "activeEnvironments": [],
+  "codeModel": {
+    "configurations": [
+      {
+        "name": "Debug",
+        "projects": [
+          {
+            "buildDirectory": "/home/phyrexus/Dev/Projects/swngmtool/build",
+            "name": "SwnGmTool",
+            "sourceDirectory": "/home/phyrexus/Dev/Projects/swngmtool",
+            "targets": [
+              {
+                "artifacts": [
+                  "/home/phyrexus/Dev/Projects/swngmtool/build/SwnGmTool"
+                ],
+                "buildDirectory": "/home/phyrexus/Dev/Projects/swngmtool/build",
+                "fileGroups": [
+                  {
+                    "compileFlags": "-g -Wall -ansi -pedantic   -std=gnu++14",
+                    "includePath": [
+                      {
+                        "path": "/home/phyrexus/Dev/Projects/swngmtool/ControlLayer/include"
+                      }
+                    ],
+                    "isGenerated": false,
+                    "language": "CXX",
+                    "sources": [
+                      "driver.cpp"
+                    ]
+                  }
+                ],
+                "fullName": "SwnGmTool",
+                "linkFlags": "-rdynamic",
+                "linkLanguageFlags": "-g -Wall -ansi -pedantic",
+                "linkLibraries": "ControlLayer/libControlLayer.a",
+                "linkerLanguage": "CXX",
+                "name": "SwnGmTool",
+                "sourceDirectory": "/home/phyrexus/Dev/Projects/swngmtool",
+                "type": "EXECUTABLE"
+              },
+              {
+                "artifacts": [
+                  "/home/phyrexus/Dev/Projects/swngmtool/build/ControlLayer/libControlLayer.a"
+                ],
+                "buildDirectory": "/home/phyrexus/Dev/Projects/swngmtool/build/ControlLayer",
+                "fileGroups": [
+                  {
+                    "compileFlags": "-g -Wall -ansi -pedantic   -std=gnu++14",
+                    "includePath": [
+                      {
+                        "path": "/home/phyrexus/Dev/Projects/swngmtool/ControlLayer/include"
+                      }
+                    ],
+                    "isGenerated": false,
+                    "language": "CXX",
+                    "sources": [
+                      "src/FactionManager.cpp",
+                      "src/AssetManager.cpp"
+                    ]
+                  }
+                ],
+                "fullName": "libControlLayer.a",
+                "linkerLanguage": "CXX",
+                "name": "ControlLayer",
+                "sourceDirectory": "/home/phyrexus/Dev/Projects/swngmtool/ControlLayer",
+                "type": "STATIC_LIBRARY"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "cookie": "0.28948624936805256",
+    "inReplyTo": "codemodel",
+    "type": "reply"
+  }
+}
