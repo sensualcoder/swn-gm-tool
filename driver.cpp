@@ -11,9 +11,16 @@
 
 using namespace SwnGmTool;
 
-void printTestDivider(char div)
+void printTestDivider(char div, std::string lineEnd)
 {
-    std::cout << std::string(50, div) << "\n\n";
+    std::cout << std::string(50, div) << lineEnd;
+}
+
+void printTestHeader(std::string str)
+{
+    printTestDivider('=', "\n");
+    std::cout << "=====" << str << "=====" << std::endl;
+    printTestDivider('=', "\n");
 }
 
 void printTestLine(std::string str)
@@ -64,40 +71,30 @@ void test_manager(Manager<T>* manager, std::string name)
     std::cout << "First item: " << testManager->GetList().front().Name << std::endl;
     std::cout << "Last item: " << testManager->GetList().back().Name << "\n\n";
 
-    printTestDivider('=');
+    printTestDivider('=', "\n\n");
 }
 
-void test_asset()
+template <typename T>
+void test_struct(std::string name)
 {
-    printTestDivider('=');
+    printTestLine(name + "struct tests");
+    
+    printTestLine("Create test struct");
+    T testStruct = { "Test" };
+    std::cout << name + "struct size: " << sizeof(testStruct) << "\n\n";
 
-    printTestLine("Create test asset");
-    Asset testAsset = { "Test" };
-    std::cout << "Asset struct size: " << sizeof(testAsset) << "\n\n";
-
-    printTestDivider('=');
-}
-
-void test_faction()
-{
-    printTestDivider('=');
-
-    printTestLine("Create test faction");
-    Faction testFaction = { "Test" };
-    std::cout << "Faction struct size: " << sizeof(testFaction) << "\n\n";
-
-    printTestDivider('=');
+    printTestDivider('=', "\n\n");
 }
 
 void runAllTests()
 {
-    test_asset();
-
-    test_faction();
-
+    printTestHeader("Faction Control Tests");
+    test_struct<Asset>("Asset");
+    test_struct<Faction>("Faction");
     test_manager<Asset>(new AssetManager, "AssetManager");
-
     test_manager<Faction>(new FactionManager, "FactionManager");
+
+    printTestHeader("Sector Generator Tests");
 }
 
 int main(int argc, char* argv[])
