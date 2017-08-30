@@ -8,6 +8,8 @@ namespace SwnGmTool
     struct HexElement
     {
         std::string Name;
+
+        HexElement(std::string Name) : Name(Name) {} 
     };
 }
 

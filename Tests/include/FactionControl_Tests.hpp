@@ -10,7 +10,7 @@
 #include "FactionManager.hpp"
 #include "Manager.hpp"
 
-#include "Tests.hpp"
+#include "TestHelpers.hpp"
 
 using namespace SwnGmTool;
 
@@ -21,7 +21,7 @@ namespace Tests
     {
         printTestLine(name + " Tests");
     
-        T testItem = { "Test" };
+        T testItem { "Test" };
     
         printTestLine("Create test manager");
         std::unique_ptr<Manager<T>> testManager(manager);
@@ -68,7 +68,7 @@ namespace Tests
         printTestLine(name + " struct tests");
         
         printTestLine("Create test struct");
-        T testStruct = { "Test" };
+        T testStruct { "Test" };
         std::cout << name + " struct size: " << sizeof(testStruct) << "\n\n";
     
         printTestDivider('=', "\n\n");

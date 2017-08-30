@@ -7,6 +7,7 @@ namespace SwnGmTool
 {
     struct Planet : public HexElement
     {
+        Planet(std::string Name) : HexElement(Name) {}
     };
 }
 

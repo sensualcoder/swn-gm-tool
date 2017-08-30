@@ -3,11 +3,9 @@
 
 namespace Tests
 {
-    void printTestDivider(char div, std::string lineEnd);
-
-    void printTestHeader(std::string str);
-
-    void printTestLine(std::string str);
+    void runFactionControlTests();
+    void runSectorGenTests();
+    void runAllTests();
 }
 
 #endif

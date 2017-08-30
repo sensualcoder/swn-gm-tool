@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "Tests.hpp"
+#include "TestHelpers.hpp"
 
 namespace Tests
 {
