@@ -1,13 +1,12 @@
 #ifndef PLANET_HPP
 #define PLANET_HPP
 
-#include <string>
+#include "HexElement.hpp"
 
 namespace SwnGmTool
 {
-    struct Planet
+    struct Planet : public HexElement
     {
-        std::string Name;
     };
 }
 
