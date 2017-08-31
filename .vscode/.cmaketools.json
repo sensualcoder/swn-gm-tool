@@ -19,6 +19,101 @@
             "targets": [
               {
                 "artifacts": [
+                  "/home/phyrexus/Dev/Projects/swngmtool/build/Tests/libTests.a"
+                ],
+                "buildDirectory": "/home/phyrexus/Dev/Projects/swngmtool/build/Tests",
+                "fileGroups": [
+                  {
+                    "compileFlags": "-g -Wall -ansi -pedantic   -std=gnu++14",
+                    "includePath": [
+                      {
+                        "path": "/home/phyrexus/Dev/Projects/swngmtool/HexGrid/include"
+                      },
+                      {
+                        "path": "/home/phyrexus/Dev/Projects/swngmtool/FactionControl/include"
+                      },
+                      {
+                        "path": "/home/phyrexus/Dev/Projects/swngmtool/SectorGen/include"
+                      },
+                      {
+                        "path": "/home/phyrexus/Dev/Projects/swngmtool/Tests/include"
+                      }
+                    ],
+                    "isGenerated": false,
+                    "language": "CXX",
+                    "sources": [
+                      "src/Tests.cpp",
+                      "src/TestHelpers.cpp"
+                    ]
+                  }
+                ],
+                "fullName": "libTests.a",
+                "linkerLanguage": "CXX",
+                "name": "Tests",
+                "sourceDirectory": "/home/phyrexus/Dev/Projects/swngmtool/Tests",
+                "type": "STATIC_LIBRARY"
+              },
+              {
+                "artifacts": [
+                  "/home/phyrexus/Dev/Projects/swngmtool/build/HexGrid/libHexGrid.a"
+                ],
+                "buildDirectory": "/home/phyrexus/Dev/Projects/swngmtool/build/HexGrid",
+                "fileGroups": [
+                  {
+                    "compileFlags": "-g -Wall -ansi -pedantic   -std=gnu++14",
+                    "includePath": [
+                      {
+                        "path": "/home/phyrexus/Dev/Projects/swngmtool/HexGrid/include"
+                      }
+                    ],
+                    "isGenerated": false,
+                    "language": "CXX",
+                    "sources": [
+                      "src/Hex.cpp"
+                    ]
+                  }
+                ],
+                "fullName": "libHexGrid.a",
+                "linkerLanguage": "CXX",
+                "name": "HexGrid",
+                "sourceDirectory": "/home/phyrexus/Dev/Projects/swngmtool/HexGrid",
+                "type": "STATIC_LIBRARY"
+              },
+              {
+                "artifacts": [
+                  "/home/phyrexus/Dev/Projects/swngmtool/build/FactionControl/libFactionControl.so"
+                ],
+                "buildDirectory": "/home/phyrexus/Dev/Projects/swngmtool/build/FactionControl",
+                "fileGroups": [
+                  {
+                    "compileFlags": "-g -Wall -ansi -pedantic -fPIC   -std=gnu++14",
+                    "defines": [
+                      "FactionControl_EXPORTS"
+                    ],
+                    "includePath": [
+                      {
+                        "path": "/home/phyrexus/Dev/Projects/swngmtool/HexGrid/include"
+                      },
+                      {
+                        "path": "/home/phyrexus/Dev/Projects/swngmtool/FactionControl/include"
+                      }
+                    ],
+                    "isGenerated": false,
+                    "language": "CXX",
+                    "sources": [
+                      "src/FactionManager.cpp",
+                      "src/AssetManager.cpp"
+                    ]
+                  }
+                ],
+                "fullName": "libFactionControl.so",
+                "linkerLanguage": "CXX",
+                "name": "FactionControl",
+                "sourceDirectory": "/home/phyrexus/Dev/Projects/swngmtool/FactionControl",
+                "type": "SHARED_LIBRARY"
+              },
+              {
+                "artifacts": [
                   "/home/phyrexus/Dev/Projects/swngmtool/build/SwnGmTool"
                 ],
                 "buildDirectory": "/home/phyrexus/Dev/Projects/swngmtool/build",
@@ -27,7 +122,16 @@
                     "compileFlags": "-g -Wall -ansi -pedantic   -std=gnu++14",
                     "includePath": [
                       {
-                        "path": "/home/phyrexus/Dev/Projects/swngmtool/ControlLayer/include"
+                        "path": "/home/phyrexus/Dev/Projects/swngmtool/HexGrid/include"
+                      },
+                      {
+                        "path": "/home/phyrexus/Dev/Projects/swngmtool/FactionControl/include"
+                      },
+                      {
+                        "path": "/home/phyrexus/Dev/Projects/swngmtool/SectorGen/include"
+                      },
+                      {
+                        "path": "/home/phyrexus/Dev/Projects/swngmtool/Tests/include"
                       }
                     ],
                     "isGenerated": false,
@@ -40,7 +144,7 @@
                 "fullName": "SwnGmTool",
                 "linkFlags": "-rdynamic",
                 "linkLanguageFlags": "-g -Wall -ansi -pedantic",
-                "linkLibraries": "ControlLayer/libControlLayer.a",
+                "linkLibraries": "-Wl,-rpath,/home/phyrexus/Dev/Projects/swngmtool/build/FactionControl:/home/phyrexus/Dev/Projects/swngmtool/build/SectorGen FactionControl/libFactionControl.so SectorGen/libSectorGen.so Tests/libTests.a",
                 "linkerLanguage": "CXX",
                 "name": "SwnGmTool",
                 "sourceDirectory": "/home/phyrexus/Dev/Projects/swngmtool",
@@ -48,37 +152,45 @@
               },
               {
                 "artifacts": [
-                  "/home/phyrexus/Dev/Projects/swngmtool/build/ControlLayer/libControlLayer.a"
+                  "/home/phyrexus/Dev/Projects/swngmtool/build/SectorGen/libSectorGen.so"
                 ],
-                "buildDirectory": "/home/phyrexus/Dev/Projects/swngmtool/build/ControlLayer",
+                "buildDirectory": "/home/phyrexus/Dev/Projects/swngmtool/build/SectorGen",
                 "fileGroups": [
                   {
-                    "compileFlags": "-g -Wall -ansi -pedantic   -std=gnu++14",
+                    "compileFlags": "-g -Wall -ansi -pedantic -fPIC   -std=gnu++14",
+                    "defines": [
+                      "SectorGen_EXPORTS"
+                    ],
                     "includePath": [
                       {
-                        "path": "/home/phyrexus/Dev/Projects/swngmtool/ControlLayer/include"
+                        "path": "/home/phyrexus/Dev/Projects/swngmtool/HexGrid/include"
+                      },
+                      {
+                        "path": "/home/phyrexus/Dev/Projects/swngmtool/FactionControl/include"
+                      },
+                      {
+                        "path": "/home/phyrexus/Dev/Projects/swngmtool/SectorGen/include"
                       }
                     ],
                     "isGenerated": false,
                     "language": "CXX",
                     "sources": [
-                      "src/FactionManager.cpp",
-                      "src/AssetManager.cpp"
+                      "src/SectorGen.cpp"
                     ]
                   }
                 ],
-                "fullName": "libControlLayer.a",
+                "fullName": "libSectorGen.so",
                 "linkerLanguage": "CXX",
-                "name": "ControlLayer",
-                "sourceDirectory": "/home/phyrexus/Dev/Projects/swngmtool/ControlLayer",
-                "type": "STATIC_LIBRARY"
+                "name": "SectorGen",
+                "sourceDirectory": "/home/phyrexus/Dev/Projects/swngmtool/SectorGen",
+                "type": "SHARED_LIBRARY"
               }
             ]
           }
         ]
       }
     ],
-    "cookie": "0.28948624936805256",
+    "cookie": "0.27872495069946845",
     "inReplyTo": "codemodel",
     "type": "reply"
   }

@@ -15,7 +15,19 @@ using namespace SwnGmTool;
 
 namespace Tests
 {
-    template <typename T, typename R>
+    template<typename T>
+    void test_mapgen(std::string name)
+    {
+        printTestLine(name + " Tests");
+
+        printTestLine("Create test map generator");
+        std::unique_ptr<T> testGenerator(new T() );
+        std::cout << "Generator size: " << sizeof(*testGenerator) << "\n\n";
+
+        printTestDivider('=', "\n\n");
+    }
+
+    template <typename T>
     void test_map(std::string name)
     {
         printTestLine(name + " Tests");
@@ -23,8 +35,11 @@ namespace Tests
         T testElement { "Test" };
 
         printTestLine("Create test map");
-        std::unique_ptr<Map<R>> testMap(new Map<R>(10, 10));
+        std::unique_ptr<Map<SwnHex<T>>> testMap(new Map<SwnHex<T>>() );
         std::cout << "Map size: " << sizeof(*testMap) << "\n\n";
+
+        printTestLine("Check map set size");
+        std::cout << "Map set size: " << sizeof(testMap->GetMap() ) << "\n\n";
 
         printTestDivider('=', "\n\n");
     }
@@ -34,10 +49,10 @@ namespace Tests
     {
         printTestLine(name + " Tests");
 
-        HexElement testElement { "Test" };
+        T testElement { "Test" };
 
         printTestLine("Create test hex");
-        std::unique_ptr<Hex<T>> testHex(new Hex<T>(0, 0, 0));
+        std::unique_ptr<SwnHex<T>> testHex(new SwnHex<T>(0, 0, 0));
         std::cout << "Hex size: " << sizeof(*testHex) << "\n\n";
 
         printTestDivider('=', "\n\n");

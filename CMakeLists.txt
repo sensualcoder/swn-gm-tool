@@ -4,6 +4,10 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -ansi -pedantic")
 set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 
+# Hex Grid lib
+include_directories(${PROJECT_SOURCE_DIR}/HexGrid/include)
+add_subdirectory(HexGrid)
+
 # Faction Control lib
 include_directories(${PROJECT_SOURCE_DIR}/FactionControl/include)
 add_subdirectory(FactionControl)

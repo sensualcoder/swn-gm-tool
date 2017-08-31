@@ -25,7 +25,8 @@ namespace Tests
 
         test_hexelement<Planet>("Planet");
         test_hex<Planet>("Planet");
-        test_map<Planet, Hex<Planet>>("Planet Map");
+        test_map<Planet>("Planet Map");
+        test_mapgen<SectorGen>("SectorGen");
     }
 
     void runAllTests()
