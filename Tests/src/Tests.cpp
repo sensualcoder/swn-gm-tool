@@ -24,8 +24,11 @@ namespace Tests
         printTestHeader("Sector Generator Tests");
 
         test_hexelement<Planet>("Planet");
-        test_hex<Planet>("Planet");
-        test_map<Planet>("Planet Map");
+        test_hex<HexElement, HexGrid::Hex>("Hex");
+        test_hex<Planet, SwnHex>("Planet");
+        test_map<HexElement, HexGrid::Hex>("Hex Map");
+        test_map<Planet, SwnHex>("Planet Map");
+        test_mapgen<MapGen<HexGrid::Hex> >("MapGen");
         test_mapgen<SectorGen>("SectorGen");
     }
 

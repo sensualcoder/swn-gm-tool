@@ -6,8 +6,10 @@
 
 #include "Hex.hpp"
 #include "HexElement.hpp"
+#include "Map.hpp"
 #include "Planet.hpp"
 #include "SectorGen.hpp"
+#include "SwnHex.hpp"
 
 #include "TestHelpers.hpp"
 
@@ -27,7 +29,7 @@ namespace Tests
         printTestDivider('=', "\n\n");
     }
 
-    template <typename T>
+    template <typename T, typename R>
     void test_map(std::string name)
     {
         printTestLine(name + " Tests");
@@ -35,7 +37,7 @@ namespace Tests
         T testElement { "Test" };
 
         printTestLine("Create test map");
-        std::unique_ptr<Map<SwnHex<T>>> testMap(new Map<SwnHex<T>>() );
+        std::unique_ptr<HexGrid::Map<R> > testMap(new HexGrid::Map<R>() );
         std::cout << "Map size: " << sizeof(*testMap) << "\n\n";
 
         printTestLine("Check map set size");
@@ -44,7 +46,7 @@ namespace Tests
         printTestDivider('=', "\n\n");
     }
 
-    template <typename T>
+    template <typename T, typename R>
     void test_hex(std::string name)
     {
         printTestLine(name + " Tests");
@@ -52,7 +54,7 @@ namespace Tests
         T testElement { "Test" };
 
         printTestLine("Create test hex");
-        std::unique_ptr<SwnHex<T>> testHex(new SwnHex<T>(0, 0, 0));
+        std::unique_ptr<R> testHex(new R(0, 0, 0));
         std::cout << "Hex size: " << sizeof(*testHex) << "\n\n";
 
         printTestDivider('=', "\n\n");

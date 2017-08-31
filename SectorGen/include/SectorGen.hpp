@@ -2,13 +2,17 @@
 #define SECTOR_GEN_HPP
 
 #include "MapGen.hpp"
-#include "Planet.hpp"
 #include "SwnHex.hpp"
 
 namespace SwnGmTool
 {
-    class SectorGen : public MapGen<SwnHex<Planet>>
+    const int STD_MAP_WIDTH = 8;
+    const int STD_MAP_HEIGHT = 10;
+
+    class SectorGen : public MapGen<SwnHex>
     {
+        public:
+            SectorGen(int = STD_MAP_WIDTH, int = STD_MAP_HEIGHT);
     };
 }
 

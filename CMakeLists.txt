@@ -21,7 +21,7 @@ include_directories(${PROJECT_SOURCE_DIR}/Tests/include)
 add_subdirectory(Tests)
 
 # Add all extra libs
-set(EXTRA_LIBS ${EXTRA_LIBS} FactionControl SectorGen Tests)
+set(EXTRA_LIBS ${EXTRA_LIBS} HexGrid FactionControl SectorGen Tests)
 
 set(SOURCES driver.cpp)
 

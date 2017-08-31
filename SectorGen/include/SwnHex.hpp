@@ -4,32 +4,30 @@
 #include <vector>
 
 #include "Hex.hpp"
+#include "HexElement.hpp"
 
 namespace SwnGmTool
 {
-    template<class T>
     struct SwnHex : public HexGrid::Hex
     {
         SwnHex(int q, int r, int s) : HexGrid::Hex{q, r, s} {}
 
-        std::vector<T> ElementList;
+        std::vector<HexElement> ElementList;
     };
 
-    template<class T>
-    bool operator==(SwnHex<T> a, SwnHex<T> b)
+    bool operator==(SwnHex a, SwnHex b)
     {
         return a == b;
     }
 
-    template<class T>
-    bool operator!=(SwnHex<T> a, SwnHex<T> b)
+    bool operator!=(SwnHex a, SwnHex b)
     {
         return !(a==b);
     }
 }
 
-template <class T>
-struct std::hash<SwnGmTool::SwnHex<T>> : public std::hash<HexGrid::Hex>
+template <>
+struct std::hash<SwnGmTool::SwnHex> : public std::hash<HexGrid::Hex>
 {
 };
 

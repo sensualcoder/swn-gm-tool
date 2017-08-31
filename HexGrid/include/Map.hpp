@@ -6,16 +6,14 @@
 
 #include "Hex.hpp"
 
-namespace SwnGmTool
+namespace HexGrid
 {
-    const int STD_MAP_WIDTH = 8;
-    const int STD_MAP_HEIGHT = 10;
-
     template <class T>
     class Map
     {
         public:
-            Map(int = STD_MAP_WIDTH, int mapHeight = STD_MAP_HEIGHT);
+            Map();
+            Map(int, int mapHeight);
             void CreateMap(int mapWidth, int mapHeight);
             
             std::unordered_set<T> GetMap();
@@ -25,9 +23,8 @@ namespace SwnGmTool
     };
 
     template<class T>
-    std::unordered_set<T> Map<T>::GetMap()
+    Map<T>::Map()
     {
-        return MapSet;
     }
 
     template<class T>
@@ -47,6 +44,12 @@ namespace SwnGmTool
                 MapSet.insert(T(q, r, -q-r));
             }
         }
+    }
+
+    template<class T>
+    std::unordered_set<T> Map<T>::GetMap()
+    {
+        return MapSet;
     }
 }
 
