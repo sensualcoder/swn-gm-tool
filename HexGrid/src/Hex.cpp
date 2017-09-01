@@ -9,7 +9,7 @@ const std::vector<HexGrid::Hex> hex_directions =
     HexGrid::Hex(-1, 0, 1), HexGrid::Hex(-1, 1, 0), HexGrid::Hex(0, 1, -1)
 };
 
-bool operator==(HexGrid::Hex a, HexGrid::Hex b)
+bool operator==(const HexGrid::Hex& a, const HexGrid::Hex& b)
 {
     return a.q() == b.q() && a.r() == b.r() && a.s() == b.s();
 }

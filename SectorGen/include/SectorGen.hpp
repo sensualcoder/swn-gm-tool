@@ -9,7 +9,7 @@ namespace SwnGmTool
     const int STD_MAP_WIDTH = 8;
     const int STD_MAP_HEIGHT = 10;
 
-    class SectorGen : public MapGen<SwnHex>
+    class SectorGen : public MapGen
     {
         public:
             SectorGen(int = STD_MAP_WIDTH, int = STD_MAP_HEIGHT);

@@ -29,7 +29,7 @@ namespace Tests
         printTestDivider('=', "\n\n");
     }
 
-    template <typename T, typename R>
+    template <typename T>
     void test_map(std::string name)
     {
         printTestLine(name + " Tests");
@@ -37,7 +37,7 @@ namespace Tests
         T testElement { "Test" };
 
         printTestLine("Create test map");
-        std::unique_ptr<HexGrid::Map<R> > testMap(new HexGrid::Map<R>() );
+        std::unique_ptr<HexGrid::Map> testMap(new HexGrid::Map() );
         std::cout << "Map size: " << sizeof(*testMap) << "\n\n";
 
         printTestLine("Check map set size");

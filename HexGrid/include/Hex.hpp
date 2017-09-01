@@ -29,4 +29,13 @@ struct std::hash<HexGrid::Hex>
     }
 };
 
+template<>
+struct std::equal_to<HexGrid::Hex>
+{
+    bool operator()(const HexGrid::Hex& a, const HexGrid::Hex& b) const
+    {
+        return a.q() == b.q() && a.r() == b.r() && a.s() == b.s();
+    };
+};
+
 #endif
