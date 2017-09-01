@@ -5,10 +5,8 @@
 #include <memory>
 
 #include "Asset.hpp"
-#include "AssetManager.hpp"
 #include "Faction.hpp"
-#include "FactionManager.hpp"
-#include "Manager.hpp"
+#include "FactionControl.hpp"
 
 #include "TestHelpers.hpp"
 
@@ -16,49 +14,82 @@ using namespace SwnGmTool;
 
 namespace Tests
 {
-    template <typename T>
-    void test_manager(Manager<T>* manager, std::string name)
+    template<typename T>
+    void printList(std::vector<T> list)
     {
-        printTestLine(name + " Tests");
-    
-        T testItem { "Test" };
-    
-        printTestLine("Create test manager");
-        std::unique_ptr<Manager<T>> testManager(manager);
-        std::cout << "Manager size: " << sizeof(*testManager) << "\n\n";
-    
-        printTestLine("Check manager list size");
-        std::cout << "List size: " << testManager->GetList().size() << "\n\n";
-    
-        printTestLine("Add manager to faction list");
-        testManager->Add(testItem);
-        std::cout << "List size: " << testManager->GetList().size() << "\n\n";
-    
-        printTestLine("Check item name");
-        std::cout << "Item name: " << testManager->GetItem(0).Name << "\n\n";
-    
-        printTestLine("Remove item from list");
-        testManager->Remove(0);
-        std::cout << "List size: " << testManager->GetList().size() << "\n\n";
-    
-        printTestLine("Add item back and then clear list");
-        testManager->Add(testItem);
-        std::cout << "List size: " << testManager->GetList().size() << std::endl;
-        testManager->ClearList();
-        std::cout << "List size: " << testManager->GetList().size() << "\n\n";
-    
-        printTestLine("Add a large amount of items to the list");
-        int test_count = 1000000;
-        for(int i = 0; i < test_count; i++)
+        for(auto i : list)
         {
-            std::string name = "Test" + std::to_string(i);
-            std::unique_ptr<T> tmp = std::unique_ptr<T>(new T { name });
-            testManager->Add(*tmp);
+            std::cout << i.Name << std::endl;
         }
-        std::cout << "List size: " << testManager->GetList().size() << std::endl;
-        std::cout << "First item: " << testManager->GetList().front().Name << std::endl;
-        std::cout << "Last item: " << testManager->GetList().back().Name << "\n\n";
-    
+    }
+
+    void test_control()
+    {
+        printTestLine("Faction Control Tests");
+
+        Faction test { "Test" };
+
+        printTestLine("Create test control");
+        std::unique_ptr<FactionControl> testControl(new FactionControl() );
+        std::cout << "Control size: " << sizeof(*testControl) << "\n\n";
+
+        {
+            printTestLine("Add test faction to control");
+            testControl->AddFaction(test);
+            printTestLine("Show faction list");
+            printList<Faction>(testControl->GetFactionList() );
+            std::cout << std::endl;
+        }
+
+        {
+            printTestLine("Remove faction from control");
+            testControl->RemoveFaction("Test");
+            printTestLine("Show faction list");
+            std::cout << "Faction list:\n";
+            printList<Faction>(testControl->GetFactionList() );
+            std::cout << std::endl;
+        }
+
+        {
+            printTestLine("Add a large amount of factions to the map");
+            int test_count = 1000;
+            for(int i = 0; i < test_count; i++)
+            {
+                std::string name = "Test" + std::to_string(i);
+                std::unique_ptr<Faction> tmp = std::unique_ptr<Faction>(new Faction { name });
+                testControl->AddFaction(*tmp);
+            }
+            std::cout << "List size: " << testControl->GetMapSize() << "\n\n";
+        }
+
+        {
+            printTestLine("Clear map");
+            testControl->ClearMap();
+            std::cout << "List size: " << testControl->GetMapSize() << "\n\n";
+        }
+
+        {
+            printTestLine("Add test faction to control");
+            testControl->AddFaction(test);
+            printTestLine("Show faction list");
+            printList<Faction>(testControl->GetFactionList() );
+            std::cout << std::endl;
+        }
+
+        {
+            printTestLine("Add a large amount of assets to one faction");
+            int test_count = 1000000;
+            for(int i = 0; i < test_count; i++)
+            {
+                std::string name = "Test" + std::to_string(i);
+                std::unique_ptr<Asset> tmp = std::unique_ptr<Asset>(new Asset { name });
+                testControl->AddAsset("Test", *tmp);
+            }
+            std::cout << "List size: " << testControl->GetMapSize() << "\n\n";
+            //auto map = testControl->GetMap();
+            //std::cout << "Asset list size: " << map[test].size() << "\n\n";
+        }
+
         printTestDivider('=', "\n\n");
     }
     

@@ -3,35 +3,35 @@
 
 #include <memory>
 
-#include "Map.hpp"
+#include "HexMap.hpp"
 
 namespace SwnGmTool
 {
     class MapGen
     {
         public:
-            MapGen(HexGrid::Map* = NULL);
-            MapGen(int, int, HexGrid::Map* = NULL);
+            MapGen(HexGrid::HexMap* = NULL);
+            MapGen(int, int, HexGrid::HexMap* = NULL);
 
-            HexGrid::Map GetMap();
+            HexGrid::HexMap GetMap();
 
         private:
-            std::unique_ptr<HexGrid::Map> MapPtr;
+            std::unique_ptr<HexGrid::HexMap> MapPtr;
     };
 
-    MapGen::MapGen(HexGrid::Map* map)
+    MapGen::MapGen(HexGrid::HexMap* map)
     {
-        this->MapPtr = (map == NULL) ? std::unique_ptr<HexGrid::Map>()
-                        : std::unique_ptr<HexGrid::Map>(map);
+        this->MapPtr = (map == NULL) ? std::unique_ptr<HexGrid::HexMap>()
+                        : std::unique_ptr<HexGrid::HexMap>(map);
     }
 
-    MapGen::MapGen(int mapWidth, int mapHeight, HexGrid::Map* map)
+    MapGen::MapGen(int mapWidth, int mapHeight, HexGrid::HexMap* map)
     {
-        this->MapPtr = (map == NULL) ? std::unique_ptr<HexGrid::Map>(new HexGrid::Map(mapWidth, mapHeight) )
-                        : std::unique_ptr<HexGrid::Map>(map);
+        this->MapPtr = (map == NULL) ? std::unique_ptr<HexGrid::HexMap>(new HexGrid::HexMap(mapWidth, mapHeight) )
+                        : std::unique_ptr<HexGrid::HexMap>(map);
     }
 
-    HexGrid::Map MapGen::GetMap()
+    HexGrid::HexMap MapGen::GetMap()
     {
         return *(this->MapPtr);
     }

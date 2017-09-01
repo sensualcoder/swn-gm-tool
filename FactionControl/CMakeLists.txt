@@ -1,3 +1,3 @@
-set(SOURCES src/FactionManager.cpp src/AssetManager.cpp)
+set(SOURCES src/FactionControl.cpp)
 
 add_library(FactionControl SHARED ${SOURCES})

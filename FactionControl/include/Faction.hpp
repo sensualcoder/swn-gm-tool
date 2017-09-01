@@ -22,4 +22,24 @@ namespace SwnGmTool
     };
 }
 
+template<>
+struct std::hash<SwnGmTool::Faction>
+{
+    size_t operator()(const SwnGmTool::Faction& f) const
+    {
+        std::hash<std::string> string_hash;
+        return string_hash(f.Name);
+    }
+};
+
+
+template<>
+struct std::equal_to<SwnGmTool::Faction>
+{
+    bool operator()(const SwnGmTool::Faction& a, const SwnGmTool::Faction& b) const
+    {
+        return a.Name == b.Name;
+    };
+};
+
 #endif

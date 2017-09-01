@@ -2,7 +2,6 @@
 #define SECTOR_GEN_HPP
 
 #include "MapGen.hpp"
-#include "SwnHex.hpp"
 
 namespace SwnGmTool
 {

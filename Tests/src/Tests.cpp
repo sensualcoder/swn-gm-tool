@@ -1,6 +1,5 @@
 #include "Tests.hpp"
 
-#include "FactionManager.hpp"
 #include "SectorGen.hpp"
 
 #include "FactionControl_Tests.hpp"
@@ -15,8 +14,7 @@ namespace Tests
 
         test_struct<Asset>("Asset");
         test_struct<Faction>("Faction");
-        test_manager<Asset>(new AssetManager, "AssetManager");
-        test_manager<Faction>(new FactionManager, "FactionManager");
+        test_control();
     }
 
     void runSectorGenTests()
@@ -25,7 +23,7 @@ namespace Tests
 
         test_hexelement<Planet>("Planet");
         test_hex<HexElement, HexGrid::Hex>("Hex");
-        test_hex<Planet, SwnHex>("Planet");
+        test_hex<Planet, HexGrid::Hex>("Planet");
         test_map<HexElement>("Hex Map");
         test_map<Planet>("Planet Map");
         test_mapgen<MapGen>("MapGen");

@@ -6,10 +6,9 @@
 
 #include "Hex.hpp"
 #include "HexElement.hpp"
-#include "Map.hpp"
+#include "HexMap.hpp"
 #include "Planet.hpp"
 #include "SectorGen.hpp"
-#include "SwnHex.hpp"
 
 #include "TestHelpers.hpp"
 
@@ -37,7 +36,7 @@ namespace Tests
         T testElement { "Test" };
 
         printTestLine("Create test map");
-        std::unique_ptr<HexGrid::Map> testMap(new HexGrid::Map() );
+        std::unique_ptr<HexGrid::HexMap> testMap(new HexGrid::HexMap() );
         std::cout << "Map size: " << sizeof(*testMap) << "\n\n";
 
         printTestLine("Check map set size");

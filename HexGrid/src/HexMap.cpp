@@ -1,17 +1,17 @@
-#include "Map.hpp"
+#include "HexMap.hpp"
 
 namespace HexGrid
 {
-    Map::Map()
+    HexMap::HexMap()
     {
     }
 
-    Map::Map(int mapWidth, int mapHeight)
+    HexMap::HexMap(int mapWidth, int mapHeight)
     {
         CreateMap(mapWidth, mapHeight);
     }
 
-    void Map::CreateMap(int mapWidth, int mapHeight)
+    void HexMap::CreateMap(int mapWidth, int mapHeight)
     {
         for(int q = 0; q < mapWidth; q++)
         {
@@ -23,7 +23,7 @@ namespace HexGrid
         }
     }
 
-    std::unordered_set<Hex> Map::GetMap()
+    const std::unordered_set<Hex>& HexMap::GetMap()
     {
         return MapSet;
     }
