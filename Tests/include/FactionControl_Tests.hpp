@@ -85,9 +85,8 @@ namespace Tests
                 std::unique_ptr<Asset> tmp = std::unique_ptr<Asset>(new Asset { name });
                 testControl->AddAsset("Test", *tmp);
             }
-            std::cout << "List size: " << testControl->GetMapSize() << "\n\n";
-            //auto map = testControl->GetMap();
-            //std::cout << "Asset list size: " << map[test].size() << "\n\n";
+            std::cout << "List size: " << testControl->GetMapSize() << std::endl;
+            std::cout << "Asset list size: " << testControl->GetAssetList("Test").size() << "\n\n";
         }
 
         printTestDivider('=', "\n\n");

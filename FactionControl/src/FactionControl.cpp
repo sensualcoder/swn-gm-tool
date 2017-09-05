@@ -2,7 +2,7 @@
 
 namespace SwnGmTool
 {
-    Faction FactionControl::GetFaction(std::string fName)
+    const Faction& FactionControl::GetFaction(std::string fName)
     {
         auto item = this->FindFaction(fName);
         return item->first;
@@ -33,6 +33,8 @@ namespace SwnGmTool
     const std::vector<Asset> FactionControl::GetAssetList(std::string fName)
     {
         auto item = this->FindFaction(fName);
+
+        return item->second;
     }
 
     void FactionControl::AddAsset(std::string fName, Asset asset)

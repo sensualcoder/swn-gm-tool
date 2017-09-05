@@ -13,7 +13,7 @@ namespace SwnGmTool
     class FactionControl
     {
         public:
-            Faction GetFaction(std::string);
+            const Faction& GetFaction(std::string);
             const std::vector<Faction> GetFactionList();
             void AddFaction(Faction);
             void RemoveFaction(std::string);

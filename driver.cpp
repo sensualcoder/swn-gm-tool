@@ -6,17 +6,24 @@
 void printTestsMenu()
 {
     std::cout << "Select a test to run" << std::endl;
+    std::cout << "1) Faction Control tests" << std::endl;
+    std::cout << "2) Sector Generator tests" << std::endl;
     std::cout << "0) All tests" << std::endl;
     std::cout << "Q) Back" << "\n\n";
 }
 
 void selectTest(int option)
 {
+    std::cout << "Option: " << option << std::endl;
+
     switch(option)
     {
-        case 'Q':
-        case 'q':
-            return;
+        case 1:
+            Tests::runFactionControlTests();
+            break;
+        case 2:
+            Tests::runSectorGenTests();
+            break;
         case 0:
         default:
             Tests::runAllTests();
@@ -30,7 +37,11 @@ void tests()
 
     std::string line; 
     std::getline(std::cin, line);
-    selectTest(line[0]);
+
+    if(line[0] == 'Q' || line[0] == 'q')
+        return;
+
+    selectTest(std::stoi(line) );
 }
 
 void printMenu()
@@ -40,7 +51,7 @@ void printMenu()
     std::cout << "Q) Quit" << "\n\n";
 }
 
-void parseLine(int option)
+void parseInputLine(int option)
 {
     switch(option)
     {
@@ -62,7 +73,7 @@ int main(int argc, char* argv[])
             if(line[0] == 'Q' || line[0] == 'q')
                 break;
 
-            parseLine((int)line[0]);
+            parseInputLine(std::stoi(line) );
         }
 
         printMenu();
