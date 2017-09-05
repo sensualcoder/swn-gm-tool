@@ -14,8 +14,6 @@ void printTestsMenu()
 
 void selectTest(int option)
 {
-    std::cout << "Option: " << option << std::endl;
-
     switch(option)
     {
         case 1:
@@ -38,7 +36,7 @@ void tests()
     std::string line; 
     std::getline(std::cin, line);
 
-    if(line[0] == 'Q' || line[0] == 'q')
+    if(line == "" || line[0] == 'Q' || line[0] == 'q')
         return;
 
     selectTest(std::stoi(line) );

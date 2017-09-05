@@ -3,15 +3,42 @@
 
 #include <cstdint>
 #include <string>
+#include <vector>
+
+#include <cereal/cereal.hpp>
+#include <cereal/types/vector.hpp>
 
 namespace SwnGmTool
 {
+    enum FactionTags
+    {
+        Colonists,
+        DeepRooted,
+        EugenicsCult,
+        ExchangeConsulate,
+        Fanatical,
+        Imperialists,
+        Machiavellian,
+        MercenaryGroup,
+        PerimeterAgency,
+        Pirates,
+        Plutocratic,
+        PerceptorArchive,
+        PsychicAcademy,
+        Savage,
+        Scavengers,
+        Secretive,
+        TechnicalExpertise,
+        Theocratic,
+        Warlike
+    };
+
     struct Faction
     {
         std::string Name;
         std::string Homeworld;
 
-        uint8_t Might;
+        uint8_t Force;
         uint8_t Cunning;
         uint8_t Wealth;
 
@@ -19,7 +46,26 @@ namespace SwnGmTool
 
         uint8_t CurrentHP;
         uint8_t MaxHP;
+
+        uint8_t Exp;
+
+        std::vector<FactionTags> Tags;
     };
+
+    template<class Archive>
+    void serialize(Archive& archive, Faction& f)
+    {
+        archive(cereal::make_nvp("Name", f.Name), 
+                cereal::make_nvp("Homeworld", f.Homeworld),
+                cereal::make_nvp("Force", f.Force),
+                cereal::make_nvp("Cunning", f.Cunning),
+                cereal::make_nvp("Wealth", f.Wealth),
+                cereal::make_nvp("FacCreds", f.FacCreds),
+                cereal::make_nvp("CurrentHP", f.CurrentHP),
+                cereal::make_nvp("MaxHP", f.MaxHP), 
+                cereal::make_nvp("Exp", f.Exp),
+                cereal::make_nvp("Tags", f.Tags) );
+    }
 }
 
 template<>
@@ -31,7 +77,6 @@ struct std::hash<SwnGmTool::Faction>
         return string_hash(f.Name);
     }
 };
-
 
 template<>
 struct std::equal_to<SwnGmTool::Faction>

@@ -1,8 +1,11 @@
 #ifndef FACTION_CONTROL_TESTS_HPP
 #define FACTION_CONTROL_TESTS_HPP
 
+#include <fstream>
 #include <iostream>
 #include <memory>
+
+#include <cereal/archives/json.hpp>
 
 #include "Asset.hpp"
 #include "Faction.hpp"
@@ -91,6 +94,39 @@ namespace Tests
 
         printTestDivider('=', "\n\n");
     }
+
+    void test_asset()
+    {
+        printTestLine("Asset struct tests");
+
+        printTestLine("Create test asset");
+        Asset testAsset { "Test", "Force", "Special Forces", { 1, 4, 0 }, "Force", { 1, 4, 0 }, 0, 1, 5, 5 };
+        std::cout << "Asset name: " << testAsset.Name << std::endl;
+        std::cout << "Asset struct size: " << sizeof(testAsset) << "\n\n";
+
+        {
+            printTestLine("Serialize test struct");
+            std::ofstream file("out.json");
+            cereal::JSONOutputArchive farchive(file);
+            cereal::JSONOutputArchive parchive(std::cout);
+            farchive(cereal::make_nvp("Asset", testAsset) );
+            parchive(cereal::make_nvp("Asset", testAsset) );
+        }
+        std::cout << "\n\n";
+
+        {
+            printTestLine("Deserialize test struct");
+            std::ifstream file("out.json");
+            cereal::JSONInputArchive archive(file);
+            Asset tmp;
+            archive(tmp);
+            cereal::JSONOutputArchive parchive(std::cout);
+            parchive(cereal::make_nvp("Asset", tmp) );
+        }
+        std::cout << "\n\n";
+
+        printTestDivider('=', "\n\n");
+    }
     
     template <typename T>
     void test_struct(std::string name)
@@ -99,8 +135,30 @@ namespace Tests
         
         printTestLine("Create test struct");
         T testStruct { "Test" };
+        std::cout << name + " struct name: " << testStruct.Name << std::endl;
         std::cout << name + " struct size: " << sizeof(testStruct) << "\n\n";
-    
+
+        {
+            printTestLine("Serialize test struct");
+            std::ofstream file("out.json");
+            cereal::JSONOutputArchive farchive(file);
+            cereal::JSONOutputArchive parchive(std::cout);
+            farchive(cereal::make_nvp(name, testStruct) );
+            parchive(cereal::make_nvp(name, testStruct) );
+        }
+        std::cout << "\n\n";
+
+        {
+            printTestLine("Deserialize test struct");
+            std::ifstream file("out.json");
+            cereal::JSONInputArchive archive(file);
+            T tmp;
+            archive(tmp);
+            cereal::JSONOutputArchive parchive(std::cout);
+            parchive(cereal::make_nvp(name, tmp) );
+        }
+        std::cout << "\n\n";
+
         printTestDivider('=', "\n\n");
     }
 }
