@@ -10,27 +10,27 @@
 
 namespace SwnGmTool
 {
-    enum FactionTags
+    const std::string FactionTags[] =
     {
-        Colonists,
-        DeepRooted,
-        EugenicsCult,
-        ExchangeConsulate,
-        Fanatical,
-        Imperialists,
-        Machiavellian,
-        MercenaryGroup,
-        PerimeterAgency,
-        Pirates,
-        Plutocratic,
-        PerceptorArchive,
-        PsychicAcademy,
-        Savage,
-        Scavengers,
-        Secretive,
-        TechnicalExpertise,
-        Theocratic,
-        Warlike
+        "Colonists",
+        "Deep Rooted",
+        "Eugenics Cult",
+        "Exchange Consulate",
+        "Fanatical",
+        "Imperialists",
+        "Machiavellian",
+        "Mercenary Group",
+        "Perimeter Agency",
+        "Pirates",
+        "Plutocratic",
+        "Perceptor Archive",
+        "Psychic Academy",
+        "Savage",
+        "Scavengers",
+        "Secretive",
+        "Technical Expertise",
+        "Theocratic",
+        "Warlike"
     };
 
     struct Faction
@@ -49,7 +49,7 @@ namespace SwnGmTool
 
         uint8_t Exp;
 
-        std::vector<FactionTags> Tags;
+        std::vector<std::string> Tags;
     };
 
     template<class Archive>

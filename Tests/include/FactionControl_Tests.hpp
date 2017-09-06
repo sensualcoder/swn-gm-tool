@@ -95,6 +95,18 @@ namespace Tests
         printTestDivider('=', "\n\n");
     }
 
+    void test_faction()
+    {
+        printTestLine("Faction struct tests");
+
+        printTestLine("Create test faction");
+        Faction testFaction { "Test" };
+        std::cout << "Faction name: " << testFaction.Name << std::endl;
+        std::cout << "Faction struct size: " << sizeof(testFaction) << "\n\n";
+
+        printTestDivider('=', "\n\n");
+    }
+
     void test_asset()
     {
         printTestLine("Asset struct tests");
@@ -125,37 +137,14 @@ namespace Tests
         }
         std::cout << "\n\n";
 
-        printTestDivider('=', "\n\n");
-    }
-    
-    template <typename T>
-    void test_struct(std::string name)
-    {
-        printTestLine(name + " struct tests");
-        
-        printTestLine("Create test struct");
-        T testStruct { "Test" };
-        std::cout << name + " struct name: " << testStruct.Name << std::endl;
-        std::cout << name + " struct size: " << sizeof(testStruct) << "\n\n";
-
         {
-            printTestLine("Serialize test struct");
-            std::ofstream file("out.json");
-            cereal::JSONOutputArchive farchive(file);
-            cereal::JSONOutputArchive parchive(std::cout);
-            farchive(cereal::make_nvp(name, testStruct) );
-            parchive(cereal::make_nvp(name, testStruct) );
-        }
-        std::cout << "\n\n";
+            printTestLine("Test dice roll");
+            setup_randomizer();
 
-        {
-            printTestLine("Deserialize test struct");
-            std::ifstream file("out.json");
-            cereal::JSONInputArchive archive(file);
-            T tmp;
-            archive(tmp);
-            cereal::JSONOutputArchive parchive(std::cout);
-            parchive(cereal::make_nvp(name, tmp) );
+            for(int i = 0; i < 5; i++)
+            {
+                std::cout << "Attack roll " << to_string(testAsset.Attack) << ": " << roll_dice(testAsset.Attack) << std::endl;
+            }
         }
         std::cout << "\n\n";
 

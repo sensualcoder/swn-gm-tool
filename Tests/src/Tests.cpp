@@ -12,9 +12,8 @@ namespace Tests
     {
         printTestHeader("Faction Control Tests");
 
-        test_struct<Asset>("Asset");
         test_asset();
-        test_struct<Faction>("Faction");
+        test_faction();
         test_control();
     }
 

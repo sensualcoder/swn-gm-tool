@@ -7,6 +7,8 @@
 
 #include <cereal/cereal.hpp>
 
+#include "DiceRoll.hpp"
+
 namespace SwnGmTool
 {
     const std::string RatingType[] =
@@ -16,11 +18,15 @@ namespace SwnGmTool
         "Wealth"
     };
 
-    struct DiceRoll
+    const std::string AssetTypes[] =
     {
-        uint8_t DiceNum;
-        uint8_t DiceType;
-        uint8_t Modifier;
+        "Military Unit",
+        "Special Forces",
+        "Special",
+        "Facility",
+        "Tactic",
+        "Starship",
+        "Logistics Facility"
     };
 
     struct Asset
@@ -41,34 +47,15 @@ namespace SwnGmTool
         uint8_t MaxHP;
     };
 
-    std::string to_string(const DiceRoll& a)
-    {
-        return (std::to_string(a.DiceNum) + "d" + std::to_string(a.DiceType) + 
-            ((a.Modifier != 0) ? ((a.Modifier > 0) ? "+" : "-") + std::to_string(a.Modifier) : "") );
-    }
-
-    std::string attack_string(const Asset& a)
-    {
-        return (a.AssetType + " vs. " + a.Defender + " " + to_string(a.Attack) );
-    }
-
     std::string to_string(const Asset& a)
     {
-        return (a.Name + " " + a.RatingType + " " + a.AssetType + " " + attack_string(a) + " " + to_string(a.Counter) );
+        return (a.Name + " " + a.RatingType + " " + a.AssetType + " " + to_string(a) + " " + to_string(a.Counter) );
     }
 
     std::ostream& operator<<(std::ostream& os, const Asset& a)
     {
         os << to_string(a);
         return os;
-    }
-
-    template<class Archive>
-    void serialize(Archive& archive, DiceRoll& a)
-    {
-        archive(cereal::make_nvp("DiceNum", a.DiceNum),
-                cereal::make_nvp("DiceType", a.DiceType),
-                cereal::make_nvp("Modfifier", a.Modifier) );
     }
 
     template<class Archive>
