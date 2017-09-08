@@ -11,6 +11,8 @@ namespace SwnGmTool
 {
     struct MapNode
     {
+        MapNode() : next(nullptr), prev(nullptr) {}
+
         FactionManager Faction;
         std::vector<AssetDTO> AssetList;
 
@@ -23,34 +25,33 @@ namespace SwnGmTool
         public:
             class iterator : public std::iterator<std::random_access_iterator_tag, MapNode*> 
             {
-                MapNode* cur;
-
                 public:
                     explicit iterator(MapNode* node) : cur(node) { }
-                    iterator& operator++() { cur = cur->next; }
-                    iterator operator++(int) { }
-                    bool operator==(iterator rhs) { }
-                    bool operator!=(iterator rhs) { }
+                    iterator operator++(int) { iterator it = *this; cur = cur->next; return it; }
+                    bool operator==(iterator rhs) { return cur == rhs.cur; }
+                    bool operator!=(iterator rhs) { return cur != rhs.cur; }
                     reference operator*() { return cur; }
                     reference operator->() { return cur; }
+
+                private:
+                    MapNode* cur;
             };
             
             FactionAssetMap();
             ~FactionAssetMap();
 
-            iterator begin() { return iterator(Head); }
-            iterator end() { return iterator(Tail); }
+            iterator begin() const { return iterator(Head); }
+            iterator end() const { return iterator(nullptr); }
             iterator find(std::string);
 
             void clear();
-            void erase(FactionManager&);
-            void erase(iterator&);
-            MapNode* insert(const FactionManager&);
-            MapNode* insert(const std::vector<AssetDTO>&);
+            iterator erase(FactionManager&);
+            iterator erase(iterator&);
+            iterator push_back(const FactionManager&);
             size_t size();
 
+            MapNode* operator[](int);
             MapNode* operator[](std::string);
-            MapNode* operator[](const FactionManager&);
 
         private:
             MapNode* Head;

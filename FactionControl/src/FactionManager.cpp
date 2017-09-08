@@ -2,12 +2,22 @@
 
 namespace SwnGmTool
 {
+    FactionManager::FactionManager() 
+    {
+        this->Faction = FactionDTO();
+    }
+
+    FactionManager::FactionManager(std::string name)
+    {
+        this->Faction = FactionDTO { name };
+    }
+
     FactionManager::FactionManager(const FactionManager& fm)
     {
         this->Faction = fm.GetFaction();
     }
 
-    FactionManager::FactionManager(FactionDTO faction)
+    FactionManager::FactionManager(const FactionDTO& faction)
     {
         this->Faction = faction;
     }
@@ -15,5 +25,10 @@ namespace SwnGmTool
     FactionDTO FactionManager::GetFaction() const
     {
         return this->Faction;
+    }
+
+    void FactionManager::SetFaction(const FactionDTO& faction)
+    {
+        this->Faction = faction;
     }
 }

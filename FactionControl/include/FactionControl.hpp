@@ -14,12 +14,6 @@ namespace SwnGmTool
     typedef std::vector<AssetDTO> AssetList;
     typedef std::vector<FactionDTO> FactionList;
 
-    struct ControlDTO
-    {
-        FactionManager* Faction;
-        AssetList* Assets;
-    };
-
     class FactionControl
     {
         public:
@@ -29,7 +23,7 @@ namespace SwnGmTool
             int GetMapSize();
             void ClearMap();
 
-            ControlDTO& GetControlDTO();
+            MapNode* GetFactionNode(std::string);
 
             FactionList& GetFactionList();
             FactionManager& GetFaction(std::string);
@@ -38,7 +32,6 @@ namespace SwnGmTool
             void RemoveFaction(std::string);
 
             AssetList& GetAssetList(std::string);
-            void AddAsset(AssetList&, const AssetDTO&);
 
         private:
             FactionAssetMap Map;

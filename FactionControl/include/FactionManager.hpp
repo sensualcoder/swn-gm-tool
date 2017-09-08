@@ -1,6 +1,8 @@
 #ifndef FACTION_MANAGER_HPP
 #define FACTION_MANAGER_HPP
 
+#include <string>
+
 #include "FactionDTO.hpp"
 
 namespace SwnGmTool
@@ -8,27 +10,18 @@ namespace SwnGmTool
     class FactionManager
     {
         public:
-            FactionManager() {}
+            FactionManager();
+            FactionManager(std::string);
             FactionManager(const FactionManager&);
-            FactionManager(FactionDTO);
+            FactionManager(const FactionDTO&);
 
             FactionDTO GetFaction() const;
+            void SetFaction(const FactionDTO&);
 
         private:
             FactionDTO Faction;
     };
 }
-
-template<>
-struct std::hash<SwnGmTool::FactionManager>
-{
-    size_t operator()(const SwnGmTool::FactionManager& f) const
-    {
-        std::hash<SwnGmTool::FactionDTO> faction_hash;
-        const SwnGmTool::FactionDTO& faction = f.GetFaction();
-        return faction_hash(faction);
-    }
-};
 
 template<>
 struct std::equal_to<SwnGmTool::FactionManager>

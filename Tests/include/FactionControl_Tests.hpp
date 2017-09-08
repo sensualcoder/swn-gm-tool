@@ -35,7 +35,7 @@ namespace Tests
     {
         printTestLine("Faction Control Tests");
 
-        FactionManager testFaction = FactionManager(FactionDTO { "Test" } );
+        FactionManager testFaction = FactionManager("Test");
 
         printTestLine("Create test control");
         std::unique_ptr<FactionControl> testControl(new FactionControl() );
@@ -88,15 +88,15 @@ namespace Tests
 
         {
             printTestLine("Add a large amount of assets to one faction");
-            AssetList assetList = testControl->GetAssetList("Test");
+            MapNode* testNode = testControl->GetFactionNode("Test");
             int test_count = 1000000;
             for(int i = 0; i < test_count; i++)
             {
                 std::string name = "Test" + std::to_string(i);
                 std::unique_ptr<AssetDTO> tmp = std::unique_ptr<AssetDTO>(new AssetDTO { name });
-                testControl->AddAsset(assetList, *tmp);
+                testNode->AssetList.push_back(*tmp);
             }
-            std::cout << "List size: " << testControl->GetMapSize() << std::endl;
+            std::cout << "Node asset list size: " << testNode->AssetList.size() << std::endl;
             std::cout << "Asset list size: " << testControl->GetAssetList("Test").size() << "\n\n";
         }
 

@@ -74,16 +74,6 @@ namespace SwnGmTool
 }
 
 template<>
-struct std::hash<SwnGmTool::FactionDTO>
-{
-    size_t operator()(const SwnGmTool::FactionDTO& f) const
-    {
-        std::hash<std::string> string_hash;
-        return string_hash(f.Name);
-    }
-};
-
-template<>
 struct std::equal_to<SwnGmTool::FactionDTO>
 {
     bool operator()(const SwnGmTool::FactionDTO& a, const SwnGmTool::FactionDTO& b) const
