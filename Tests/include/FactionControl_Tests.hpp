@@ -7,8 +7,9 @@
 
 #include <cereal/archives/json.hpp>
 
-#include "Asset.hpp"
-#include "Faction.hpp"
+#include "AssetDTO.hpp"
+#include "DiceRoll.hpp"
+#include "FactionDTO.hpp"
 #include "FactionControl.hpp"
 
 #include "TestHelpers.hpp"
@@ -17,10 +18,14 @@ using namespace SwnGmTool;
 
 namespace Tests
 {
-    template<typename T>
-    void printList(std::vector<T> list)
+    void printList(std::vector<FactionDTO>& list)
     {
-        for(auto i : list)
+        std::unique_ptr<std::vector<FactionDTO> > listPtr = std::unique_ptr<std::vector<FactionDTO> >(&list);
+
+        if(listPtr->size() == 0)
+            return;
+
+        for(auto i : *listPtr)
         {
             std::cout << i.Name << std::endl;
         }
@@ -30,7 +35,7 @@ namespace Tests
     {
         printTestLine("Faction Control Tests");
 
-        Faction test { "Test" };
+        FactionManager testFaction = FactionManager(FactionDTO { "Test" } );
 
         printTestLine("Create test control");
         std::unique_ptr<FactionControl> testControl(new FactionControl() );
@@ -38,9 +43,11 @@ namespace Tests
 
         {
             printTestLine("Add test faction to control");
-            testControl->AddFaction(test);
+            testControl->AddFaction(testFaction);
+            printTestLine("Show faction list size");
+            std::cout << "List size: " << testControl->GetMapSize() << std::endl;
             printTestLine("Show faction list");
-            printList<Faction>(testControl->GetFactionList() );
+            printList(testControl->GetFactionList() );
             std::cout << std::endl;
         }
 
@@ -49,7 +56,7 @@ namespace Tests
             testControl->RemoveFaction("Test");
             printTestLine("Show faction list");
             std::cout << "Faction list:\n";
-            printList<Faction>(testControl->GetFactionList() );
+            printList(testControl->GetFactionList() );
             std::cout << std::endl;
         }
 
@@ -59,38 +66,52 @@ namespace Tests
             for(int i = 0; i < test_count; i++)
             {
                 std::string name = "Test" + std::to_string(i);
-                std::unique_ptr<Faction> tmp = std::unique_ptr<Faction>(new Faction { name });
+                std::unique_ptr<FactionDTO> tmp = std::unique_ptr<FactionDTO>(new FactionDTO { name });
                 testControl->AddFaction(*tmp);
             }
             std::cout << "List size: " << testControl->GetMapSize() << "\n\n";
         }
 
         {
-            printTestLine("Clear map");
+            printTestLine("Clear faction list");
             testControl->ClearMap();
             std::cout << "List size: " << testControl->GetMapSize() << "\n\n";
         }
 
         {
             printTestLine("Add test faction to control");
-            testControl->AddFaction(test);
+            testControl->AddFaction(testFaction);
             printTestLine("Show faction list");
-            printList<Faction>(testControl->GetFactionList() );
+            printList(testControl->GetFactionList() );
             std::cout << std::endl;
         }
 
         {
             printTestLine("Add a large amount of assets to one faction");
+            AssetList assetList = testControl->GetAssetList("Test");
             int test_count = 1000000;
             for(int i = 0; i < test_count; i++)
             {
                 std::string name = "Test" + std::to_string(i);
-                std::unique_ptr<Asset> tmp = std::unique_ptr<Asset>(new Asset { name });
-                testControl->AddAsset("Test", *tmp);
+                std::unique_ptr<AssetDTO> tmp = std::unique_ptr<AssetDTO>(new AssetDTO { name });
+                testControl->AddAsset(assetList, *tmp);
             }
             std::cout << "List size: " << testControl->GetMapSize() << std::endl;
             std::cout << "Asset list size: " << testControl->GetAssetList("Test").size() << "\n\n";
         }
+
+        printTestDivider('=', "\n\n");
+    }
+
+    void test_factionmanager()
+    {
+        printTestLine("Faction manager tests");
+
+        FactionDTO testFaction { "Test" };
+
+        printTestLine("Create test faction manager");
+        std::unique_ptr<FactionManager> testManager = std::unique_ptr<FactionManager>(new FactionManager(testFaction) );
+        std::cout << "Faction manager size: " << sizeof(*testManager) << "\n\n";
 
         printTestDivider('=', "\n\n");
     }
@@ -100,7 +121,7 @@ namespace Tests
         printTestLine("Faction struct tests");
 
         printTestLine("Create test faction");
-        Faction testFaction { "Test" };
+        FactionDTO testFaction { "Test" };
         std::cout << "Faction name: " << testFaction.Name << std::endl;
         std::cout << "Faction struct size: " << sizeof(testFaction) << "\n\n";
 
@@ -112,7 +133,7 @@ namespace Tests
         printTestLine("Asset struct tests");
 
         printTestLine("Create test asset");
-        Asset testAsset { "Test", "Force", "Special Forces", { 1, 4, 0 }, "Force", { 1, 4, 0 }, 0, 1, 5, 5 };
+        AssetDTO testAsset { "Test", "Force", 1, "Special Forces", { 1, 4, 0 }, "Force", { 1, 4, 0 }, 0, 1, 5, 5 };
         std::cout << "Asset name: " << testAsset.Name << std::endl;
         std::cout << "Asset struct size: " << sizeof(testAsset) << "\n\n";
 
@@ -130,7 +151,7 @@ namespace Tests
             printTestLine("Deserialize test struct");
             std::ifstream file("out.json");
             cereal::JSONInputArchive archive(file);
-            Asset tmp;
+            AssetDTO tmp;
             archive(tmp);
             cereal::JSONOutputArchive parchive(std::cout);
             parchive(cereal::make_nvp("Asset", tmp) );
@@ -139,7 +160,7 @@ namespace Tests
 
         {
             printTestLine("Test dice roll");
-            setup_randomizer();
+            setup_basic_randomizer();
 
             for(int i = 0; i < 5; i++)
             {

@@ -2,82 +2,64 @@
 
 namespace SwnGmTool
 {
-    const Faction& FactionControl::GetFaction(std::string fName)
+    FactionControl::~FactionControl()
     {
-        auto item = this->FindFaction(fName);
-        return item->first;
-    }
-
-    const std::vector<Faction> FactionControl::GetFactionList()
-    {
-        std::vector<Faction> factionList;
-
-        for(auto i : this->FactionAssetMap)
-        {
-            factionList.push_back(i.first);
-        }
-
-        return factionList;
-    }
-
-    void FactionControl::AddFaction(Faction faction)
-    {
-        this->FactionAssetMap[faction];
-    }
-
-    void FactionControl::RemoveFaction(std::string fName)
-    {
-        this->FactionAssetMap.erase(this->FindFaction(fName) );
-    }
-
-    const std::vector<Asset> FactionControl::GetAssetList(std::string fName)
-    {
-        auto item = this->FindFaction(fName);
-
-        return item->second;
-    }
-
-    void FactionControl::AddAsset(std::string fName, Asset asset)
-    {
-        auto item = this->FindFaction(fName);
-        item->second.push_back(asset);
-    }
-
-    void FactionControl::RemoveAsset(std::string fName, std::string aName)
-    {
-        auto faction = this->FindFaction(fName);
-        faction->second.erase(this->FindAsset(fName, aName) );
-    }
-
-    void FactionControl::ClearAssetList(std::string fName)
-    {
-        auto item = this->FindFaction(fName);
-        item->second.clear();
+        this->Map.clear();
     }
 
     int FactionControl::GetMapSize()
     {
-        return this->FactionAssetMap.size();
+        return this->Map.size();
     }
 
     void FactionControl::ClearMap()
     {
-        this->FactionAssetMap.clear();
+        this->Map.clear();
     }
 
-    std::unordered_map<Faction, std::vector<Asset> >::iterator FactionControl::FindFaction(std::string fName)
+    FactionList& FactionControl::GetFactionList()
     {
-        return this->FactionAssetMap.find(Faction { fName } );
-    }
+        std::vector<FactionDTO>* factionList = new std::vector<FactionDTO>();
 
-    std::vector<Asset>::iterator FactionControl::FindAsset(std::string fName, std::string aName)
-    {
-        std::vector<Asset> list = this->FindFaction(fName)->second;
-
-        for(auto iter = list.begin(); iter < list.end(); iter++)
+        for(auto it = this->Map.begin(); it != this->Map.end(); it++)
         {
-            if(iter->Name == aName)
-                return iter;
+            factionList->push_back(it->Faction.GetFaction() );
         }
+
+        return *factionList;
+    }
+
+    FactionManager& FactionControl::GetFaction(std::string)
+    {
+    }
+
+    void FactionControl::AddFaction(std::string name)
+    {
+        this->AddFaction(FactionManager(FactionDTO { name } ) );
+    }
+
+    void FactionControl::AddFaction(const FactionManager& manager)
+    {
+        this->Map.insert(manager);
+    }
+
+    void FactionControl::RemoveFaction(std::string name)
+    {
+        auto item = this->Map.find(name);        
+
+        if(item != this->Map.end() )
+            this->Map.erase(item);
+    }
+
+    AssetList& FactionControl::GetAssetList(std::string name)
+    {
+        auto item = this->Map.find(name);
+
+        return item->AssetList;
+    }
+
+    void FactionControl::AddAsset(AssetList& list, const AssetDTO& asset)
+    {
+        list.push_back(asset);
     }
 }

@@ -1,20 +1,8 @@
-#ifndef DICE_ROLL_HPP
-#define DICE_ROLL_HPP
-
-#include <cstdint>
-#include <ctime>
-#include <string>
+#include "DiceRoll.hpp"
 
 namespace SwnGmTool
 {
-    struct DiceRoll
-    {
-        uint8_t DiceNum;
-        uint8_t DiceType;
-        uint8_t Modifier;
-    };
-
-    void setup_randomizer()
+    void setup_basic_randomizer()
     {
         std::srand(std::time(0) );
     }
@@ -46,14 +34,4 @@ namespace SwnGmTool
         return (std::to_string(d.DiceNum) + "d" + std::to_string(d.DiceType) + 
             ((d.Modifier != 0) ? ((d.Modifier > 0) ? "+" : "-") + std::to_string(d.Modifier) : "") );
     }
-
-    template<class Archive>
-    void serialize(Archive& archive, DiceRoll& d)
-    {
-        archive(cereal::make_nvp("DiceNum", d.DiceNum),
-                cereal::make_nvp("DiceType", d.DiceType),
-                cereal::make_nvp("Modfifier", d.Modifier) );
-    }
 }
-
-#endif

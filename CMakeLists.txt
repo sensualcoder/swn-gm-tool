@@ -6,6 +6,10 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -ansi -pedantic")
 set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 
+# DTOs
+include_directories(${PROJECT_SOURCE_DIR}/DTO/include)
+add_subdirectory(DTO)
+
 # Hex Grid lib
 include_directories(${PROJECT_SOURCE_DIR}/HexGrid/include)
 add_subdirectory(HexGrid)
@@ -23,7 +27,7 @@ include_directories(${PROJECT_SOURCE_DIR}/Tests/include)
 add_subdirectory(Tests)
 
 # Add all extra libs
-set(EXTRA_LIBS ${EXTRA_LIBS} HexGrid FactionControl SectorGen Tests)
+set(EXTRA_LIBS ${EXTRA_LIBS} DTO HexGrid FactionControl SectorGen Tests)
 
 set(SOURCES driver.cpp)
 

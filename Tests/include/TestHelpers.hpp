@@ -5,11 +5,11 @@
 
 namespace Tests
 {
-    void printTestDivider(char div, std::string lineEnd);
+    void printTestDivider(char div, const std::string&);
 
-    void printTestHeader(std::string str);
+    void printTestHeader(const std::string&);
 
-    void printTestLine(std::string str);
+    void printTestLine(const std::string&);
 }
 
 #endif

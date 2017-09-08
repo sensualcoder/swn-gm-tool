@@ -14,6 +14,7 @@ namespace Tests
 
         test_asset();
         test_faction();
+        test_factionmanager();
         test_control();
     }
 

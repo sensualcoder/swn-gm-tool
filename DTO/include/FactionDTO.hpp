@@ -1,5 +1,5 @@
-#ifndef FACTION_HPP
-#define FACTION_HPP
+#ifndef FACTION_DTO_HPP
+#define FACTION_DTO_HPP
 
 #include <cstdint>
 #include <string>
@@ -33,7 +33,7 @@ namespace SwnGmTool
         "Warlike"
     };
 
-    struct Faction
+    struct FactionDTO
     {
         std::string Name;
         std::string Homeworld;
@@ -52,8 +52,13 @@ namespace SwnGmTool
         std::vector<std::string> Tags;
     };
 
+    inline bool operator==(const FactionDTO& a, const FactionDTO& b)
+    {
+        return a.Name == b.Name;
+    }
+
     template<class Archive>
-    void serialize(Archive& archive, Faction& f)
+    void serialize(Archive& archive, FactionDTO& f)
     {
         archive(cereal::make_nvp("Name", f.Name), 
                 cereal::make_nvp("Homeworld", f.Homeworld),
@@ -69,9 +74,9 @@ namespace SwnGmTool
 }
 
 template<>
-struct std::hash<SwnGmTool::Faction>
+struct std::hash<SwnGmTool::FactionDTO>
 {
-    size_t operator()(const SwnGmTool::Faction& f) const
+    size_t operator()(const SwnGmTool::FactionDTO& f) const
     {
         std::hash<std::string> string_hash;
         return string_hash(f.Name);
@@ -79,11 +84,11 @@ struct std::hash<SwnGmTool::Faction>
 };
 
 template<>
-struct std::equal_to<SwnGmTool::Faction>
+struct std::equal_to<SwnGmTool::FactionDTO>
 {
-    bool operator()(const SwnGmTool::Faction& a, const SwnGmTool::Faction& b) const
+    bool operator()(const SwnGmTool::FactionDTO& a, const SwnGmTool::FactionDTO& b) const
     {
-        return a.Name == b.Name;
+        return a == b;
     };
 };
 

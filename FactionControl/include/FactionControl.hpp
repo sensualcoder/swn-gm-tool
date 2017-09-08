@@ -5,33 +5,43 @@
 #include <unordered_map>
 #include <vector>
 
-#include "Faction.hpp"
-#include "Asset.hpp"
+#include "AssetDTO.hpp"
+#include "FactionAssetMap.hpp"
+#include "FactionManager.hpp"
 
 namespace SwnGmTool
 {
+    typedef std::vector<AssetDTO> AssetList;
+    typedef std::vector<FactionDTO> FactionList;
+
+    struct ControlDTO
+    {
+        FactionManager* Faction;
+        AssetList* Assets;
+    };
+
     class FactionControl
     {
         public:
-            const Faction& GetFaction(std::string);
-            const std::vector<Faction> GetFactionList();
-            void AddFaction(Faction);
-            void RemoveFaction(std::string);
-            void ClearFactionList();
-
-            const std::vector<Asset> GetAssetList(std::string);
-            void AddAsset(std::string, Asset);
-            void RemoveAsset(std::string, std::string);
-            void ClearAssetList(std::string);
+            FactionControl() {}
+            ~FactionControl();
 
             int GetMapSize();
             void ClearMap();
 
-        private:
-            std::unordered_map<Faction, std::vector<Asset> >::iterator FindFaction(std::string);
-            std::vector<Asset>::iterator FindAsset(std::string, std::string);
+            ControlDTO& GetControlDTO();
 
-            std::unordered_map<Faction, std::vector<Asset> > FactionAssetMap;
+            FactionList& GetFactionList();
+            FactionManager& GetFaction(std::string);
+            void AddFaction(std::string);
+            void AddFaction(const FactionManager&);
+            void RemoveFaction(std::string);
+
+            AssetList& GetAssetList(std::string);
+            void AddAsset(AssetList&, const AssetDTO&);
+
+        private:
+            FactionAssetMap Map;
     };
 }
 

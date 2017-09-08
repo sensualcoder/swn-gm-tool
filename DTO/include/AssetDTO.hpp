@@ -1,5 +1,5 @@
-#ifndef ASSET_HPP
-#define ASSET_HPP
+#ifndef ASSET_DTO_HPP
+#define ASSET_DTO_HPP
 
 #include <cstdint>
 #include <iostream>
@@ -29,11 +29,12 @@ namespace SwnGmTool
         "Logistics Facility"
     };
 
-    struct Asset
+    struct AssetDTO
     {
         std::string Name;
 
         std::string RatingType;
+        uint8_t RatingLevel;
         std::string AssetType;
 
         DiceRoll Attack;
@@ -47,22 +48,28 @@ namespace SwnGmTool
         uint8_t MaxHP;
     };
 
-    std::string to_string(const Asset& a)
+    inline std::string to_string(const AssetDTO& a)
     {
         return (a.Name + " " + a.RatingType + " " + a.AssetType + " " + to_string(a) + " " + to_string(a.Counter) );
     }
 
-    std::ostream& operator<<(std::ostream& os, const Asset& a)
+    inline std::ostream& operator<<(std::ostream& os, const AssetDTO& a)
     {
         os << to_string(a);
         return os;
     }
 
+    inline bool operator==(const AssetDTO& a, const AssetDTO& b)
+    {
+        return a.Name == b.Name;
+    }
+
     template<class Archive>
-    void serialize(Archive& archive, Asset& a)
+    void serialize(Archive& archive, AssetDTO& a)
     {
         archive(cereal::make_nvp("Name", a.Name),
                 cereal::make_nvp("RatingType", a.RatingType),
+                cereal::make_nvp("RatingLevel", a.RatingLevel),
                 cereal::make_nvp("AssetType", a.AssetType),
                 cereal::make_nvp("Attack", a.Attack),
                 cereal::make_nvp("Defender", a.Defender),
@@ -73,5 +80,14 @@ namespace SwnGmTool
                 cereal::make_nvp("MaxHP", a.MaxHP) );
     }
 }
+
+template<>
+struct std::equal_to<SwnGmTool::AssetDTO>
+{
+    bool operator()(const SwnGmTool::AssetDTO& a, const SwnGmTool::AssetDTO& b) const
+    {
+        return a == b;
+    };
+};
 
 #endif
