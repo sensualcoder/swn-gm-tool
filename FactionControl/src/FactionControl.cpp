@@ -28,7 +28,7 @@ namespace SwnGmTool
     {
         std::vector<FactionDTO>* factionList = new std::vector<FactionDTO>();
 
-        for(auto it = this->Map.begin(); it != this->Map.end(); it++)
+        for(auto it : this->Map)
         {
             factionList->push_back(it->Faction.GetFaction() );
         }

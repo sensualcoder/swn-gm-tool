@@ -27,6 +27,7 @@ namespace SwnGmTool
             {
                 public:
                     explicit iterator(MapNode* node) : cur(node) { }
+                    iterator operator++() { iterator it = *this; cur = cur->next; return it; }
                     iterator operator++(int) { iterator it = *this; cur = cur->next; return it; }
                     bool operator==(iterator rhs) { return cur == rhs.cur; }
                     bool operator!=(iterator rhs) { return cur != rhs.cur; }

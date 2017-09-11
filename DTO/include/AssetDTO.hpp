@@ -38,7 +38,7 @@ namespace SwnGmTool
         std::string AssetType;
 
         DiceRoll Attack;
-        std::string Defender;
+        std::string DefenderType;
         DiceRoll Counter;
 
         uint8_t TechLevel;
@@ -72,7 +72,7 @@ namespace SwnGmTool
                 cereal::make_nvp("RatingLevel", a.RatingLevel),
                 cereal::make_nvp("AssetType", a.AssetType),
                 cereal::make_nvp("Attack", a.Attack),
-                cereal::make_nvp("Defender", a.Defender),
+                cereal::make_nvp("DefenderType", a.DefenderType),
                 cereal::make_nvp("Counter", a.Counter),
                 cereal::make_nvp("TechLevel", a.TechLevel),
                 cereal::make_nvp("Cost", a.Cost),
