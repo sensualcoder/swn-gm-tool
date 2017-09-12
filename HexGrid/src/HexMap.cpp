@@ -1,5 +1,7 @@
 #include "HexMap.hpp"
 
+#include <cmath>
+
 namespace HexGrid
 {
     HexMap::HexMap()
@@ -15,7 +17,7 @@ namespace HexGrid
     {
         for(int q = 0; q < mapWidth; q++)
         {
-            int q_offset = floor(q/2);
+            int q_offset = std::floor(q/2);
             for(int r = -q_offset; r < mapHeight - q_offset; r++)
             {
                 MapSet.insert(Hex(q, r, -q-r));

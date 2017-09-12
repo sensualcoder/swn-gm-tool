@@ -45,7 +45,7 @@ void tests()
 void printMenu()
 {
     std::cout << "Select option from list" <<std::endl;
-    std::cout << "1) Run tests" << std::endl;
+    std::cout << "0) Run tests" << std::endl;
     std::cout << "Q) Quit" << "\n\n";
 }
 
@@ -53,7 +53,7 @@ void parseInputLine(int option)
 {
     switch(option)
     {
-        case 1:
+        case 0:
         default:
             tests();
             break;

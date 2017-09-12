@@ -17,26 +17,19 @@ namespace SwnGmTool
         this->Map.clear();
     }
 
-    MapNode* FactionControl::GetFactionNode(std::string name)
-    {
-        auto item = this->Map.find(name);
-
-        return *item;
-    }
-
     FactionList& FactionControl::GetFactionList()
     {
         std::vector<FactionDTO>* factionList = new std::vector<FactionDTO>();
 
         for(auto it : this->Map)
         {
-            factionList->push_back(it->Faction.GetFaction() );
+            factionList->push_back(it.Faction);
         }
 
         return *factionList;
     }
 
-    FactionManager& FactionControl::GetFaction(std::string name)
+    FactionDTO& FactionControl::GetFaction(std::string name)
     {
         auto item = this->Map.find(name);
 
@@ -45,12 +38,12 @@ namespace SwnGmTool
 
     void FactionControl::AddFaction(std::string name)
     {
-        this->AddFaction(FactionManager(name) );
+        this->AddFaction(FactionDTO { name } );
     }
 
-    void FactionControl::AddFaction(const FactionManager& manager)
+    void FactionControl::AddFaction(const FactionDTO& faction)
     {
-        this->Map.push_back(manager);
+        this->Map.push_back(FAC { faction, Asset_List() } );
     }
 
     void FactionControl::RemoveFaction(std::string name)

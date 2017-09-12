@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -ansi -pedantic")
 set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 
+option(BUILD_TESTS "Build test library" ON)
+
 # DTOs
 include_directories(${PROJECT_SOURCE_DIR}/DTO/include)
 add_subdirectory(DTO)
@@ -23,8 +25,10 @@ include_directories(${PROJECT_SOURCE_DIR}/SectorGen/include)
 add_subdirectory(SectorGen)
 
 # Tests
-include_directories(${PROJECT_SOURCE_DIR}/Tests/include)
-add_subdirectory(Tests)
+if(BUILD_TESTS)
+    include_directories(${PROJECT_SOURCE_DIR}/Tests/include)
+    add_subdirectory(Tests)
+endif(BUILD_TESTS)
 
 # Add all extra libs
 set(EXTRA_LIBS ${EXTRA_LIBS} DTO HexGrid FactionControl SectorGen Tests)

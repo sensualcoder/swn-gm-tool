@@ -2,12 +2,11 @@
 #define FACTION_CONTROL_HPP
 
 #include <string>
-#include <unordered_map>
 #include <vector>
 
 #include "AssetDTO.hpp"
+#include "FactionDTO.hpp"
 #include "FactionAssetMap.hpp"
-#include "FactionManager.hpp"
 
 namespace SwnGmTool
 {
@@ -23,12 +22,10 @@ namespace SwnGmTool
             int GetMapSize();
             void ClearMap();
 
-            MapNode* GetFactionNode(std::string);
-
             FactionList& GetFactionList();
-            FactionManager& GetFaction(std::string);
+            FactionDTO& GetFaction(std::string);
             void AddFaction(std::string);
-            void AddFaction(const FactionManager&);
+            void AddFaction(const FactionDTO&);
             void RemoveFaction(std::string);
 
             AssetList& GetAssetList(std::string);
