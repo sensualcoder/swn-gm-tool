@@ -19,14 +19,12 @@ using namespace SwnGmTool;
 
 namespace Tests
 {
-    void printList(std::vector<FactionDTO>& list)
+    void printList(std::vector<FactionDTO> list)
     {
-        std::unique_ptr<std::vector<FactionDTO> > listPtr = std::unique_ptr<std::vector<FactionDTO> >(&list);
-
-        if(listPtr->size() == 0)
+        if(list.size() == 0)
             return;
 
-        for(auto i : *listPtr)
+        for(auto i : list)
         {
             std::cout << i.Name << std::endl;
         }

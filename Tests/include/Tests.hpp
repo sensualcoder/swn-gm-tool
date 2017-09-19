@@ -1,11 +1,6 @@
 #ifndef TESTS_HPP
 #define TESTS_HPP
 
-namespace Tests
-{
-    void runFactionControlTests();
-    void runSectorGenTests();
-    void runAllTests();
-}
+#define CATCH_CONFIG_MAIN
 
 #endif

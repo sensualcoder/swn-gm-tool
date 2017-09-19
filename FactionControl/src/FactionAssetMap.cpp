@@ -2,7 +2,7 @@
 
 namespace SwnGmTool
 {
-    std::list<FAC>::iterator FactionAssetMap::find(std::string name)
+    std::vector<FAC>::iterator FactionAssetMap::find(std::string name)
     {
         for(auto i = begin(); i != end(); i++)
             if(i->Faction.Name == name)

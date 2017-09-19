@@ -1,6 +1,7 @@
 #ifndef FACTION_CONTROL_HPP
 #define FACTION_CONTROL_HPP
 
+#include <cstdint>
 #include <string>
 #include <vector>
 
@@ -10,25 +11,25 @@
 
 namespace SwnGmTool
 {
-    typedef std::vector<AssetDTO> AssetList;
-    typedef std::vector<FactionDTO> FactionList;
+    typedef std::list<AssetDTO> Asset_List;
+    typedef std::vector<FactionDTO> Faction_List;
 
     class FactionControl
     {
         public:
-            FactionControl() {}
+            FactionControl(uint8_t = 5);
             ~FactionControl();
 
             int GetMapSize();
             void ClearMap();
 
-            FactionList& GetFactionList();
+            Faction_List GetFactionList();
             FactionDTO& GetFaction(std::string);
             void AddFaction(std::string);
             void AddFaction(const FactionDTO&);
             void RemoveFaction(std::string);
 
-            AssetList& GetAssetList(std::string);
+            Asset_List& GetAssetList(std::string);
 
         private:
             FactionAssetMap Map;

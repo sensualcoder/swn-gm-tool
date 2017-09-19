@@ -10,7 +10,7 @@
 
 namespace SwnGmTool
 {
-    typedef std::vector<AssetDTO> Asset_List;
+    typedef std::list<AssetDTO> Asset_List;
 
     struct FactionAssetControl
     {
@@ -20,10 +20,10 @@ namespace SwnGmTool
 
     typedef FactionAssetControl FAC;
 
-    class FactionAssetMap : public std::list<FAC>
+    class FactionAssetMap : public std::vector<FAC>
     {
         public:
-            std::list<FAC>::iterator find(std::string);
+            std::vector<FAC>::iterator find(std::string);
     };
 }
 
