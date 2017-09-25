@@ -1,6 +1,6 @@
-#include <iostream>
-
 #include "SGTMain.hpp"
+
+#include "SGTMenuOptions.hpp"
 
 namespace SwnGmTool
 {
@@ -19,9 +19,19 @@ namespace SwnGmTool
         this->SGTFactionControl = FactionControl();
     }
 
+    void SGTMain::PrintMenu(const std::map<char, std::string>& options, std::ostream& out)
+    {
+        out << "\nChoose an option\n";
+        
+        for(auto i : options)
+        {
+            out << i.first << ") " << i.second << std::endl;
+        }
+    }
+
     void SGTMain::Run()
     {
-        while(IsRunning)
+        while(this->IsRunning)
         {
             this->PrintMainMenu();
             this->SelectMainMenuOption();
@@ -30,12 +40,9 @@ namespace SwnGmTool
         std::cout << "\nQuitting\n";
     }
 
-    void SGTMain::PrintMainMenu()
+    void SGTMain::PrintMainMenu(std::ostream& out)
     {
-        std::cout << "\nChoose an option\n"
-                  << "1) Create a new faction\n"
-                  << "2) Manage factions\n"
-                  << "Q) Quit\n";
+        this->PrintMenu(MainMenuOptions, out);
     }
 
     void SGTMain::SelectMainMenuOption()
@@ -46,9 +53,7 @@ namespace SwnGmTool
         switch(input[0])
         {
             case '1':
-                this->CreateFaction();
-                break;
-            case '2':
+                this->IsFM = true;
                 this->ManageFactions();
                 break;
             case 'Q':
@@ -71,26 +76,33 @@ namespace SwnGmTool
 
     void SGTMain::ManageFactions()
     {
+        while(this->IsFM)
+        {
+            this->PrintFactionManagerMenu();
+            this->SelectFactionManagerMenuOption();
+        }
+    }
+
+    void SGTMain::ShowFactionList(std::ostream& out)
+    {
+        out << "\nFaction list:\n";
+
         if(this->SGTFactionControl.GetMapSize() == 0)
         {
-            std::cout << "\nNo factions to manage\n";
+            out << "Empty\n";
             return;
         }
-
-        std::cout << "\nFaction List:\n";
 
         auto list = this->SGTFactionControl.GetFactionList();
         for(auto it: list)
         {
-            std::cout << it.Name << std::endl;
+            out << it.Name << std::endl;
         }
-
-        this->PrintFactionManagerMenu();
-        this->SelectFactionManagerMenuOption();
     }
 
-    void SGTMain::PrintFactionManagerMenu()
+    void SGTMain::PrintFactionManagerMenu(std::ostream& out)
     {
+        this->PrintMenu(FactionManagerOptions, out);
     }
 
     void SGTMain::SelectFactionManagerMenuOption()
@@ -100,9 +112,22 @@ namespace SwnGmTool
 
         switch(input[0])
         {
+            case '1':
+                this->ShowFactionList();
+                break;
+            case '2':
+                this->CreateFaction();
+                break;
+            case '3':
+                //this->RemoveFaction();
+                break;
+            case '4':
+                //this->ClearFactionList();
+                break;
             case 'Q':
             case 'q':
             default:
+                this->IsFM = false;
                 break;
         }
     }
