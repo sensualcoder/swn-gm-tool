@@ -38,28 +38,44 @@ namespace SwnGmTool
         switch(input[0])
         {
             case '1':
+            {
                 this->ShowFactionList();
                 break;
+            }
             case '2':
+            {
                 this->CreateFaction();
                 break;
+            }
             case '3':
+            {
                 this->RemoveFaction();
                 break;
+            }
             case '4':
+            {
                 this->ClearFactionList();
                 break;
+            }
             case 'S':
-                this->Save();
+            {
+                std::ofstream os("save.sgt");
+                this->Save(os);
                 break;
+            }
             case 'L':
-                this->Load();
+            {
+                std::ifstream is("save.sgt");
+                this->Load(is);
                 break;
+            }
             case 'Q':
             case 'q':
             default:
+            {
                 this->IsRunning = false;
                 break;
+            }
         }
     }
 
@@ -110,10 +126,9 @@ namespace SwnGmTool
         this->FMFactionControl.ClearMap();
     }
 
-    void FactionManager::Save()
+    void FactionManager::Save(std::ostream& out)
     {
-        std::ofstream os("save.sgt");
-        cereal::JSONOutputArchive archive(os);
+        cereal::JSONOutputArchive archive(out);
 
         try
         {
@@ -124,10 +139,9 @@ namespace SwnGmTool
         }
     }
 
-    void FactionManager::Load()
+    void FactionManager::Load(std::istream& in)
     {
-        std::ifstream is("save.sgt");
-        cereal::JSONInputArchive archive(is);
+        cereal::JSONInputArchive archive(in);
         
         try
         {

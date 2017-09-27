@@ -21,8 +21,8 @@ namespace SwnGmTool
             void RemoveFaction();
             void ClearFactionList();
 
-            void Save();
-            void Load();
+            void Save(std::ostream& = std::cout);
+            void Load(std::istream& = std::cin);
 
         private:
             void PrintMenu(const std::map<char, std::string>&, std::ostream& = std::cout);
