@@ -2,8 +2,9 @@
 #define FACTION_MANAGER_HPP
 
 #include <iostream>
-#include <map>
+#include <vector>
 
+#include "SGTMenuOptions.hpp"
 #include "FactionControl.hpp"
 
 namespace SwnGmTool
@@ -25,7 +26,7 @@ namespace SwnGmTool
             void Load(std::istream& = std::cin);
 
         private:
-            void PrintMenu(const std::map<char, std::string>&, std::ostream& = std::cout);
+            void PrintMenu(const std::vector<MenuOption>&, std::ostream& = std::cout);
 
             bool IsRunning;
             FactionControl FMFactionControl;

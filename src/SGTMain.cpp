@@ -1,7 +1,5 @@
 #include "SGTMain.hpp"
 
-#include "SGTMenuOptions.hpp"
-
 namespace SwnGmTool
 {
     void SGTMain::run(int argc, char* argv[])
@@ -19,13 +17,13 @@ namespace SwnGmTool
         this->FM = FactionManager();
     }
 
-    void SGTMain::PrintMenu(const std::map<char, std::string>& options, std::ostream& out)
+    void SGTMain::PrintMenu(const std::vector<MenuOption>& options, std::ostream& out)
     {
         out << "\nChoose an option\n";
         
         for(auto i : options)
         {
-            out << i.first << ") " << i.second << std::endl;
+            out << i.Option << ") " << i.Label << std::endl;
         }
     }
 

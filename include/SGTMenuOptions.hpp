@@ -2,17 +2,23 @@
 #define SGT_MENU_OPTIONS_HPP
 
 #include <string>
-#include <map>
+#include <vector>
 
 namespace SwnGmTool
 {
-    const std::map<char, std::string> MainMenuOptions
+    struct MenuOption
+    {
+        char Option;
+        std::string Label;
+    };
+
+    const std::vector<MenuOption> MainMenuOptions
     {
         { '1', "Manage Factions" },
         { 'Q', "Quit" }
     };
 
-    const std::map<char, std::string> FactionManagerOptions
+    const std::vector<MenuOption> FactionManagerOptions
     {
         { '1', "Show Faction List" },
         { '2', "Create Faction" },

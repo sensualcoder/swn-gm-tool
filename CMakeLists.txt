@@ -9,6 +9,9 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 option(BUILD_DRIVER "Build driver" ON)
 option(BUILD_TESTS "Build tests" ON)
 
+# Data Access
+include_directories(${PROJECT_SOURCE_DIR}/DataAccess/include)
+
 # DTOs
 include_directories(${PROJECT_SOURCE_DIR}/DTO/include)
 add_subdirectory(DTO)

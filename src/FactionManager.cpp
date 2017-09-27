@@ -3,9 +3,7 @@
 #include <fstream>
 #include <iomanip>
 
-#include <cereal/archives/json.hpp>
-
-#include "SGTMenuOptions.hpp"
+#include "FileAccess.hpp"
 
 namespace SwnGmTool
 {
@@ -128,37 +126,25 @@ namespace SwnGmTool
 
     void FactionManager::Save(std::ostream& out)
     {
-        cereal::JSONOutputArchive archive(out);
+        FileAccess<FactionControl> access;
 
-        try
-        {
-            archive(this->FMFactionControl);
-        }
-        catch(std::exception ex)
-        {
-        }
+        access.Save(out, this->FMFactionControl);
     }
 
     void FactionManager::Load(std::istream& in)
     {
-        cereal::JSONInputArchive archive(in);
+        FileAccess<FactionControl> access;
         
-        try
-        {
-            archive(this->FMFactionControl);
-        }
-        catch(std::exception ex)
-        {
-        }
+        access.Load(in, this->FMFactionControl);
     }
 
-    void FactionManager::PrintMenu(const std::map<char, std::string>& options, std::ostream& out)
+    void FactionManager::PrintMenu(const std::vector<MenuOption>& options, std::ostream& out)
     {
         out << "\nChoose an option\n";
         
         for(auto i : options)
         {
-            out << i.first << ") " << i.second << std::endl;
+            out << i.Option << ") " << i.Label << std::endl;
         }
     }
 }

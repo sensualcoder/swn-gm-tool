@@ -2,9 +2,10 @@
 #define SGT_MAIN_HPP
 
 #include <iostream>
-#include <map>
 #include <string>
+#include <vector>
 
+#include "SGTMenuOptions.hpp"
 #include "FactionManager.hpp"
 
 namespace SwnGmTool
@@ -17,7 +18,7 @@ namespace SwnGmTool
         private:
             SGTMain();
 
-            void PrintMenu(const std::map<char, std::string>&, std::ostream& = std::cout);
+            void PrintMenu(const std::vector<MenuOption>&, std::ostream& = std::cout);
 
             void Run();
             void PrintMainMenu(std::ostream& = std::cout);
