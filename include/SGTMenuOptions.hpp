@@ -18,6 +18,8 @@ namespace SwnGmTool
         { '2', "Create Faction" },
         { '3', "Remove Faction" },
         { '4', "Clear Faction List" },
+        { 'S', "Save to file"},
+        { 'L', "Load from file"},
         { 'Q', "Return to main menu" }
     };
 }

@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra -ansi -pedantic")
 set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 
+option(BUILD_DRIVER "Build driver" ON)
 option(BUILD_TESTS "Build tests" ON)
 
 # DTOs
@@ -29,11 +30,13 @@ if(BUILD_TESTS)
     add_subdirectory(Tests)
 endif(BUILD_TESTS)
 
-# Add all extra libs
-set(EXTRA_LIBS ${EXTRA_LIBS} DTO HexGrid FactionControl SectorGen)
+if(BUILD_DRIVER)
+    # Add all extra libs
+    set(EXTRA_LIBS ${EXTRA_LIBS} DTO HexGrid FactionControl SectorGen)
 
-include_directories(${PROJECT_SOURCE_DIR}/include)
-set(SOURCES main.cpp src/SGTMain.cpp)
+    include_directories(${PROJECT_SOURCE_DIR}/include)
+    set(SOURCES main.cpp src/SGTMain.cpp src/FactionManager.cpp)
 
-add_executable(SwnGmTool ${SOURCES})
-target_link_libraries(SwnGmTool ${EXTRA_LIBS})
+    add_executable(SwnGmTool ${SOURCES})
+    target_link_libraries(SwnGmTool ${EXTRA_LIBS})
+endif(BUILD_DRIVER)

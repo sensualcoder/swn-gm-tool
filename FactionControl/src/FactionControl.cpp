@@ -51,6 +51,13 @@ namespace SwnGmTool
         this->Map.push_back(FAC { faction, Asset_List() } );
     }
 
+    void FactionControl::RemoveFaction(int index)
+    {
+        auto item = this->Map.begin() + index;
+
+        this->Map.erase(item);    
+    }
+
     void FactionControl::RemoveFaction(std::string name)
     {
         auto item = this->Map.find(name);        
