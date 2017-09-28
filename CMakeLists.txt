@@ -11,6 +11,7 @@ option(BUILD_TESTS "Build tests" ON)
 
 # Data Access
 include_directories(${PROJECT_SOURCE_DIR}/DataAccess/include)
+add_subdirectory(DataAccess)
 
 # DTOs
 include_directories(${PROJECT_SOURCE_DIR}/DTO/include)
@@ -28,6 +29,10 @@ add_subdirectory(FactionControl)
 include_directories(${PROJECT_SOURCE_DIR}/SectorGen/include)
 add_subdirectory(SectorGen)
 
+# SGT (Driver)
+include_directories(${PROJECT_SOURCE_DIR}/SGT/include)
+add_subdirectory(SGT)
+
 # Tests
 if(BUILD_TESTS)
     add_subdirectory(Tests)
@@ -35,10 +40,10 @@ endif(BUILD_TESTS)
 
 if(BUILD_DRIVER)
     # Add all extra libs
-    set(EXTRA_LIBS ${EXTRA_LIBS} DTO HexGrid FactionControl SectorGen)
+    set(EXTRA_LIBS ${EXTRA_LIBS} DataAccess DTO HexGrid FactionControl SectorGen SGT)
 
     include_directories(${PROJECT_SOURCE_DIR}/include)
-    set(SOURCES main.cpp src/SGTMain.cpp src/FactionManager.cpp)
+    set(SOURCES main.cpp)
 
     add_executable(SwnGmTool ${SOURCES})
     target_link_libraries(SwnGmTool ${EXTRA_LIBS})
