@@ -5,6 +5,7 @@
 #include "Tests.hpp"
 #include "catch.hpp"
 
+#include "FileAccess.hpp"
 #include "FactionControl.hpp"
 
 using namespace SwnGmTool;
@@ -28,7 +29,7 @@ namespace Tests
 
             REQUIRE(testControl->GetMapSize() == 1);
             REQUIRE(testControl->GetFactionList().size() == 1);
-            REQUIRE(testControl->GetFactionList() == std::vector<FactionDTO> { testFaction } );
+            REQUIRE(testControl->GetFactionList()[0] == testFaction);
         }
 
         SECTION("Removing factions decreases map size and list is empty")
@@ -38,7 +39,6 @@ namespace Tests
 
             REQUIRE(testControl->GetMapSize() == 0);
             REQUIRE(testControl->GetFactionList().size() == 0);
-            REQUIRE(testControl->GetFactionList() == std::vector<FactionDTO>() );
         }
 
         SECTION("Adding a large amount of factions increases map size and list returns same amount")
@@ -71,7 +71,7 @@ namespace Tests
         
         REQUIRE(testControl->GetMapSize() == 1);
         REQUIRE(testControl->GetFactionList().size() == 1);
-        REQUIRE(testControl->GetFactionList() == std::vector<FactionDTO> { testFaction } );
+        REQUIRE(testControl->GetFactionList()[0] == testFaction);
 
         SECTION("Adding a large amount of assets to the list increases the list size")
         {
@@ -84,6 +84,44 @@ namespace Tests
             }
 
             REQUIRE(testControl->GetAssetList(testName).size() == test_count);
+        }
+    }
+
+    TEST_CASE("Saving and loading faction control")
+    {
+        std::unique_ptr<FactionControl> testControl(new FactionControl() );
+        
+        REQUIRE(testControl != nullptr);
+
+        std::string testName = "Test";
+        FactionDTO testFaction { testName };
+
+        REQUIRE(testFaction.Name == testName);
+        
+        testControl->AddFaction(testFaction);
+        
+        REQUIRE(testControl->GetMapSize() == 1);
+        REQUIRE(testControl->GetFactionList().size() == 1);
+        REQUIRE(testControl->GetFactionList()[0] == testFaction);
+
+        SECTION("Save and clear, then load")
+        {
+            FileAccess<FactionControl> oaccess;
+            std::ofstream out("save.sgt");
+            oaccess.Save(out, *testControl);
+
+            testControl->ClearMap();
+
+            REQUIRE(testControl->GetMapSize() == 0);
+            REQUIRE(testControl->GetFactionList().size() == 0);
+
+            FileAccess<FactionControl> iaccess;
+            std::ifstream in("save.sgt");
+            iaccess.Load(in, *testControl);
+
+            REQUIRE(testControl->GetMapSize() == 1);
+            REQUIRE(testControl->GetFactionList().size() == 1);
+            REQUIRE(testControl->GetFactionList()[0] == testFaction);
         }
     }
 }
