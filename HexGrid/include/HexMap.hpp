@@ -1,23 +1,20 @@
 #ifndef HEX_MAP_HPP
 #define HEX_MAP_HPP
 
+#include <cmath>
 #include <unordered_set>
 
 #include "Hex.hpp"
 
 namespace HexGrid
 {
-    class HexMap
+    struct HexMap
     {
-        public:
-            HexMap();
-            HexMap(int, int mapHeight);
-            void CreateMap(int mapWidth, int mapHeight);
-            
-            const std::unordered_set<Hex>& GetMap();
+        HexMap();
+        
+        int Size();
 
-        private:
-            std::unordered_set<Hex> MapSet;
+        std::unordered_set<Hex> MapSet;
     };
 }
 

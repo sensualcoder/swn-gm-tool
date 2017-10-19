@@ -18,16 +18,30 @@ namespace SwnGmTool
 
             void Save(std::ostream& out, T& toSave) override
             {
-                cereal::JSONOutputArchive archive(out);
-                
-                archive(toSave);
+                try
+                {
+                    cereal::JSONOutputArchive archive(out);
+                    
+                    archive(toSave);
+                }
+                catch(cereal::RapidJSONException ex)
+                {
+                    std::cout << "Error saving: " << ex.what() << std::endl;
+                }
             }
 
             void Load(std::istream& in, T& toLoad) override
             {
-                cereal::JSONInputArchive archive(in);
+                try
+                {
+                    cereal::JSONInputArchive archive(in);
                 
-                archive(toLoad);
+                    archive(toLoad);
+                }
+                catch(cereal::RapidJSONException ex)
+                {
+                    std::cout << "Error loading: " << ex.what() << std::endl;
+                }
             }
     };
 }

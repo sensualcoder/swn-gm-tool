@@ -7,9 +7,9 @@ namespace SwnGmTool
 {
     struct HexElement
     {
-        std::string Name;
+        HexElement(std::string label) : Label(label) {} 
 
-        HexElement(std::string Name) : Name(Name) {} 
+        std::string Label;
     };
 }
 

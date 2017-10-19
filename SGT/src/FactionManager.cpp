@@ -56,12 +56,14 @@ namespace SwnGmTool
                 break;
             }
             case 'S':
+            case 's':
             {
                 std::ofstream os("save.sgt");
                 this->Save(os);
                 break;
             }
             case 'L':
+            case 'l':
             {
                 std::ifstream is("save.sgt");
                 this->Load(is);

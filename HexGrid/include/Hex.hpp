@@ -7,6 +7,7 @@ namespace HexGrid
 {
     struct Hex
     {
+        Hex(int q, int r) : v{q, r, -q-r} {}
         Hex(int q, int r, int s) : v{q, r, s} {}
 
         inline int q() const { return v[0]; }
