@@ -19,10 +19,12 @@ namespace SwnGmTool
         public:
             SectorGen(int = STD_MAP_WIDTH, int = STD_MAP_HEIGHT);
 
-            void CreateMap(int, int);
+            void CreateFTVRMap(int, int);
 
             void GenerateSector(int = MIN_STAR_MOD);
             void ClearSector();
+
+            Planet GenerateRandomPlanet();
 
             int GetMapSize();
             int GetSystemListSize();
@@ -36,6 +38,8 @@ namespace SwnGmTool
 
             HexGrid::HexMap SectorMap;
             std::list<SwnHex> SystemList;
+
+            void SetupRandomizer();
     };
 }
 

@@ -7,10 +7,13 @@ namespace SwnGmTool
     SectorGen::SectorGen(int mapWidth, int mapHeight) 
         : SectorMap(HexGrid::HexMap() ), MapWidth(mapWidth), MapHeight(mapHeight)
     {
-        this->CreateMap(mapWidth, mapHeight);
+        this->CreateFTVRMap(mapWidth, mapHeight);
+        this->SetupRandomizer();
     }
 
-    void SectorGen::CreateMap(int mapWidth, int mapHeight)
+    // Creates a map with flat-topped hexagons in a vertical rectangular configuration (FTVR).
+    // TODO: Add in functions to create other map styles (triangular, hexagonal, etc.) and pointy-topped hexagon orientation.
+    void SectorGen::CreateFTVRMap(int mapWidth, int mapHeight)
     {
         for(int q = 0; q < mapWidth; q++)
         {
@@ -24,8 +27,6 @@ namespace SwnGmTool
 
     void SectorGen::GenerateSector(int starsMod)
     {
-        std::srand(std::time(0) );
-
         int total_stars = (1 + (std::rand() % 10)) + starsMod;
 
         for(int i = 0; i < total_stars; i++)
@@ -51,9 +52,22 @@ namespace SwnGmTool
         }
     }
 
+    void SectorGen::ClearSector()
+    {
+        this->SectorMap.clear();
+        this->SystemList.clear();
+    }
+
+    Planet SectorGen::GenerateRandomPlanet()
+    {
+        Planet planet;
+
+        return planet;
+    }
+
     int SectorGen::GetMapSize()
     {
-        return this->SectorMap.Size();
+        return this->SectorMap.size();
     }
 
     int SectorGen::GetSystemListSize()
@@ -79,5 +93,13 @@ namespace SwnGmTool
         }
 
         return planetList;
+    }
+
+    // Sets up the randomization for generating sectors
+    // Only a simple srand() call for now
+    // TODO: Add in random distribution methods for customizable variability in star counts, planet counts, etc.
+    void SectorGen::SetupRandomizer()
+    {
+        std::srand(std::time(0) );
     }
 }

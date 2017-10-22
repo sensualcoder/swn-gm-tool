@@ -12,7 +12,8 @@ namespace HexGrid
     {
         HexMap();
         
-        int Size();
+        int size();
+        void clear();
 
         std::unordered_set<Hex> MapSet;
     };

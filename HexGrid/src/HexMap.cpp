@@ -9,8 +9,13 @@ namespace HexGrid
         this->MapSet = std::unordered_set<Hex>();
     }
 
-    int HexMap::Size()
+    int HexMap::size()
     {
         return this->MapSet.size();
+    }
+
+    void HexMap::clear()
+    {
+        this->MapSet.clear();
     }
 }
