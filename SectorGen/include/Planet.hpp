@@ -5,6 +5,7 @@
 
 #include "HexElement.hpp"
 #include "PlanetInfo.hpp"
+#include "PlanetTags.hpp"
 
 namespace SwnGmTool
 {
@@ -16,9 +17,9 @@ namespace SwnGmTool
         PlanetInfo Temperature;
         PlanetInfo Biosphere;
         PlanetInfo Population;
-        int TechLevel;
+        PlanetInfo TechLevel;
 
-        std::list<PlanetInfo> Tags;
+        std::list<PlanetTag> Tags;
     };
 }
 
