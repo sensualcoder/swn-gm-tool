@@ -4,9 +4,13 @@
 #include "DataAccess.hpp"
 
 #include <iostream>
+#include <string>
 
 #include <cereal/cereal.hpp>
 #include <cereal/archives/json.hpp>
+
+#include <fmt/format.h>
+#include <fmt/printf.h>
 
 namespace SwnGmTool
 {
@@ -16,31 +20,33 @@ namespace SwnGmTool
         public:
             FileAccess() {}
 
-            void Save(std::ostream& out, T& toSave) override
+            void Save(std::ostream& out, T& toSave, std::string name) override
             {
+                cereal::JSONOutputArchive archive(out);
+
                 try
                 {
-                    cereal::JSONOutputArchive archive(out);
-                    
-                    archive(toSave);
+                    archive(cereal::make_nvp(name, toSave) );
                 }
                 catch(cereal::RapidJSONException ex)
                 {
-                    std::cout << "Error saving: " << ex.what() << std::endl;
+                    fmt::printf("Error saving: {0}\n", ex.what() );
+                    throw(ex);
                 }
             }
 
             void Load(std::istream& in, T& toLoad) override
             {
+                cereal::JSONInputArchive archive(in);
+
                 try
                 {
-                    cereal::JSONInputArchive archive(in);
-                
                     archive(toLoad);
                 }
                 catch(cereal::RapidJSONException ex)
                 {
-                    std::cout << "Error loading: " << ex.what() << std::endl;
+                    fmt::printf("Error loading: {0}\n", ex.what() );
+                    throw(ex);
                 }
             }
     };

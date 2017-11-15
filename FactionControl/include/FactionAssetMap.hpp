@@ -6,18 +6,19 @@
 #include <vector>
 
 #include <cereal/cereal.hpp>
+#include <cereal/types/list.hpp>
 #include <cereal/types/vector.hpp>
 
-#include "AssetDTO.hpp"
-#include "FactionDTO.hpp"
+#include "AssetModel.hpp"
+#include "FactionModel.hpp"
 
 namespace SwnGmTool
 {
-    typedef std::list<AssetDTO> Asset_List;
+    typedef std::list<AssetModel> Asset_List;
 
     struct FactionAssetControl
     {
-        FactionDTO Faction;
+        FactionModel Faction;
         Asset_List AssetList;
     };
 

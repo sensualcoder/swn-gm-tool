@@ -1,10 +1,10 @@
-#ifndef SGT_MENU_OPTIONS_HPP
-#define SGT_MENU_OPTIONS_HPP
+#ifndef MENU_OPTIONS_HPP
+#define MENU_OPTIONS_HPP
 
 #include <string>
 #include <vector>
 
-namespace SwnGmTool
+namespace Driver
 {
     struct MenuOption
     {
@@ -15,6 +15,7 @@ namespace SwnGmTool
     const std::vector<MenuOption> MainMenuOptions
     {
         { '1', "Manage Factions" },
+        //{ '2', "Manage Sector" },
         { 'Q', "Quit" }
     };
 

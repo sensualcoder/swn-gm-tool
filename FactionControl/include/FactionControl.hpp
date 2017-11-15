@@ -6,40 +6,43 @@
 #include <vector>
 
 #include <cereal/cereal.hpp>
-#include <cereal/types/list.hpp>
 #include <cereal/types/vector.hpp>
 
-#include "AssetDTO.hpp"
-#include "FactionDTO.hpp"
+#include "AssetModel.hpp"
+#include "Config.hpp"
+#include "FactionModel.hpp"
 #include "FactionAssetMap.hpp"
 
 namespace SwnGmTool
 {
-    typedef std::list<AssetDTO> Asset_List;
-    typedef std::vector<FactionDTO> Faction_List;
+    typedef std::list<AssetModel> Asset_List;
+    typedef std::vector<FactionModel> Faction_List;
 
     class FactionControl
     {
         public:
-            FactionControl(uint8_t = 5);
+            FactionControl() { }
+            FactionControl(Config);
             ~FactionControl();
 
             int GetMapSize();
             void ClearMap();
 
-            Faction_List GetFactionList();
-            FactionDTO& GetFaction(std::string);
+            const Faction_List GetFactionList();
             void AddFaction(std::string);
-            void AddFaction(const FactionDTO&);
+            void AddFaction(const FactionModel&);
             void RemoveFaction(int);
             void RemoveFaction(std::string);
 
-            Asset_List& GetAssetList(std::string);
+            const Asset_List GetAssetList(std::string);
+            void AddAsset(int, const AssetModel&);
+            void RemoveAsset(int, int);
+            void RemoveAllAssetsOfType(int, const AssetModel&);
 
             template <class Archive>
             void serialize(Archive& archive)
             {
-                archive(this->Map);
+                archive(cereal::make_nvp("Faction List", this->Map) );
             }
 
         private:

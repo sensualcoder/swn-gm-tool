@@ -2,13 +2,14 @@
 A GM tool for the Stars Without Number game system. The purpose of this tool is to streamline the process of creating factions and running the GM turn portion of a SWN campaign.
 
 ## Prerequisites
-- A C++11 compatible compiler ([ref](http://en.cppreference.com/w/cpp/compiler_support#cpp11))
-- [cmake](https://cmake.org/)
+- A C++14 compatible compiler ([ref](http://en.cppreference.com/w/cpp/compiler_support#cpp14))
 - make
+- [cmake](https://cmake.org/)
 
 ## Third-party libraries
 - [Catch](https://github.com/philsquared/Catch) - Unit testing library
 - [cereal](https://github.com/USCiLab/cereal) - Serialization library
+- [fmtlib](https://github.com/fmtlib/fmt) - fmt string formatting library
 
 ## Build
 - Create a build directory and change to the new directory.

@@ -19,7 +19,7 @@ namespace Tests
         REQUIRE(testControl != nullptr);
 
         std::string testName = "Test";
-        FactionDTO testFaction { testName };
+        FactionModel testFaction { testName };
 
         REQUIRE(testFaction.Name == testName);
 
@@ -47,7 +47,7 @@ namespace Tests
             for(int i = 0; i < test_count; i++)
             {
                 std::string name = "Test" + std::to_string(i);
-                std::unique_ptr<FactionDTO> tmp = std::unique_ptr<FactionDTO>(new FactionDTO { name });
+                std::unique_ptr<FactionModel> tmp = std::unique_ptr<FactionModel>(new FactionModel { name });
                 testControl->AddFaction(*tmp);
             }
 
@@ -63,7 +63,7 @@ namespace Tests
         REQUIRE(testControl != nullptr);
 
         std::string testName = "Test";
-        FactionDTO testFaction { testName };
+        FactionModel testFaction { testName };
 
         REQUIRE(testFaction.Name == testName);
         
@@ -79,8 +79,8 @@ namespace Tests
             for(int i = 0; i < test_count; i++)
             {
                 std::string name = testName + std::to_string(i);
-                std::unique_ptr<AssetDTO> tmp = std::unique_ptr<AssetDTO>(new AssetDTO { name });
-                testControl->GetAssetList(testName).push_back(*tmp);
+                std::unique_ptr<AssetModel> tmp = std::unique_ptr<AssetModel>(new AssetModel { name });
+                testControl->AddAsset(0, *tmp);
             }
 
             REQUIRE(testControl->GetAssetList(testName).size() == test_count);
@@ -94,7 +94,7 @@ namespace Tests
         REQUIRE(testControl != nullptr);
 
         std::string testName = "Test";
-        FactionDTO testFaction { testName };
+        FactionModel testFaction { testName };
 
         REQUIRE(testFaction.Name == testName);
         
@@ -108,7 +108,7 @@ namespace Tests
         {
             FileAccess<FactionControl> oaccess;
             std::ofstream out("save.sgt");
-            oaccess.Save(out, *testControl);
+            oaccess.Save(out, *testControl, "Test");
 
             testControl->ClearMap();
 

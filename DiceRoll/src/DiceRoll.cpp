@@ -1,5 +1,8 @@
 #include "DiceRoll.hpp"
 
+#include <ctime>
+#include <string>
+
 namespace SwnGmTool
 {
     void setup_basic_randomizer()
@@ -7,7 +10,7 @@ namespace SwnGmTool
         std::srand(std::time(0) );
     }
 
-    int roll_dice(const DiceRoll& d)
+    int roll_dice(const DiceRollModel& d)
     {
         int roll = 0;
 
@@ -22,12 +25,12 @@ namespace SwnGmTool
         return roll;
     }
 
-    bool is_none(const DiceRoll& d)
+    bool is_none(const DiceRollModel& d)
     {
         return (d.DiceNum == 0);
     }
 
-    std::string to_string(const DiceRoll& d)
+    std::string to_string(const DiceRollModel& d)
     {
         if(is_none(d) )
             return "None";

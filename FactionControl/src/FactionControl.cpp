@@ -2,9 +2,12 @@
 
 namespace SwnGmTool
 {
-    FactionControl::FactionControl(uint8_t mapSize)
+    // Public methods
+
+    FactionControl::FactionControl(Config config)
     {
-        this->Map.reserve(mapSize);
+        if(config.DefaultFactionCount >= 0)
+            this->Map.reserve(config.DefaultFactionCount);
     }
 
     FactionControl::~FactionControl()
@@ -22,7 +25,7 @@ namespace SwnGmTool
         this->Map.clear();
     }
 
-    Faction_List FactionControl::GetFactionList()
+    const Faction_List FactionControl::GetFactionList()
     {
         Faction_List factionList;
 
@@ -34,19 +37,12 @@ namespace SwnGmTool
         return factionList;
     }
 
-    FactionDTO& FactionControl::GetFaction(std::string name)
-    {
-        auto item = this->Map.find(name);
-
-        return item->Faction;
-    }
-
     void FactionControl::AddFaction(std::string name)
     {
-        this->AddFaction(FactionDTO { name } );
+        this->AddFaction(FactionModel { name } );
     }
 
-    void FactionControl::AddFaction(const FactionDTO& faction)
+    void FactionControl::AddFaction(const FactionModel& faction)
     {
         this->Map.push_back(FAC { faction, Asset_List() } );
     }
@@ -65,10 +61,28 @@ namespace SwnGmTool
         this->Map.erase(item);
     }
 
-    Asset_List& FactionControl::GetAssetList(std::string name)
+    const Asset_List FactionControl::GetAssetList(std::string name)
     {
         auto item = this->Map.find(name);
 
         return item->AssetList;
+    }
+
+    void FactionControl::AddAsset(int index, const AssetModel& asset)
+    {
+        this->Map[index].AssetList.push_back(asset);
+    }
+
+    void FactionControl::RemoveAsset(int index, int aIndex)
+    {
+        auto asset = this->Map[index].AssetList.begin();
+        std::advance(asset, aIndex);
+
+        this->Map[index].AssetList.erase(asset);
+    }
+
+    void FactionControl::RemoveAllAssetsOfType(int index, const AssetModel& asset)
+    {
+        this->Map[index].AssetList.remove(asset);
     }
 }

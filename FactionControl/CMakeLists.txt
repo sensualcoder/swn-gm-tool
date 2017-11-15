@@ -1,4 +1,4 @@
-include_directories(${PROJECT_SOURCE_DIR}/DTO/include)
+include_directories(${PROJECT_SOURCE_DIR}/Models/include)
 
 set(SOURCES src/FactionAssetMap.cpp src/FactionControl.cpp)
 

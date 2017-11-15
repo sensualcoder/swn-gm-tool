@@ -1,8 +1,10 @@
-#include "SGTMain.hpp"
+#include "Driver.hpp"
 
 int main(int argc, char* argv[])
 {
-    SwnGmTool::SGTMain::run(argc, argv);
+    Driver::Driver main = Driver::Driver();
+
+    main.Run();
 
     return 0;
 }

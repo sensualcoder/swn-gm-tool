@@ -1,11 +1,12 @@
-#ifndef FACTION_DTO_HPP
-#define FACTION_DTO_HPP
+#ifndef FACTION_MODEL_HPP
+#define FACTION_MODEL_HPP
 
 #include <cstdint>
 #include <string>
 #include <vector>
 
 #include <cereal/cereal.hpp>
+#include <cereal/types/string.hpp>
 #include <cereal/types/vector.hpp>
 
 namespace SwnGmTool
@@ -33,7 +34,7 @@ namespace SwnGmTool
         "Warlike"
     };
 
-    struct FactionDTO
+    struct FactionModel
     {
         std::string Name;
         std::string Homeworld;
@@ -52,13 +53,13 @@ namespace SwnGmTool
         std::vector<std::string> Tags;
     };
 
-    inline bool operator==(const FactionDTO& a, const FactionDTO& b)
+    inline bool operator==(const FactionModel& a, const FactionModel& b)
     {
         return a.Name == b.Name;
     }
 
     template<class Archive>
-    void serialize(Archive& archive, FactionDTO& f)
+    void serialize(Archive& archive, FactionModel& f)
     {
         archive(cereal::make_nvp("Name", f.Name), 
                 cereal::make_nvp("Homeworld", f.Homeworld),
@@ -74,9 +75,9 @@ namespace SwnGmTool
 }
 
 template<>
-struct std::equal_to<SwnGmTool::FactionDTO>
+struct std::equal_to<SwnGmTool::FactionModel>
 {
-    bool operator()(const SwnGmTool::FactionDTO& a, const SwnGmTool::FactionDTO& b) const
+    bool operator()(const SwnGmTool::FactionModel& a, const SwnGmTool::FactionModel& b) const
     {
         return a == b;
     };

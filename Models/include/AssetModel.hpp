@@ -1,13 +1,15 @@
-#ifndef ASSET_DTO_HPP
-#define ASSET_DTO_HPP
+#ifndef ASSET_MODEL_HPP
+#define ASSET_MODEL_HPP
 
 #include <cstdint>
 #include <iostream>
 #include <string>
 
 #include <cereal/cereal.hpp>
+#include <cereal/types/string.hpp>
 
 #include "DiceRoll.hpp"
+#include "DiceRollModel.hpp"
 
 namespace SwnGmTool
 {
@@ -29,7 +31,7 @@ namespace SwnGmTool
         "Logistics Facility"
     };
 
-    struct AssetDTO
+    struct AssetModel
     {
         std::string Name;
 
@@ -37,9 +39,9 @@ namespace SwnGmTool
         uint8_t RatingLevel;
         std::string AssetType;
 
-        DiceRoll Attack;
+        DiceRollModel Attack;
         std::string DefenderType;
-        DiceRoll Counter;
+        DiceRollModel Counter;
 
         uint8_t TechLevel;
         uint8_t Cost;
@@ -48,24 +50,24 @@ namespace SwnGmTool
         uint8_t MaxHP;
     };
 
-    inline std::string to_string(const AssetDTO& a)
+    inline std::string to_string(const AssetModel& a)
     {
         return (a.Name + " " + a.RatingType + " " + a.AssetType + " " + to_string(a) + " " + to_string(a.Counter) );
     }
 
-    inline std::ostream& operator<<(std::ostream& os, const AssetDTO& a)
+    inline std::ostream& operator<<(std::ostream& os, const AssetModel& a)
     {
         os << to_string(a);
         return os;
     }
 
-    inline bool operator==(const AssetDTO& a, const AssetDTO& b)
+    inline bool operator==(const AssetModel& a, const AssetModel& b)
     {
         return a.Name == b.Name;
     }
 
     template<class Archive>
-    void serialize(Archive& archive, AssetDTO& a)
+    void serialize(Archive& archive, AssetModel& a)
     {
         archive(cereal::make_nvp("Name", a.Name),
                 cereal::make_nvp("RatingType", a.RatingType),
@@ -82,9 +84,9 @@ namespace SwnGmTool
 }
 
 template<>
-struct std::equal_to<SwnGmTool::AssetDTO>
+struct std::equal_to<SwnGmTool::AssetModel>
 {
-    bool operator()(const SwnGmTool::AssetDTO& a, const SwnGmTool::AssetDTO& b) const
+    bool operator()(const SwnGmTool::AssetModel& a, const SwnGmTool::AssetModel& b) const
     {
         return a == b;
     };

@@ -1,3 +1,3 @@
-set(SOURCES src/SGTMain.cpp src/FactionManager.cpp)
+set(SOURCES src/Driver.cpp)
 
 add_library(SGT SHARED ${SOURCES})
