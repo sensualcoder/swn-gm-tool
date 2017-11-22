@@ -9,10 +9,6 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 option(BUILD_DRIVER "Build driver" ON)
 option(BUILD_TESTS "Build tests" ON)
 
-# Configuration lib
-include_directories(${PROJECT_SOURCE_DIR}/Configuration/include)
-add_subdirectory(Configuration)
-
 # Data Access lib
 include_directories(${PROJECT_SOURCE_DIR}/DataAccess/include)
 add_subdirectory(DataAccess)
@@ -36,9 +32,13 @@ include_directories(${PROJECT_SOURCE_DIR}/Models/include)
 include_directories(${PROJECT_SOURCE_DIR}/SectorGen/include)
 add_subdirectory(SectorGen)
 
-# SGT (Driver)
-include_directories(${PROJECT_SOURCE_DIR}/SGT/include)
-add_subdirectory(SGT)
+# SwnGmToolAPI
+include_directories(${PROJECT_SOURCE_DIR}/SwnGmToolAPI/include)
+add_subdirectory(SwnGmToolAPI)
+
+# Driver
+include_directories(${PROJECT_SOURCE_DIR}/Driver/include)
+add_subdirectory(Driver)
 
 # Tests
 if(BUILD_TESTS)
@@ -47,7 +47,8 @@ endif(BUILD_TESTS)
 
 if(BUILD_DRIVER)
     # Add all extra libs
-    set(EXTRA_LIBS ${EXTRA_LIBS} Configuration DataAccess DiceRoll HexGrid FactionControl SectorGen SGT)
+    set(EXTRA_LIBS ${EXTRA_LIBS} DataAccess DiceRoll HexGrid FactionControl SectorGen SwnGmToolAPI Driver)
+    set(EXTRA_LIBS ${EXTRA_LIBS} pthread)
 
     include_directories(${PROJECT_SOURCE_DIR}/include)
     set(SOURCES main.cpp)

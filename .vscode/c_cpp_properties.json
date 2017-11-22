@@ -34,14 +34,16 @@
                 "/usr/lib/gcc/x86_64-pc-linux-gnu/7.2.0/include-fixed",
                 "/usr/include",
                 "${workspaceRoot}",
-                "${workspaceRoot}/Configuration/include",
+                "${workspaceRoot}/include",
                 "${workspaceRoot}/DataAccess/include",
                 "${workspaceRoot}/DiceRoll/include",
                 "${workspaceRoot}/FactionControl/include",
                 "${workspaceRoot}/HexGrid/include",
                 "${workspaceRoot}/Models/include",
                 "${workspaceRoot}/SectorGen/include",
-                "${workspaceRoot}/SGT/include"
+                "${workspaceRoot}/SwnGmToolAPI/include",
+                "${workspaceRoot}/Driver/include",
+                "${workspaceRoot}/Tests/include"
             ],
             "defines": [],
             "intelliSenseMode": "clang-x64",

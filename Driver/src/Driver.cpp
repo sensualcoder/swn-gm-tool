@@ -8,7 +8,9 @@ namespace Driver
 {
     Driver::Driver()
     {
-        this->Main = SGTMain();
+        _clogger = spdlog::stdout_color_st("Driver");
+        _clogger->set_pattern("%v");
+
         this->IsRunning = false;
         this->IsRunningFC = false;
         this->IsRunningAC = false;
@@ -16,33 +18,36 @@ namespace Driver
 
     bool Driver::Init()
     {
-        this->Main.CM = std::unique_ptr<SwnGmTool::ConfigManager>(new SwnGmTool::ConfigManager() );
-        
+        SwnGmTool::ConfigModel config;
+
+        std::ifstream is("conf.json");
+        SwnGmTool::FileAccess<SwnGmTool::ConfigModel> access;
+
         try
         {
-            std::ifstream config = std::ifstream("conf.json");
-            this->Main.CM->Load(config);
-
-            this->Main.FC = std::unique_ptr<SwnGmTool::FactionControl>(new SwnGmTool::FactionControl(this->Main.CM->GetConfig() ) );
-            this->Main.SG = std::unique_ptr<SwnGmTool::SectorGen>(new SwnGmTool::SectorGen() );
+            access.Load(is, config);
         }
-        catch(...)
+        catch(cereal::RapidJSONException ex)
         {
-            return false;
+            //TODO: Log config load error
+
+            config = SwnGmTool::ConfigModel();
         }
+
+        this->SGTAPI = std::unique_ptr<SwnGmTool::SwnGmToolAPI>(SwnGmTool::SwnGmToolAPI::CreateAPI(config) );
         
         return true;
     }
 
-    void Driver::Run(std::ostream& out)
+    void Driver::Run()
     {
         if(this->Init() == false)
         {
             return;
         }
 
-        out << "Stars Without Number GM Tool\n";
-        out << fmt::format("SWN Version {0}\n", this->Main.CM->GetConfig().Version);
+        _clogger->info("Stars Without Number GM Tool");
+        _clogger->info("SWN Version {0}", this->SGTAPI->GetConfig().Version);
 
         this->IsRunning = true;
 
@@ -52,27 +57,27 @@ namespace Driver
             this->GetMainMenuInput();
         }
 
-        out << "\nQuitting...\n";
+        _clogger->info("\nQuitting...");
     }
 
-    void Driver::PrintMenu(const std::vector<MenuOption>& options, std::ostream& out)
+    void Driver::PrintMenu(const std::vector<MenuOption>& options)
     {
-        out << "\nChoose an option\n";
+        _clogger->info("\nChoose an option");
         
         for(auto i : options)
         {
-            out << i.Option << ") " << i.Label << std::endl;
+            _clogger->info("{0}) {1}", i.Option, i.Label);
         }
     }
 
-    void Driver::PrintMainMenu(std::ostream& out)
+    void Driver::PrintMainMenu()
     {
-        this->PrintMenu(MainMenuOptions, out);
+        this->PrintMenu(MainMenuOptions);
     }
 
-    void Driver::PrintFactionMenu(std::ostream& out)
+    void Driver::PrintFactionMenu()
     {
-        this->PrintMenu(FactionManagerOptions, out);
+        this->PrintMenu(FactionManagerOptions);
     }
 
     void Driver::GetMainMenuInput(std::istream& in)
@@ -89,7 +94,6 @@ namespace Driver
             }
             case 'Q':
             case 'q':
-            default:
             {
                 IsRunning = false;
                 break;
@@ -153,56 +157,55 @@ namespace Driver
         }
     }
 
-    void Driver::ShowFactionList(std::ostream& out)
+    void Driver::ShowFactionList()
     {
-        auto list = this->Main.FC->GetFactionList();
+        auto list = this->SGTAPI->GetFactionList();
 
-        out << "\nFaction List:\n";
+        _clogger->info("\nFaction List:");
 
         if(list.size() <= 0)
         {
-            out << "Empty\n";
+            _clogger->info("Empty");
             return;
         }
 
-        out << fmt::format("{0:<10} {1:20}\n", "Index", "Name");
+        _clogger->info("{0:<10} {1:20}", "Index", "Name");
 
         for(int i = 0; i < list.size(); i++)
         {
-            out << fmt::format("{0:<10} {1:20}\n", i, list[i].Name);
+            _clogger->info("{0:<10} {1:20}", i, list[i].Name);
         }
     }
 
-    void Driver::AddFaction(std::ostream& out, std::istream& in)
+    void Driver::AddFaction(std::istream& in)
     {
-        out << "\nAdd Faction\n";
-        out << "Enter a name\n";
-        out << "Name: ";
+        _clogger->info("\nAdd Faction");
+        _clogger->info("Enter a name");
 
         std::string name;
         std::getline(in, name);
 
         SwnGmTool::FactionModel faction { name };
 
-        this->Main.FC->AddFaction(faction);
+        this->SGTAPI->AddFaction(faction);
     }
 
     void Driver::ClearFactionlist()
     {
-        this->Main.FC->ClearMap();
+        this->SGTAPI->ClearMap();
     }
 
     void Driver::Save(std::ostream& out)
     {
-        SwnGmTool::FileAccess<SwnGmTool::FactionControl> access;
+        SwnGmTool::FileAccess<SwnGmTool::SwnGmToolAPI> access;
 
-        access.Save(out, *this->Main.FC, "Driver");
+        access.Save(out, *this->SGTAPI, "Driver");
     }
 
     void Driver::Load(std::istream& in)
     {
-        SwnGmTool::FileAccess<SwnGmTool::FactionControl> access;
+        SwnGmTool::FileAccess<SwnGmTool::SwnGmToolAPI> access;
 
-        access.Load(in, *this->Main.FC);
+        access.Load(in, *this->SGTAPI);
     }
 }

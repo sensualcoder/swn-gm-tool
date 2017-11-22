@@ -4,7 +4,7 @@ namespace SwnGmTool
 {
     // Public methods
 
-    FactionControl::FactionControl(Config config)
+    FactionControl::FactionControl(ConfigModel config)
     {
         if(config.DefaultFactionCount >= 0)
             this->Map.reserve(config.DefaultFactionCount);

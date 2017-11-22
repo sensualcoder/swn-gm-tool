@@ -15,7 +15,7 @@ namespace Driver
     const std::vector<MenuOption> MainMenuOptions
     {
         { '1', "Manage Factions" },
-        //{ '2', "Manage Sector" },
+        { '2', "Manage Sector" },
         { 'Q', "Quit" }
     };
 

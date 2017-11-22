@@ -10,6 +10,7 @@ A GM tool for the Stars Without Number game system. The purpose of this tool is 
 - [Catch](https://github.com/philsquared/Catch) - Unit testing library
 - [cereal](https://github.com/USCiLab/cereal) - Serialization library
 - [fmtlib](https://github.com/fmtlib/fmt) - fmt string formatting library
+- [spdlog](https://github.com/gabime/spdlog) - Logging library
 
 ## Build
 - Create a build directory and change to the new directory.

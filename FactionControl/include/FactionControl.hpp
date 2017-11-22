@@ -9,7 +9,7 @@
 #include <cereal/types/vector.hpp>
 
 #include "AssetModel.hpp"
-#include "Config.hpp"
+#include "ConfigModel.hpp"
 #include "FactionModel.hpp"
 #include "FactionAssetMap.hpp"
 
@@ -22,7 +22,7 @@ namespace SwnGmTool
     {
         public:
             FactionControl() { }
-            FactionControl(Config);
+            FactionControl(ConfigModel);
             ~FactionControl();
 
             int GetMapSize();

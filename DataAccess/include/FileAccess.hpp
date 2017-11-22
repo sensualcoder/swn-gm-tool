@@ -10,7 +10,6 @@
 #include <cereal/archives/json.hpp>
 
 #include <fmt/format.h>
-#include <fmt/printf.h>
 
 namespace SwnGmTool
 {
@@ -30,7 +29,7 @@ namespace SwnGmTool
                 }
                 catch(cereal::RapidJSONException ex)
                 {
-                    fmt::printf("Error saving: {0}\n", ex.what() );
+                    //fmt::printf("Error saving: {0}\n", ex.what() );
                     throw(ex);
                 }
             }
@@ -45,7 +44,7 @@ namespace SwnGmTool
                 }
                 catch(cereal::RapidJSONException ex)
                 {
-                    fmt::printf("Error loading: {0}\n", ex.what() );
+                    //fmt::printf("Error loading: {0}\n", ex.what() );
                     throw(ex);
                 }
             }

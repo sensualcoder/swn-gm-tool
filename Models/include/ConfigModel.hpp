@@ -1,5 +1,5 @@
-#ifndef CONFIG_HPP
-#define CONFIG_HPP
+#ifndef CONFIG_MODEL_HPP
+#define CONFIG_MODEL_HPP
 
 #include <string>
 
@@ -8,14 +8,16 @@
 
 namespace SwnGmTool
 {
-    struct Config
+    struct ConfigModel
     {
+        ConfigModel() : Version("0"), DefaultFactionCount(0) { }
+
         std::string Version;
         int DefaultFactionCount;
     };
 
     template<class Archive>
-    void serialize(Archive& archive, Config& c)
+    void serialize(Archive& archive, ConfigModel& c)
     {
         archive(cereal::make_nvp("Version", c.Version),
                 cereal::make_nvp("Default Faction Count", c.DefaultFactionCount) );
