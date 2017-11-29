@@ -1,6 +1,6 @@
 #include <memory>
 
-#include "catch.hpp"
+#include <catch/catch.hpp>
 
 #include "SectorGen.hpp"
 

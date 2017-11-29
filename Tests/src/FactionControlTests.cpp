@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "catch.hpp"
+#include <catch/catch.hpp>
 
 #include "FileAccess.hpp"
 #include "FactionControl.hpp"

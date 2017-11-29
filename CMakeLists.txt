@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.9)
-
-project(SwnGmTool)
+project(SwnGmTool LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra -ansi -pedantic")
@@ -8,6 +7,10 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 
 option(BUILD_DRIVER "Build driver" ON)
 option(BUILD_TESTS "Build tests" ON)
+
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
+
+include(GNUInstallDirs)
 
 # Data Access lib
 include_directories(${PROJECT_SOURCE_DIR}/DataAccess/include)
@@ -45,12 +48,16 @@ if(BUILD_TESTS)
     add_subdirectory(Tests)
 endif(BUILD_TESTS)
 
+# Check for external libs
+find_package(cereal REQUIRED)
+find_package(fmt REQUIRED)
+find_package(spdlog REQUIRED)
+
 if(BUILD_DRIVER)
     # Add all extra libs
     set(EXTRA_LIBS ${EXTRA_LIBS} DataAccess DiceRoll HexGrid FactionControl SectorGen SwnGmToolAPI Driver)
     set(EXTRA_LIBS ${EXTRA_LIBS} pthread)
 
-    include_directories(${PROJECT_SOURCE_DIR}/include)
     set(SOURCES main.cpp)
 
     add_executable(SwnGmTool ${SOURCES})

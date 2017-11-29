@@ -5,7 +5,7 @@
 #include <memory>
 #include <vector>
 
-#include "spdlog/spdlog.h"
+#include <spdlog/spdlog.h>
 
 #include "MenuOptions.hpp"
 #include "SwnGmToolAPI.hpp"
