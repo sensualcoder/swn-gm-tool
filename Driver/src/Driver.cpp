@@ -29,7 +29,7 @@ namespace Driver
         }
         catch(cereal::RapidJSONException ex)
         {
-            //TODO: Log config load error
+            // TODO: Log config load error
 
             config = SwnGmTool::ConfigModel();
         }
@@ -43,6 +43,8 @@ namespace Driver
     {
         if(this->Init() == false)
         {
+            // TODO: Log init error
+            
             return;
         }
 
