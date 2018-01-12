@@ -2,15 +2,15 @@
 
 #include <fstream>
 
+#include <fmt/format.h>
+#include <fmt/format.cc>
+
 #include "FileAccess.hpp"
 
 namespace Driver
 {
     Driver::Driver()
     {
-        _clogger = spdlog::stdout_color_st("Driver");
-        _clogger->set_pattern("%v");
-
         this->IsRunning = false;
         this->IsRunningFC = false;
         this->IsRunningAC = false;
@@ -34,7 +34,7 @@ namespace Driver
             config = SwnGmTool::ConfigModel();
         }
 
-        this->SGTAPI = std::unique_ptr<SwnGmTool::SwnGmToolAPI>(SwnGmTool::SwnGmToolAPI::CreateAPI(config) );
+        this->SGTAPI = std::unique_ptr<SwnGmTool::SwnGmToolAPI>(new SwnGmTool::SwnGmToolAPI(config) );
         
         return true;
     }
@@ -46,8 +46,8 @@ namespace Driver
             return;
         }
 
-        _clogger->info("Stars Without Number GM Tool");
-        _clogger->info("SWN Version {0}", this->SGTAPI->GetConfig().Version);
+        fmt::print("Stars Without Number GM Tool\n");
+        fmt::print("SWN Version {0}\n", this->SGTAPI->GetConfig().Version);
 
         this->IsRunning = true;
 
@@ -57,17 +57,19 @@ namespace Driver
             this->GetMainMenuInput();
         }
 
-        _clogger->info("\nQuitting...");
+        fmt::print("\nQuitting...\n");
     }
 
     void Driver::PrintMenu(const std::vector<MenuOption>& options)
     {
-        _clogger->info("\nChoose an option");
+        fmt::print("\nChoose an option\n");
         
         for(auto i : options)
         {
-            _clogger->info("{0}) {1}", i.Option, i.Label);
+            fmt::print("{0}) {1}\n", i.Option, i.Label);
         }
+
+        fmt::print("> ");
     }
 
     void Driver::PrintMainMenu()
@@ -161,26 +163,27 @@ namespace Driver
     {
         auto list = this->SGTAPI->GetFactionList();
 
-        _clogger->info("\nFaction List:");
+        fmt::print("\nFaction List:\n");
 
         if(list.size() <= 0)
         {
-            _clogger->info("Empty");
+            fmt::print("Empty\n");
             return;
         }
 
-        _clogger->info("{0:<10} {1:20}", "Index", "Name");
+        fmt::print("{0:<10} {1:20}\n", "Index", "Name");
 
         for(int i = 0; i < list.size(); i++)
         {
-            _clogger->info("{0:<10} {1:20}", i, list[i].Name);
+            fmt::print("{0:<10} {1:20}\n", i, list[i].Name);
         }
     }
 
     void Driver::AddFaction(std::istream& in)
     {
-        _clogger->info("\nAdd Faction");
-        _clogger->info("Enter a name");
+        fmt::print("\nAdd Faction\n");
+        fmt::print("Enter a name\n");
+        fmt::print("> ");
 
         std::string name;
         std::getline(in, name);

@@ -5,8 +5,6 @@
 #include <memory>
 #include <vector>
 
-#include <spdlog/spdlog.h>
-
 #include "MenuOptions.hpp"
 #include "SwnGmToolAPI.hpp"
 
@@ -42,8 +40,7 @@ namespace Driver
             void Save(std::ostream& = std::cout);
             void Load(std::istream& in = std::cin);
 
-        private:
-            std::shared_ptr<spdlog::logger> _clogger;          
+        private:        
             std::unique_ptr<SwnGmTool::SwnGmToolAPI> SGTAPI;
             
             bool IsRunning;

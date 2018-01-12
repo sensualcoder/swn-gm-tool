@@ -2,28 +2,31 @@
 
 namespace SwnGmTool
 {
-    // Public methods
-
-    SwnGmToolAPI* SwnGmToolAPI::CreateAPI(ConfigModel config)
+    SwnGmToolAPI::SwnGmToolAPI(ConfigModel config) : SGTConfig(config), SGTFactionControl(new FactionControl(config) ), SGTSectorGen(new SectorGen)
     {
-        SwnGmToolAPI* api = new SwnGmToolAPI();
-        api->Init(config);
-
-        return api;
     }
 
-    // Private methods
+    SwnGmToolAPI::~SwnGmToolAPI() = default;
+    SwnGmToolAPI::SwnGmToolAPI(SwnGmToolAPI && op) noexcept = default;
+    SwnGmToolAPI& SwnGmToolAPI::operator=(SwnGmToolAPI && op) noexcept = default;
 
-    bool SwnGmToolAPI::Init(ConfigModel config)
-    {
-        this->SGTConfig = config;
+    ConfigModel SwnGmToolAPI::GetConfig()
+    { 
+        return this->SGTConfig; 
+    }
 
-        if(this->SGTConfig.Version == "0")
-            return false;
+    Faction_List SwnGmToolAPI::GetFactionList()
+    { 
+        return this->SGTFactionControl->GetFactionList();
+    }
 
-        this->SGTFactionControl = std::unique_ptr<FactionControl>(new FactionControl(this->SGTConfig) );
-        this->SGTSectorGen = std::unique_ptr<SectorGen>(new SectorGen() );
+    void SwnGmToolAPI::AddFaction(FactionModel model) 
+    { 
+        this->SGTFactionControl->AddFaction(model); 
+    }
 
-        return true;
+    void SwnGmToolAPI::ClearMap() 
+    { 
+        this->SGTFactionControl->ClearMap(); 
     }
 }

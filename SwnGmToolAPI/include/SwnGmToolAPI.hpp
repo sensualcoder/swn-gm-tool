@@ -4,6 +4,8 @@
 #include <memory>
 #include <string>
 
+#include <cereal/cereal.hpp>
+
 #include "ConfigModel.hpp"
 #include "FactionControl.hpp"
 #include "SectorGen.hpp"
@@ -13,24 +15,23 @@ namespace SwnGmTool
     class SwnGmToolAPI
     {
         public:
-            static SwnGmToolAPI* CreateAPI(ConfigModel);
+            SwnGmToolAPI(ConfigModel);
+            ~SwnGmToolAPI();
+            SwnGmToolAPI(SwnGmToolAPI &&) noexcept;
+            SwnGmToolAPI& operator=(SwnGmToolAPI &&) noexcept;
 
-            ConfigModel GetConfig() { return this->SGTConfig; }
-            Faction_List GetFactionList() { return this->SGTFactionControl->GetFactionList(); }
-            void AddFaction(FactionModel model) { this->SGTFactionControl->AddFaction(model); }
-            void ClearMap() { this->SGTFactionControl->ClearMap(); }
+            ConfigModel GetConfig();
+            Faction_List GetFactionList();
+            void AddFaction(FactionModel);
+            void ClearMap();
 
             template <class Archive>
             void serialize(Archive& archive)
             {
-                archive(cereal::make_nvp("FactionControl", *this->SGTFactionControl) );
+                archive(cereal::make_nvp("Faction Control", *this->SGTFactionControl) );
             }
 
         private:
-            SwnGmToolAPI() { }
-
-            bool Init(ConfigModel);
-
             ConfigModel SGTConfig;
 
             std::unique_ptr<FactionControl> SGTFactionControl;
