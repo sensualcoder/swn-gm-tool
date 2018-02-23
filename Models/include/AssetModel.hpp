@@ -13,24 +13,6 @@
 
 namespace SwnGmTool
 {
-    const std::string RatingType[] =
-    {
-        "Force",
-        "Cunning",
-        "Wealth"
-    };
-
-    const std::string AssetTypes[] =
-    {
-        "Military Unit",
-        "Special Forces",
-        "Special",
-        "Facility",
-        "Tactic",
-        "Starship",
-        "Logistics Facility"
-    };
-
     struct AssetModel
     {
         std::string Name;

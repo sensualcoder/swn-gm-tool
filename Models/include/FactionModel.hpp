@@ -11,29 +11,6 @@
 
 namespace SwnGmTool
 {
-    const std::string FactionTags[] =
-    {
-        "Colonists",
-        "Deep Rooted",
-        "Eugenics Cult",
-        "Exchange Consulate",
-        "Fanatical",
-        "Imperialists",
-        "Machiavellian",
-        "Mercenary Group",
-        "Perimeter Agency",
-        "Pirates",
-        "Plutocratic",
-        "Perceptor Archive",
-        "Psychic Academy",
-        "Savage",
-        "Scavengers",
-        "Secretive",
-        "Technical Expertise",
-        "Theocratic",
-        "Warlike"
-    };
-
     struct FactionModel
     {
         std::string Name;

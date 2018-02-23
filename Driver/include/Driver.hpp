@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <memory>
-#include <vector>
+#include <string>
 
 #include "MenuOptions.hpp"
 #include "SwnGmToolAPI.hpp"
@@ -18,12 +18,14 @@ namespace Driver
             bool Init();
             void Run();
 
-            void PrintMenu(const std::vector<MenuOption>&);
+            void PrintMenu(const std::vector<MenuOption>& options);
             void PrintMainMenu();
             void PrintFactionMenu();
+            void PrintAssetMenu();
 
             void GetMainMenuInput(std::istream& = std::cin);
             void GetFactionControlInput(std::istream& = std::cin);
+            void GetAssetControlInput(std::istream& = std::cin);
 
             void RunFactionControl();
             void ShowFactionList();

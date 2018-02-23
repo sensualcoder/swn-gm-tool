@@ -5,8 +5,10 @@
 
 #include <catch/catch.hpp>
 
-#include "FileAccess.hpp"
+#include "AssetModel.hpp"
 #include "FactionControl.hpp"
+#include "FactionModel.hpp"
+#include "FileAccess.hpp"
 
 using namespace SwnGmTool;
 
@@ -35,7 +37,7 @@ namespace Tests
         SECTION("Removing factions decreases map size and list is empty")
         {
             testControl->AddFaction(testFaction);
-            testControl->RemoveFaction(testName);
+            testControl->RemoveFaction(0);
 
             REQUIRE(testControl->GetMapSize() == 0);
             REQUIRE(testControl->GetFactionList().size() == 0);
@@ -75,7 +77,7 @@ namespace Tests
 
         SECTION("Adding a large amount of assets to the list increases the list size")
         {
-            int test_count = 1000;
+            int test_count = 10000;
             for(int i = 0; i < test_count; i++)
             {
                 std::string name = testName + std::to_string(i);
@@ -83,7 +85,7 @@ namespace Tests
                 testControl->AddAsset(0, *tmp);
             }
 
-            REQUIRE(testControl->GetAssetList(testName).size() == test_count);
+            REQUIRE(testControl->GetAssetList(0).size() == test_count);
         }
     }
 
@@ -107,7 +109,7 @@ namespace Tests
         SECTION("Save and clear, then load")
         {
             FileAccess<FactionControl> oaccess;
-            std::ofstream out("save.sgt");
+            std::ofstream out("test.sgt");
             oaccess.Save(out, *testControl, "Test");
 
             testControl->ClearMap();
@@ -116,7 +118,7 @@ namespace Tests
             REQUIRE(testControl->GetFactionList().size() == 0);
 
             FileAccess<FactionControl> iaccess;
-            std::ifstream in("save.sgt");
+            std::ifstream in("test.sgt");
             iaccess.Load(in, *testControl);
 
             REQUIRE(testControl->GetMapSize() == 1);

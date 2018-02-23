@@ -42,15 +42,14 @@ namespace SwnGmTool
             void ClearMap();
 
             const Faction_List GetFactionList();
-            void AddFaction(std::string);
             void AddFaction(const FactionModel&);
             void RemoveFaction(int);
-            void RemoveFaction(std::string);
 
-            const Asset_List GetAssetList(std::string);
+            const Asset_List GetAssetList(int);
             void AddAsset(int, const AssetModel&);
             void RemoveAsset(int, int);
             void RemoveAllAssetsOfType(int, const AssetModel&);
+            void ClearAssets(int);
 
             template <class Archive>
             void serialize(Archive& archive)

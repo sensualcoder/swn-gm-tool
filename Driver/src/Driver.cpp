@@ -20,7 +20,7 @@ namespace Driver
     {
         SwnGmTool::ConfigModel config;
 
-        std::ifstream is("conf.json");
+        std::ifstream is("DefaultConfig.json");
         SwnGmTool::FileAccess<SwnGmTool::ConfigModel> access;
 
         try
@@ -31,7 +31,7 @@ namespace Driver
         {
             // TODO: Log config load error
 
-            config = SwnGmTool::ConfigModel();
+            config = SwnGmTool::ConfigModel { .DefaultFactionCount = 5 };
         }
 
         this->SGTAPI = std::unique_ptr<SwnGmTool::SwnGmToolAPI>(new SwnGmTool::SwnGmToolAPI(config) );
@@ -49,7 +49,6 @@ namespace Driver
         }
 
         fmt::print("Stars Without Number GM Tool\n");
-        fmt::print("SWN Version {0}\n", this->SGTAPI->GetConfig().Version);
 
         this->IsRunning = true;
 
@@ -82,6 +81,11 @@ namespace Driver
     void Driver::PrintFactionMenu()
     {
         this->PrintMenu(FactionManagerOptions);
+    }
+
+    void Driver::PrintAssetMenu()
+    {
+        this->PrintMenu(AssetManagerOptions);
     }
 
     void Driver::GetMainMenuInput(std::istream& in)
@@ -127,6 +131,14 @@ namespace Driver
                 this->ClearFactionlist();
                 break;
             }
+            case '5':
+            {
+                break;
+            }
+            case '6':
+            {
+                break;
+            }
             case 'S':
             case 's':
             {
@@ -145,6 +157,22 @@ namespace Driver
             case 'q':
             {
                 IsRunningFC = false;
+                break;
+            }
+        }
+    }
+
+    void Driver::GetAssetControlInput(std::istream& in)
+    {
+        std::string input;
+        std::getline(in, input);
+
+        switch(input[0])
+        {
+            case 'Q':
+            case 'q':
+            {
+                this->IsRunningAC = false;
                 break;
             }
         }
@@ -198,6 +226,35 @@ namespace Driver
     void Driver::ClearFactionlist()
     {
         this->SGTAPI->ClearMap();
+
+        fmt::print("\nFaction list cleared\n");
+    }
+
+    void Driver::RunAssetControl()
+    {
+        this->IsRunningAC = true;
+
+        while(IsRunningAC)
+        {
+            this->PrintAssetMenu();
+            this->GetAssetControlInput();
+        }
+    }
+    
+    void Driver::AddAsset()
+    {
+    }
+    
+    void Driver::RemoveAsset()
+    {
+    }
+    
+    void Driver::RemoveAllAssetsOfType()
+    {
+    }
+    
+    void Driver::ClearAssetList()
+    {
     }
 
     void Driver::Save(std::ostream& out)

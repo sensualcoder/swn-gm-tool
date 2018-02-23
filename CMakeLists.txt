@@ -14,7 +14,6 @@ include(GNUInstallDirs)
 
 # Data Access lib
 include_directories(${PROJECT_SOURCE_DIR}/DataAccess/include)
-add_subdirectory(DataAccess)
 
 # Dice Roll lib
 include_directories(${PROJECT_SOURCE_DIR}/DiceRoll/include)
@@ -55,7 +54,7 @@ find_package(spdlog REQUIRED)
 
 if(BUILD_DRIVER)
     # Add all extra libs
-    set(EXTRA_LIBS ${EXTRA_LIBS} DataAccess DiceRoll HexGrid FactionControl SectorGen SwnGmToolAPI Driver)
+    set(EXTRA_LIBS ${EXTRA_LIBS} DiceRoll HexGrid FactionControl SectorGen SwnGmToolAPI Driver)
     set(EXTRA_LIBS ${EXTRA_LIBS} pthread)
 
     set(SOURCES main.cpp)
@@ -64,4 +63,4 @@ if(BUILD_DRIVER)
     target_link_libraries(SwnGmTool ${EXTRA_LIBS})
 endif(BUILD_DRIVER)
 
-file(COPY conf.json DESTINATION .)
+file(COPY Config/DefaultConfig.json DESTINATION .)

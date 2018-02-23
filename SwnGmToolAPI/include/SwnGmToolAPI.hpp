@@ -16,14 +16,20 @@ namespace SwnGmTool
     {
         public:
             SwnGmToolAPI(ConfigModel);
-            ~SwnGmToolAPI();
             SwnGmToolAPI(SwnGmToolAPI &&) noexcept;
             SwnGmToolAPI& operator=(SwnGmToolAPI &&) noexcept;
+            ~SwnGmToolAPI();
 
             ConfigModel GetConfig();
+
             Faction_List GetFactionList();
             void AddFaction(FactionModel);
             void ClearMap();
+
+            Asset_List GetAssetList(int);
+            void AddAsset(int, AssetModel);
+            void RemoveAsset(int, int);
+            void ClearAssets(int);
 
             template <class Archive>
             void serialize(Archive& archive)

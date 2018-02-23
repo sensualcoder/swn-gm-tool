@@ -9,8 +9,6 @@
 #include <cereal/cereal.hpp>
 #include <cereal/archives/json.hpp>
 
-#include <fmt/format.h>
-
 namespace SwnGmTool
 {
     template<class T>
@@ -29,7 +27,6 @@ namespace SwnGmTool
                 }
                 catch(cereal::RapidJSONException ex)
                 {
-                    //fmt::printf("Error saving: {0}\n", ex.what() );
                     throw(ex);
                 }
             }
@@ -44,7 +41,6 @@ namespace SwnGmTool
                 }
                 catch(cereal::RapidJSONException ex)
                 {
-                    //fmt::printf("Error loading: {0}\n", ex.what() );
                     throw(ex);
                 }
             }

@@ -2,7 +2,10 @@
 
 namespace SwnGmTool
 {
-    SwnGmToolAPI::SwnGmToolAPI(ConfigModel config) : SGTConfig(config), SGTFactionControl(new FactionControl(config) ), SGTSectorGen(new SectorGen)
+    SwnGmToolAPI::SwnGmToolAPI(ConfigModel config) 
+        : SGTConfig(config), 
+            SGTFactionControl(new FactionControl(config) ), 
+            SGTSectorGen(new SectorGen() )
     {
     }
 
@@ -28,5 +31,25 @@ namespace SwnGmTool
     void SwnGmToolAPI::ClearMap() 
     { 
         this->SGTFactionControl->ClearMap(); 
+    }
+
+    Asset_List SwnGmToolAPI::GetAssetList(int factionIndex)
+    {
+        return this->SGTFactionControl->GetAssetList(factionIndex);
+    }
+
+    void SwnGmToolAPI::AddAsset(int factionIndex, AssetModel asset)
+    {
+        this->SGTFactionControl->AddAsset(factionIndex, asset);
+    }
+
+    void SwnGmToolAPI::RemoveAsset(int factionIndex, int assetIndex)
+    {
+        this->SGTFactionControl->RemoveAsset(factionIndex, assetIndex);
+    }
+    
+    void SwnGmToolAPI::ClearAssets(int factionIndex)
+    {
+        this->SGTFactionControl->ClearAssets(factionIndex);
     }
 }
