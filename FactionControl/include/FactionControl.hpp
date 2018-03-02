@@ -15,8 +15,8 @@
 
 namespace SwnGmTool
 {
-    typedef std::list<AssetModel> Asset_List;
-    typedef std::vector<FactionModel> Faction_List;
+    using Asset_List = std::list<AssetModel>;
+    using Faction_List = std::vector<FactionModel>;
 
     struct FactionTemplate
     {
@@ -42,6 +42,7 @@ namespace SwnGmTool
             void ClearMap();
 
             const Faction_List GetFactionList();
+            const FactionModel GetFactionDetails(int);
             void AddFaction(const FactionModel&);
             void RemoveFaction(int);
 

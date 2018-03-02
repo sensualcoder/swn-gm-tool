@@ -12,7 +12,7 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
 
 include(GNUInstallDirs)
 
-# Data Access lib
+# Data Access headers
 include_directories(${PROJECT_SOURCE_DIR}/DataAccess/include)
 
 # Dice Roll lib

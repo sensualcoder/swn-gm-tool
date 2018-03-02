@@ -30,18 +30,122 @@ namespace Driver
         catch(cereal::RapidJSONException ex)
         {
             // TODO: Log config load error
+            fmt::print("WARN: Loading from config file failed, falling back to default\n");
 
-            config = SwnGmTool::ConfigModel { .DefaultFactionCount = 5 };
+            config = SwnGmTool::ConfigModel
+            { 
+                .DefaultFactionCount = 5 
+            };
         }
 
         this->SGTAPI = std::unique_ptr<SwnGmTool::SwnGmToolAPI>(new SwnGmTool::SwnGmToolAPI(config) );
         
+        this->BuildOptionMap();
+
         return true;
+    }
+
+    void Driver::BuildOptionMap()
+    {
+        std::unique_ptr<MenuOptionFactory<DriverFunc> > optionFactory;
+
+        // Main Menu options
+        std::vector<MenuOptionMap<DriverFunc> > mainMenuOptions
+        {
+            {
+                .Option = '1',
+                .Label = "Manage Factions",
+                .OptionFunc = &Driver::RunFactionControl
+            },
+            {
+                .Option = '2',
+                .Label = "Manage Assets",
+                .OptionFunc = &Driver::RunAssetControl
+            },
+            {
+                .Option = 'Q',
+                .Label = "Quit",
+                .OptionFunc = &Driver::Quit
+            }
+        };
+
+        optionFactory->BuildMenuOptionMapFromList(
+            mainMenuOptions,
+            this->MainMenuOptions,
+            this->MainMenuOptionMap
+        );
+
+        // Faction Manager options
+        std::vector<MenuOptionMap<DriverFunc> > factionManagerMenuOptions
+        {
+            {
+                .Option = '1',
+                .Label = "Show Faction List",
+                .OptionFunc = &Driver::ShowFactionList
+            },
+            {
+                .Option = '2',
+                .Label = "Add Faction",
+                .OptionFunc = &Driver::AddFaction
+            },
+            {
+                .Option = '3',
+                .Label = "Remove Faction",
+                .OptionFunc = &Driver::RemoveFaction
+            },
+            {
+                .Option = '4',
+                .Label = "Clear Faction List",
+                .OptionFunc = &Driver::ClearFactionList
+            },
+            {
+                .Option = '5',
+                .Label = "Show Faction Details",
+                .OptionFunc = &Driver::ShowFactionDetails
+            },
+            {
+                .Option = 'L',
+                .Label = "Load from file",
+                .OptionFunc = &Driver::Load
+            },
+            {
+                .Option = 'S',
+                .Label = "Save to file",
+                .OptionFunc = &Driver::Save
+            },
+            {
+                .Option = 'Q',
+                .Label = "Quit Faction Manager",
+                .OptionFunc = &Driver::QuitFactionControl
+            }
+        };
+
+        optionFactory->BuildMenuOptionMapFromList(
+            factionManagerMenuOptions,
+            this->FactionManagerOptions,
+            this->FactionManagerOptionMap
+        );
+
+        // Asset Manager options
+        std::vector<MenuOptionMap<DriverFunc> > assetManagerMenuOptions
+        {
+            {
+                .Option = 'Q',
+                .Label = "Quit Asset Manager",
+                .OptionFunc = &Driver::QuitAssetControl
+            }
+        };
+
+        optionFactory->BuildMenuOptionMapFromList(
+            assetManagerMenuOptions,
+            this->AssetManagerOptions,
+            this->AssetManagerOptionMap
+        );
     }
 
     void Driver::Run()
     {
-        if(this->Init() == false)
+        if(this->Init() != true)
         {
             // TODO: Log init error
             
@@ -61,15 +165,39 @@ namespace Driver
         fmt::print("\nQuitting...\n");
     }
 
+    void Driver::Load()
+    {
+        std::ifstream is("save.sgt");
+
+        SwnGmTool::FileAccess<SwnGmTool::SwnGmToolAPI> access;
+
+        access.Load(is, *this->SGTAPI);
+    }
+
+    void Driver::Save()
+    {
+        std::ofstream os("save.sgt");
+
+        SwnGmTool::FileAccess<SwnGmTool::SwnGmToolAPI> access;
+
+        access.Save(os, *this->SGTAPI, "Driver");
+    }
+
+    void Driver::Quit()
+    {
+        if(IsRunning)
+            IsRunning = false;
+    }
+
     void Driver::PrintMenu(const std::vector<MenuOption>& options)
     {
         fmt::print("\nChoose an option\n");
-        
+
         for(auto i : options)
         {
             fmt::print("{0}) {1}\n", i.Option, i.Label);
         }
-
+        
         fmt::print("> ");
     }
 
@@ -88,94 +216,41 @@ namespace Driver
         this->PrintMenu(AssetManagerOptions);
     }
 
-    void Driver::GetMainMenuInput(std::istream& in)
+    void Driver::GetMenuInput(std::map<char, DriverFunc>& options)
     {
         std::string input;
-        std::getline(in, input);
+        std::getline(std::cin, input);
 
-        switch(input[0])
+        auto funcIndex = options.find(std::toupper(input[0]) );
+
+        if(funcIndex != options.end() )
         {
-            case '1':
+            auto func = funcIndex->second;
+            
+            if(func != nullptr)
             {
-                this->RunFactionControl();
-                break;
+                (this->*func)();
             }
-            case 'Q':
-            case 'q':
-            {
-                IsRunning = false;
-                break;
-            }
+        }
+        else
+        {
+            fmt::print("\nInvalid option\n");
         }
     }
 
-    void Driver::GetFactionControlInput(std::istream& in)
+    void Driver::GetMainMenuInput()
     {
-        std::string input;
-        std::getline(in, input);
-
-        switch(input[0])
-        {
-            case '1':
-            {
-                this->ShowFactionList();
-                break;
-            }
-            case '2':
-            {
-                this->AddFaction();
-                break;
-            }
-            case '4':
-            {
-                this->ClearFactionlist();
-                break;
-            }
-            case '5':
-            {
-                break;
-            }
-            case '6':
-            {
-                break;
-            }
-            case 'S':
-            case 's':
-            {
-                std::ofstream os("save.sgt");
-                this->Save(os);
-                break;
-            }
-            case 'L':
-            case 'l':
-            {
-                std::ifstream is("save.sgt");
-                this->Load(is);
-                break;
-            }
-            case 'Q':
-            case 'q':
-            {
-                IsRunningFC = false;
-                break;
-            }
-        }
+        this->GetMenuInput(this->MainMenuOptionMap);
     }
 
-    void Driver::GetAssetControlInput(std::istream& in)
+    void Driver::GetFactionControlInput()
     {
-        std::string input;
-        std::getline(in, input);
+        this->GetMenuInput(this->FactionManagerOptionMap);
+    }
 
-        switch(input[0])
-        {
-            case 'Q':
-            case 'q':
-            {
-                this->IsRunningAC = false;
-                break;
-            }
-        }
+    void Driver::GetAssetControlInput()
+    {
+        this->GetMenuInput(this->AssetManagerOptionMap);
     }
 
     void Driver::RunFactionControl()
@@ -209,25 +284,42 @@ namespace Driver
         }
     }
 
-    void Driver::AddFaction(std::istream& in)
+    void Driver::AddFaction()
     {
         fmt::print("\nAdd Faction\n");
         fmt::print("Enter a name\n");
         fmt::print("> ");
 
         std::string name;
-        std::getline(in, name);
+        std::getline(std::cin, name);
 
-        SwnGmTool::FactionModel faction { name };
+        SwnGmTool::FactionModel faction
+        { 
+            .Name = name 
+        };
 
         this->SGTAPI->AddFaction(faction);
     }
 
-    void Driver::ClearFactionlist()
+    void Driver::RemoveFaction()
+    {
+    }
+
+    void Driver::ClearFactionList()
     {
         this->SGTAPI->ClearMap();
 
         fmt::print("\nFaction list cleared\n");
+    }
+
+    void Driver::ShowFactionDetails()
+    {
+    }
+
+    void Driver::QuitFactionControl()
+    {
+        if(this->IsRunningFC)
+            this->IsRunningFC = false;
     }
 
     void Driver::RunAssetControl()
@@ -257,17 +349,9 @@ namespace Driver
     {
     }
 
-    void Driver::Save(std::ostream& out)
+    void Driver::QuitAssetControl()
     {
-        SwnGmTool::FileAccess<SwnGmTool::SwnGmToolAPI> access;
-
-        access.Save(out, *this->SGTAPI, "Driver");
-    }
-
-    void Driver::Load(std::istream& in)
-    {
-        SwnGmTool::FileAccess<SwnGmTool::SwnGmToolAPI> access;
-
-        access.Load(in, *this->SGTAPI);
+        if(this->IsRunningAC)
+            this->IsRunningAC = false;
     }
 }

@@ -2,48 +2,69 @@
 #define DRIVER_HPP
 
 #include <iostream>
+#include <map>
 #include <memory>
 #include <string>
+#include <vector>
 
-#include "MenuOptions.hpp"
+#include "MenuOptionFactory.hpp"
 #include "SwnGmToolAPI.hpp"
 
 namespace Driver
 {
     class Driver
     {
+        using DriverFunc = void (Driver::*)();
+
         public:
             Driver();
 
+            // Main driver methods
             bool Init();
+            void BuildOptionMap();
             void Run();
+            void Load();
+            void Save();
+            void Quit();
 
-            void PrintMenu(const std::vector<MenuOption>& options);
+            // Menu methods
+            void PrintMenu(const std::vector<MenuOption>&);
             void PrintMainMenu();
             void PrintFactionMenu();
             void PrintAssetMenu();
+            void GetMenuInput(std::map<char, DriverFunc>&);
+            void GetMainMenuInput();
+            void GetFactionControlInput();
+            void GetAssetControlInput();
 
-            void GetMainMenuInput(std::istream& = std::cin);
-            void GetFactionControlInput(std::istream& = std::cin);
-            void GetAssetControlInput(std::istream& = std::cin);
-
+            // Faction Control methods
             void RunFactionControl();
             void ShowFactionList();
-            void AddFaction(std::istream& = std::cin);
-            void RemoveFaction(std::istream& = std::cin);
-            void ClearFactionlist();
+            void AddFaction();
+            void RemoveFaction();
+            void ClearFactionList();
+            void ShowFactionDetails();
+            void QuitFactionControl();
 
+            // Asset Manager methods
             void RunAssetControl();
             void AddAsset();
             void RemoveAsset();
             void RemoveAllAssetsOfType();
             void ClearAssetList();
-
-            void Save(std::ostream& = std::cout);
-            void Load(std::istream& in = std::cin);
+            void QuitAssetControl();
 
         private:        
             std::unique_ptr<SwnGmTool::SwnGmToolAPI> SGTAPI;
+
+            std::vector<MenuOption> MainMenuOptions;
+            std::map<char, DriverFunc> MainMenuOptionMap;
+
+            std::vector<MenuOption> FactionManagerOptions;
+            std::map<char, DriverFunc> FactionManagerOptionMap;
+            
+            std::vector<MenuOption> AssetManagerOptions;
+            std::map<char, DriverFunc> AssetManagerOptionMap;
             
             bool IsRunning;
             bool IsRunningFC;

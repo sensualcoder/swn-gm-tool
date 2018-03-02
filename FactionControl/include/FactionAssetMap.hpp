@@ -14,7 +14,7 @@
 
 namespace SwnGmTool
 {
-    typedef std::list<AssetModel> Asset_List;
+    using Asset_List = std::list<AssetModel>;
 
     struct FactionAssetControl
     {
@@ -22,7 +22,7 @@ namespace SwnGmTool
         Asset_List AssetList;
     };
 
-    typedef FactionAssetControl FAC;
+    using FAC = FactionAssetControl;
 
     class FactionAssetMap : public std::vector<FAC>
     {

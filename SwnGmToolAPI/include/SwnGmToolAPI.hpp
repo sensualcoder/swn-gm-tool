@@ -23,7 +23,10 @@ namespace SwnGmTool
             ConfigModel GetConfig();
 
             Faction_List GetFactionList();
+            FactionModel GetFactionDetails(int);
             void AddFaction(FactionModel);
+            void RemoveFaction(int);
+            void RemoveFaction(FactionModel);
             void ClearMap();
 
             Asset_List GetAssetList(int);
