@@ -62,6 +62,7 @@
         "valarray": "cpp",
         "variant": "cpp",
         "vector": "cpp",
-        "unordered_set": "cpp"
+        "unordered_set": "cpp",
+        "algorithm": "cpp"
     }
 }

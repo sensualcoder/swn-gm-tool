@@ -26,12 +26,12 @@
         {
             "name": "Linux",
             "includePath": [
-                "/usr/include/c++/7.3.0",
-                "/usr/include/c++/7.3.0/tr1",
-                "/usr/include/c++/7.3.0/x86_64-pc-linux-gnu",
-                "/usr/include",
-                "/usr/include/linux",
+                "/usr/include/c++/7.3.1/x86_64-pc-linux-gnu",
+                "/usr/include/c++/7.3.1/x86_64-pc-linux-gnu/32",
+                "/usr/include/c++/7.3.1",
                 "/usr/local/include",
+                "/usr/lib/clang/5.0.1/include",
+                "/usr/include",
                 "${workspaceRoot}",
                 "${workspaceRoot}/DataAccess/include",
                 "${workspaceRoot}/DiceRoll/include",
@@ -47,7 +47,8 @@
             "intelliSenseMode": "clang-x64",
             "browse": {
                 "path": [
-                    "/usr/include/c++/7.3.0",
+                    "/usr/include/c++/7.3.1",
+                    "/usr/lib/clang/5.0.1/include",
                     "/usr/include",
                     "/usr/local/include",
                     "${workspaceRoot}"

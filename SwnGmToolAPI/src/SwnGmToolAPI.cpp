@@ -18,6 +18,16 @@ namespace SwnGmTool
         return this->SGTConfig; 
     }
 
+    int SwnGmToolAPI::GetFactionCount()
+    {
+        return this->SGTFactionControl->GetFactionCount();
+    }
+
+    FactionModel SwnGmToolAPI::GetFactionDetails(int index)
+    {
+        return this->SGTFactionControl->GetFactionDetails(index);
+    }
+
     Faction_List SwnGmToolAPI::GetFactionList()
     { 
         return this->SGTFactionControl->GetFactionList();

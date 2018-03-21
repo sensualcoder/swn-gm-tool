@@ -14,7 +14,7 @@ namespace SwnGmTool
     struct FactionModel
     {
         std::string Name;
-        std::string Homeworld;
+        std::string Description;
 
         uint8_t Force;
         uint8_t Cunning;
@@ -39,7 +39,7 @@ namespace SwnGmTool
     void serialize(Archive& archive, FactionModel& f)
     {
         archive(cereal::make_nvp("Name", f.Name), 
-                cereal::make_nvp("Homeworld", f.Homeworld),
+                cereal::make_nvp("Description", f.Description),
                 cereal::make_nvp("Force", f.Force),
                 cereal::make_nvp("Cunning", f.Cunning),
                 cereal::make_nvp("Wealth", f.Wealth),

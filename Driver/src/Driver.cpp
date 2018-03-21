@@ -59,8 +59,8 @@ namespace Driver
             },
             {
                 .Option = '2',
-                .Label = "Manage Assets",
-                .OptionFunc = &Driver::RunAssetControl
+                .Label = "Manage Sector",
+                .OptionFunc = nullptr
             },
             {
                 .Option = 'Q',
@@ -104,6 +104,11 @@ namespace Driver
                 .OptionFunc = &Driver::ShowFactionDetails
             },
             {
+                .Option = '6',
+                .Label = "Manage Faction Assets",
+                .OptionFunc = &Driver::RunAssetControl
+            },
+            {
                 .Option = 'L',
                 .Label = "Load from file",
                 .OptionFunc = &Driver::Load
@@ -129,6 +134,11 @@ namespace Driver
         // Asset Manager options
         std::vector<MenuOptionMap<DriverFunc> > assetManagerMenuOptions
         {
+            {
+                .Option = '1',
+                .Label = "Show Asset List",
+                .OptionFunc = &Driver::ShowAssetList
+            },
             {
                 .Option = 'Q',
                 .Label = "Quit Asset Manager",
@@ -332,6 +342,53 @@ namespace Driver
             this->GetAssetControlInput();
         }
     }
+
+    void Driver::ShowAssetList()
+    {
+        int count = this->SGTAPI->GetFactionCount();
+
+        if(count == 0)
+        {
+            fmt::print("\nFaction List is empty\n");
+            return;
+        }
+
+        fmt::print("\nShow assets from which faction?\n");
+
+        this->ShowFactionList();
+
+        fmt::print("> ");
+
+        std::string input;
+        std::getline(std::cin, input);
+
+        int choice = std::stoi(input);
+
+        if(choice < 0 || choice >= count)
+        {
+            fmt::print("Invalid input\n");
+            return;
+        }
+
+        auto list = this->SGTAPI->GetAssetList(choice);
+
+        fmt::print("\nAsset List\n");
+
+        if(list.size() <= 0)
+        {
+            fmt::print("Empty\n");
+            return;
+        }
+
+        fmt::print("{0:<10} {1:20}\n", "Index", "Name");
+
+        int i = 0;
+        for(auto l : list)
+        {
+            fmt::print("{0:<10} {1:20}\n", i, l.Name);
+            i++;
+        }
+    }
     
     void Driver::AddAsset()
     {
@@ -346,6 +403,10 @@ namespace Driver
     }
     
     void Driver::ClearAssetList()
+    {
+    }
+
+    void Driver::ShowAssetDetails()
     {
     }
 

@@ -15,14 +15,9 @@ namespace SwnGmTool
         this->Map.clear();
     }
 
-    int FactionControl::GetMapSize()
+    const int FactionControl::GetFactionCount()
     {
         return this->Map.size();
-    }
-
-    void FactionControl::ClearMap()
-    {
-        this->Map.clear();
     }
 
     const Faction_List FactionControl::GetFactionList()
@@ -37,9 +32,32 @@ namespace SwnGmTool
         return factionList;
     }
 
+    const FactionModel FactionControl::GetFactionDetails(int index)
+    {
+        auto item = this->Map.begin() + index;
+
+        return item->Faction;
+    }
+
     void FactionControl::AddFaction(const FactionModel& faction)
     {
         this->Map.push_back(FAC { faction, Asset_List() } );
+    }
+
+    void FactionControl::AddFaction(const FactionCreateModel& faction)
+    {
+        FactionModel model
+        {
+            .Name = faction.Name,
+            .Description = faction.Description,
+            .Force = faction.Force,
+            .Cunning = faction.Cunning,
+            .Wealth = faction.Wealth
+        };
+
+        model.Tags = faction.Tags;
+
+        this->AddFaction(model);
     }
 
     void FactionControl::RemoveFaction(int index)
@@ -47,6 +65,11 @@ namespace SwnGmTool
         auto item = this->Map.begin() + index;
 
         this->Map.erase(item);    
+    }
+
+    void FactionControl::ClearMap()
+    {
+        this->Map.clear();
     }
 
     const Asset_List FactionControl::GetAssetList(int index)

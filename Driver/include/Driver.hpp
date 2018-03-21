@@ -48,10 +48,12 @@ namespace Driver
 
             // Asset Manager methods
             void RunAssetControl();
+            void ShowAssetList();
             void AddAsset();
             void RemoveAsset();
             void RemoveAllAssetsOfType();
             void ClearAssetList();
+            void ShowAssetDetails();
             void QuitAssetControl();
 
         private:        

@@ -29,7 +29,7 @@ namespace Tests
         {
             testControl->AddFaction(testFaction);
 
-            REQUIRE(testControl->GetMapSize() == 1);
+            REQUIRE(testControl->GetFactionCount() == 1);
             REQUIRE(testControl->GetFactionList().size() == 1);
             REQUIRE(testControl->GetFactionList()[0] == testFaction);
         }
@@ -39,7 +39,7 @@ namespace Tests
             testControl->AddFaction(testFaction);
             testControl->RemoveFaction(0);
 
-            REQUIRE(testControl->GetMapSize() == 0);
+            REQUIRE(testControl->GetFactionCount() == 0);
             REQUIRE(testControl->GetFactionList().size() == 0);
         }
 
@@ -53,7 +53,7 @@ namespace Tests
                 testControl->AddFaction(*tmp);
             }
 
-            REQUIRE(testControl->GetMapSize() == test_count);
+            REQUIRE(testControl->GetFactionCount() == test_count);
             REQUIRE(testControl->GetFactionList().size() == test_count);
         }
     }
@@ -71,7 +71,7 @@ namespace Tests
         
         testControl->AddFaction(testFaction);
         
-        REQUIRE(testControl->GetMapSize() == 1);
+        REQUIRE(testControl->GetFactionCount() == 1);
         REQUIRE(testControl->GetFactionList().size() == 1);
         REQUIRE(testControl->GetFactionList()[0] == testFaction);
 
@@ -102,7 +102,7 @@ namespace Tests
         
         testControl->AddFaction(testFaction);
         
-        REQUIRE(testControl->GetMapSize() == 1);
+        REQUIRE(testControl->GetFactionCount() == 1);
         REQUIRE(testControl->GetFactionList().size() == 1);
         REQUIRE(testControl->GetFactionList()[0] == testFaction);
 
@@ -114,14 +114,14 @@ namespace Tests
 
             testControl->ClearMap();
 
-            REQUIRE(testControl->GetMapSize() == 0);
+            REQUIRE(testControl->GetFactionCount() == 0);
             REQUIRE(testControl->GetFactionList().size() == 0);
 
             FileAccess<FactionControl> iaccess;
             std::ifstream in("test.sgt");
             iaccess.Load(in, *testControl);
 
-            REQUIRE(testControl->GetMapSize() == 1);
+            REQUIRE(testControl->GetFactionCount() == 1);
             REQUIRE(testControl->GetFactionList().size() == 1);
             REQUIRE(testControl->GetFactionList()[0] == testFaction);
         }
