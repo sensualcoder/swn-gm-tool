@@ -57,6 +57,10 @@ namespace Driver
             void QuitAssetControl();
 
         private:        
+            std::string GetInput(std::string);
+            int GetIntInput(std::string, int, int);
+            int GetIndexInput(std::string, int);
+
             std::unique_ptr<SwnGmTool::SwnGmToolAPI> SGTAPI;
 
             std::vector<MenuOption> MainMenuOptions;

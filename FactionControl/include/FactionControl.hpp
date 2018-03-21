@@ -2,6 +2,7 @@
 #define FACTION_CONTROL_HPP
 
 #include <cstdint>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -19,6 +20,24 @@ namespace SwnGmTool
     using Asset_List = std::list<AssetModel>;
     using Faction_List = std::vector<FactionModel>;
 
+    struct RatingXpHp
+    {
+        uint8_t XP;
+        uint8_t HP;
+    };
+
+    const std::map<int, RatingXpHp> RatingXpHpTable
+    {
+        { 1, { 0, 1 } },
+        { 2, { 2, 2 } },
+        { 3, { 4, 4 } },
+        { 4, { 6, 6 } },
+        { 5, { 9, 9 } },
+        { 6, { 12, 12 } },
+        { 7, { 16, 16 } },
+        { 8, { 20, 20 } }
+    };
+
     class FactionControl
     {
         public:
@@ -31,6 +50,8 @@ namespace SwnGmTool
             const FactionModel GetFactionDetails(int);
             void AddFaction(const FactionModel&);
             void AddFaction(const FactionCreateModel&);
+            int CalcHpFromAttributes(const FactionCreateModel&);
+            int CalcIncomeFromAttributes(const FactionCreateModel&);
             void RemoveFaction(int);
             void ClearMap();
 

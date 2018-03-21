@@ -8,6 +8,7 @@
 
 #include "ConfigModel.hpp"
 #include "FactionControl.hpp"
+#include "FactionCreateModel.hpp"
 #include "SectorGen.hpp"
 
 namespace SwnGmTool
@@ -26,6 +27,7 @@ namespace SwnGmTool
             Faction_List GetFactionList();
             FactionModel GetFactionDetails(int);
             void AddFaction(FactionModel);
+            void AddFaction(FactionCreateModel);
             void RemoveFaction(int);
             void RemoveFaction(FactionModel);
             void ClearMap();

@@ -20,6 +20,7 @@ namespace SwnGmTool
         uint8_t Cunning;
         uint8_t Wealth;
 
+        uint8_t Income;
         uint8_t FacCreds;
 
         uint8_t CurrentHP;
@@ -43,6 +44,7 @@ namespace SwnGmTool
                 cereal::make_nvp("Force", f.Force),
                 cereal::make_nvp("Cunning", f.Cunning),
                 cereal::make_nvp("Wealth", f.Wealth),
+                cereal::make_nvp("Income", f.Income),
                 cereal::make_nvp("FacCreds", f.FacCreds),
                 cereal::make_nvp("CurrentHP", f.CurrentHP),
                 cereal::make_nvp("MaxHP", f.MaxHP), 

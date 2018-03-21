@@ -1,5 +1,7 @@
 #include "FactionControl.hpp"
 
+#include <cmath>
+
 namespace SwnGmTool
 {
     // Public methods
@@ -55,9 +57,33 @@ namespace SwnGmTool
             .Wealth = faction.Wealth
         };
 
+        model.MaxHP = model.CurrentHP = CalcHpFromAttributes(faction);
+
+        model.Income = CalcIncomeFromAttributes(faction);
+
+        model.FacCreds = model.Exp = 0;
+
         model.Tags = faction.Tags;
 
         this->AddFaction(model);
+    }
+
+    int FactionControl::CalcHpFromAttributes(const FactionCreateModel& faction)
+    {
+        int hp = RatingXpHpTable.find(faction.Force)->second.HP
+                + RatingXpHpTable.find(faction.Cunning)->second.HP
+                + RatingXpHpTable.find(faction.Wealth)->second.HP
+                + 4;
+
+        return hp;
+    }
+
+    int FactionControl::CalcIncomeFromAttributes(const FactionCreateModel& faction)
+    {
+        int income = std::ceil(faction.Wealth / 2.0)
+                    + std::floor( (faction.Force + faction.Cunning) / 4.0);
+
+        return income;
     }
 
     void FactionControl::RemoveFaction(int index)

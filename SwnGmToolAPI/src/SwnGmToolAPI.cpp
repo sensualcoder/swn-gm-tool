@@ -38,6 +38,11 @@ namespace SwnGmTool
         this->SGTFactionControl->AddFaction(model); 
     }
 
+    void SwnGmToolAPI::AddFaction(FactionCreateModel model) 
+    { 
+        this->SGTFactionControl->AddFaction(model); 
+    }
+
     void SwnGmToolAPI::ClearMap() 
     { 
         this->SGTFactionControl->ClearMap(); 

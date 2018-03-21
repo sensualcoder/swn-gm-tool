@@ -296,17 +296,22 @@ namespace Driver
 
     void Driver::AddFaction()
     {
+        SwnGmTool::FactionCreateModel faction;
+
         fmt::print("\nAdd Faction\n");
-        fmt::print("Enter a name\n");
-        fmt::print("> ");
 
-        std::string name;
-        std::getline(std::cin, name);
+        faction.Name = this->GetInput("Enter a name");
 
-        SwnGmTool::FactionModel faction
-        { 
-            .Name = name 
-        };
+        try
+        {
+            faction.Force = this->GetIntInput("\nEnter Force", 1, 8);
+            faction.Cunning = this->GetIntInput("\nEnter Cunning", 1, 8);
+            faction.Wealth = this->GetIntInput("\nEnter Wealth", 1, 8);
+        }
+        catch(const std::exception& ex)
+        {
+            return;
+        }
 
         this->SGTAPI->AddFaction(faction);
     }
@@ -324,6 +329,30 @@ namespace Driver
 
     void Driver::ShowFactionDetails()
     {
+        this->ShowFactionList();
+        int i;
+        
+        try
+        {
+            i = this->GetIndexInput("\nEnter faction index", this->SGTAPI->GetFactionCount() );
+        }
+        catch(const std::exception& ex)
+        {
+            return;
+        }
+
+        auto item = this->SGTAPI->GetFactionDetails(i);
+
+        fmt::print("\nFaction Details\n");
+        fmt::print("{0:<15} {1:>10}\n", "Name:", item.Name);
+        fmt::print("{0:<15} {1:>10}\n", "Description:", item.Description);
+        fmt::print("{0:<15} {1:>10}\n", "Force:", item.Force);
+        fmt::print("{0:<15} {1:>10}\n", "Cunning:", item.Cunning);
+        fmt::print("{0:<15} {1:>10}\n", "Wealth:", item.Wealth);
+        fmt::print("{0:<15} {1:>10}\n", "Income:", item.Income);
+        fmt::print("{0:<15} {1:>10}\n", "FacCreds:", item.FacCreds);
+        fmt::print("{0:<15} {1:>10}/{2}\n", "HP:", item.CurrentHP, item.MaxHP);
+        fmt::print("{0:<15} {1:>10}\n", "Exp:", item.Exp);
     }
 
     void Driver::QuitFactionControl()
@@ -353,20 +382,16 @@ namespace Driver
             return;
         }
 
-        fmt::print("\nShow assets from which faction?\n");
-
         this->ShowFactionList();
 
-        fmt::print("> ");
+        int choice;
 
-        std::string input;
-        std::getline(std::cin, input);
-
-        int choice = std::stoi(input);
-
-        if(choice < 0 || choice >= count)
+        try
         {
-            fmt::print("Invalid input\n");
+            choice = this->GetIndexInput("\nShow assets from which faction?", this->SGTAPI->GetFactionCount() );
+        }
+        catch(const std::exception& ex)
+        {
             return;
         }
 
@@ -414,5 +439,48 @@ namespace Driver
     {
         if(this->IsRunningAC)
             this->IsRunningAC = false;
+    }
+
+    // Private methods
+
+    std::string Driver::GetInput(std::string prompt)
+    {
+        fmt::print("{0}\n", prompt);
+        fmt::print("> ");
+
+        std::string input;
+        std::getline(std::cin, input);
+
+        return input;
+    }
+
+    int Driver::GetIntInput(std::string prompt, int min, int max)
+    {
+        std::string input = this->GetInput(prompt);
+
+        int i;
+
+        try
+        {
+            i = std::stoi(input);
+        }
+        catch(const std::exception& e)
+        {
+            fmt::print("Value entered was invalid\n");
+            throw;
+        }
+
+        if(i < min || i > max)
+        {
+            fmt::print("Value should be between {0} and {1}\n", min, max);
+            throw std::exception();
+        }
+
+        return i;
+    }
+
+    int Driver::GetIndexInput(std::string prompt, int max)
+    {
+        return this->GetIntInput(prompt, 0, max - 1);
     }
 }
