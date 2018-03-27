@@ -18,19 +18,31 @@ namespace Driver
 
     bool Driver::Init()
     {
+        try
+        {
+            // Init spdlog
+            this->ErrorLog = spdlog::rotating_logger_mt("error_logger", "logs/errors", 1024 * 1024 * 5, 3);
+            spdlog::drop_all();
+        }
+        catch(const spdlog::spdlog_ex& ex)
+        {
+            fmt::print("Log init failure:\n\t{0}\n", ex.what() );
+            return false;
+        }
+
         SwnGmTool::ConfigModel config;
 
+        // Init config
         std::ifstream is("DefaultConfig.json");
         SwnGmTool::FileAccess<SwnGmTool::ConfigModel> access;
 
         try
         {
             access.Load(is, config);
-        }
+        }        
         catch(cereal::RapidJSONException ex)
         {
-            // TODO: Log config load error
-            fmt::print("WARN: Loading from config file failed, falling back to default\n");
+            this->ErrorLog->warn("WARN: Loading from config file failed, falling back to default");
 
             config = SwnGmTool::ConfigModel
             { 
@@ -38,8 +50,10 @@ namespace Driver
             };
         }
 
+        // Init the SwnGmTool API
         this->SGTAPI = std::unique_ptr<SwnGmTool::SwnGmToolAPI>(new SwnGmTool::SwnGmToolAPI(config) );
         
+        // Build the menu option map
         this->BuildOptionMap();
 
         return true;
@@ -157,8 +171,7 @@ namespace Driver
     {
         if(this->Init() != true)
         {
-            // TODO: Log init error
-            
+            this->ErrorLog->error("Error on init");         
             return;
         }
 
@@ -181,7 +194,16 @@ namespace Driver
 
         SwnGmTool::FileAccess<SwnGmTool::SwnGmToolAPI> access;
 
-        access.Load(is, *this->SGTAPI);
+        try
+        {
+            access.Load(is, *this->SGTAPI);
+        }
+        catch(const std::exception& ex)
+        {
+            fmt::print("Unable to load from file\n");
+            this->ErrorLog->error("Unable to load from file\nStack trace:\n{0}", ex.what() );
+            return;
+        }
     }
 
     void Driver::Save()
@@ -190,13 +212,24 @@ namespace Driver
 
         SwnGmTool::FileAccess<SwnGmTool::SwnGmToolAPI> access;
 
-        access.Save(os, *this->SGTAPI, "Driver");
+        try
+        {
+            access.Save(os, *this->SGTAPI, "Driver");
+        }
+        catch(const std::exception& ex)
+        {
+            fmt::print("Unable to save to file\n");
+            this->ErrorLog->error("Unable to save to file\nStack trace:\n{0}", ex.what() );
+            return;
+        }
     }
 
     void Driver::Quit()
     {
         if(IsRunning)
+        {
             IsRunning = false;
+        }
     }
 
     void Driver::PrintMenu(const std::vector<MenuOption>& options)
@@ -304,12 +337,14 @@ namespace Driver
 
         try
         {
-            faction.Force = this->GetIntInput("\nEnter Force", 1, 8);
-            faction.Cunning = this->GetIntInput("\nEnter Cunning", 1, 8);
-            faction.Wealth = this->GetIntInput("\nEnter Wealth", 1, 8);
+            faction.Force = this->GetIntInput("Enter Force", 1, 8);
+            faction.Cunning = this->GetIntInput("Enter Cunning", 1, 8);
+            faction.Wealth = this->GetIntInput("Enter Wealth", 1, 8);
         }
         catch(const std::exception& ex)
         {
+            fmt::print("Unable to create faction\n");
+            this->ErrorLog->error("Unable to create faction\nStack trace:\n{0}", ex.what() );
             return;
         }
 
@@ -338,6 +373,8 @@ namespace Driver
         }
         catch(const std::exception& ex)
         {
+            fmt::print("Invalid index\n");
+            this->ErrorLog->error("Invalid index\nStack trace:\n{0}", ex.what() );
             return;
         }
 
@@ -392,6 +429,8 @@ namespace Driver
         }
         catch(const std::exception& ex)
         {
+            fmt::print("Invalid index\n");
+            this->ErrorLog->error("Invalid index\nStack trace:\n{0}", ex.what() );
             return;
         }
 
@@ -438,7 +477,9 @@ namespace Driver
     void Driver::QuitAssetControl()
     {
         if(this->IsRunningAC)
+        {
             this->IsRunningAC = false;
+        }
     }
 
     // Private methods
@@ -466,13 +507,15 @@ namespace Driver
         }
         catch(const std::exception& e)
         {
-            fmt::print("Value entered was invalid\n");
+            fmt::print("Value entered was invalid: {0}\n", input);
+            this->ErrorLog->error("Value entered was invalid: {0}", input);
             throw;
         }
 
         if(i < min || i > max)
         {
-            fmt::print("Value should be between {0} and {1}\n", min, max);
+            fmt::print("Value should be between {0} and {1}, was: {2}\n", min, max, i);
+            this->ErrorLog->error("Value should be between {0} and {1}, was: {2}", min, max, i);
             throw std::exception();
         }
 

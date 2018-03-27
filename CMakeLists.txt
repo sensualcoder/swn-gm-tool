@@ -51,7 +51,7 @@ endif(BUILD_TESTS)
 # Check for external libs
 find_package(cereal REQUIRED)
 find_package(fmt REQUIRED)
-find_package(spdlog REQUIRED)
+find_package(spdlog CONFIG REQUIRED)
 
 if(BUILD_DRIVER)
     # Add all extra libs
@@ -65,3 +65,5 @@ if(BUILD_DRIVER)
 endif(BUILD_DRIVER)
 
 file(COPY Config/DefaultConfig.json DESTINATION .)
+add_custom_target(build-time-make_directory ALL
+    COMMAND ${CMAKE_COMMAND} -E make_directory logs)

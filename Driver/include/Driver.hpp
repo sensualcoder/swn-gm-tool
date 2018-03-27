@@ -7,6 +7,13 @@
 #include <string>
 #include <vector>
 
+// Prevent spdlog from including fmt headers to prevent redefinition errors
+#ifndef SPDLOG_FMT_EXTERNAL
+#define SPDLOG_FMT_EXTERNAL
+#endif
+
+#include "spdlog/spdlog.h"
+
 #include "MenuOptionFactory.hpp"
 #include "SwnGmToolAPI.hpp"
 
@@ -60,6 +67,8 @@ namespace Driver
             std::string GetInput(std::string);
             int GetIntInput(std::string, int, int);
             int GetIndexInput(std::string, int);
+
+            std::shared_ptr<spdlog::logger> ErrorLog;
 
             std::unique_ptr<SwnGmTool::SwnGmToolAPI> SGTAPI;
 
