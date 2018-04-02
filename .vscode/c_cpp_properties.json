@@ -26,12 +26,6 @@
         {
             "name": "Linux",
             "includePath": [
-                "/usr/include/c++/7.3.1/x86_64-pc-linux-gnu",
-                "/usr/include/c++/7.3.1/x86_64-pc-linux-gnu/32",
-                "/usr/include/c++/7.3.1",
-                "/usr/local/include",
-                "/usr/lib/clang/5.0.1/include",
-                "/usr/include",
                 "${workspaceRoot}",
                 "${workspaceRoot}/DataAccess/include",
                 "${workspaceRoot}/DiceRoll/include",
@@ -41,21 +35,30 @@
                 "${workspaceRoot}/Models/include",
                 "${workspaceRoot}/SectorGen/include",
                 "${workspaceRoot}/SwnGmToolAPI/include",
-                "${workspaceRoot}/Tests/include"
+                "${workspaceRoot}/Tests/include",
+                "/usr/include/c++/7.3.1/x86_64-pc-linux-gnu",
+                "/usr/include/c++/7.3.1/x86_64-pc-linux-gnu/32",
+                "/usr/include/c++/7.3.1",
+                "/usr/local/include",
+                "/usr/lib/clang/5.0.1/include",
+                "/usr/include"
             ],
             "defines": [],
             "intelliSenseMode": "clang-x64",
             "browse": {
                 "path": [
+                    "${workspaceRoot}",
                     "/usr/include/c++/7.3.1",
                     "/usr/lib/clang/5.0.1/include",
                     "/usr/include",
-                    "/usr/local/include",
-                    "${workspaceRoot}"
+                    "/usr/local/include"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
-            }
+            },
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++17"
         },
         {
             "name": "Win32",

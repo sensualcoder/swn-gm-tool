@@ -1,6 +1,7 @@
 #ifndef DRIVER_HPP
 #define DRIVER_HPP
 
+#include <functional>
 #include <iostream>
 #include <map>
 #include <memory>
@@ -21,7 +22,7 @@ namespace Driver
 {
     class Driver
     {
-        using DriverFunc = void (Driver::*)();
+        using DriverFunc = std::function<void(const Driver&)>;
 
         public:
             Driver();
@@ -67,6 +68,7 @@ namespace Driver
             std::string GetInput(std::string);
             int GetIntInput(std::string, int, int);
             int GetIndexInput(std::string, int);
+            void LogError(std::string);
 
             std::shared_ptr<spdlog::logger> ErrorLog;
 

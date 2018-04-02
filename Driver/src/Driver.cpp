@@ -69,7 +69,7 @@ namespace Driver
             {
                 .Option = '1',
                 .Label = "Manage Factions",
-                .OptionFunc = &Driver::RunFactionControl
+                .OptionFunc = std::bind(&Driver::RunFactionControl, this)
             },
             {
                 .Option = '2',
@@ -79,7 +79,7 @@ namespace Driver
             {
                 .Option = 'Q',
                 .Label = "Quit",
-                .OptionFunc = &Driver::Quit
+                .OptionFunc = std::bind(&Driver::Quit, this)
             }
         };
 
@@ -95,47 +95,47 @@ namespace Driver
             {
                 .Option = '1',
                 .Label = "Show Faction List",
-                .OptionFunc = &Driver::ShowFactionList
+                .OptionFunc = std::bind(&Driver::ShowFactionList, this)
             },
             {
                 .Option = '2',
                 .Label = "Add Faction",
-                .OptionFunc = &Driver::AddFaction
+                .OptionFunc = std::bind(&Driver::AddFaction, this)
             },
             {
                 .Option = '3',
                 .Label = "Remove Faction",
-                .OptionFunc = &Driver::RemoveFaction
+                .OptionFunc = std::bind(&Driver::RemoveFaction, this)
             },
             {
                 .Option = '4',
                 .Label = "Clear Faction List",
-                .OptionFunc = &Driver::ClearFactionList
+                .OptionFunc = std::bind(&Driver::ClearFactionList, this)
             },
             {
                 .Option = '5',
                 .Label = "Show Faction Details",
-                .OptionFunc = &Driver::ShowFactionDetails
+                .OptionFunc = std::bind(&Driver::ShowFactionDetails, this)
             },
             {
                 .Option = '6',
                 .Label = "Manage Faction Assets",
-                .OptionFunc = &Driver::RunAssetControl
+                .OptionFunc = std::bind(&Driver::RunAssetControl, this)
             },
             {
                 .Option = 'L',
                 .Label = "Load from file",
-                .OptionFunc = &Driver::Load
+                .OptionFunc = std::bind(&Driver::Load, this)
             },
             {
                 .Option = 'S',
                 .Label = "Save to file",
-                .OptionFunc = &Driver::Save
+                .OptionFunc = std::bind(&Driver::Save, this)
             },
             {
                 .Option = 'Q',
                 .Label = "Quit Faction Manager",
-                .OptionFunc = &Driver::QuitFactionControl
+                .OptionFunc = std::bind(&Driver::QuitFactionControl, this)
             }
         };
 
@@ -151,12 +151,12 @@ namespace Driver
             {
                 .Option = '1',
                 .Label = "Show Asset List",
-                .OptionFunc = &Driver::ShowAssetList
+                .OptionFunc = std::bind(&Driver::ShowAssetList, this)
             },
             {
                 .Option = 'Q',
                 .Label = "Quit Asset Manager",
-                .OptionFunc = &Driver::QuitAssetControl
+                .OptionFunc = std::bind(&Driver::QuitAssetControl, this)
             }
         };
 
@@ -272,7 +272,7 @@ namespace Driver
             
             if(func != nullptr)
             {
-                (this->*func)();
+                func(*this);
             }
         }
         else
@@ -505,17 +505,19 @@ namespace Driver
         {
             i = std::stoi(input);
         }
-        catch(const std::exception& e)
+        catch(const std::exception& ex)
         {
-            fmt::print("Value entered was invalid: {0}\n", input);
-            this->ErrorLog->error("Value entered was invalid: {0}", input);
-            throw;
+            std::string error = fmt::format("Value entered was invalid: {0}\n", input);
+            this->LogError(error);
+            
+            throw ex;
         }
 
         if(i < min || i > max)
         {
-            fmt::print("Value should be between {0} and {1}, was: {2}\n", min, max, i);
-            this->ErrorLog->error("Value should be between {0} and {1}, was: {2}", min, max, i);
+            std::string error = fmt::format("Value should be between {0} and {1}, was: {2}", min, max, i);
+            this->LogError(error);
+
             throw std::exception();
         }
 
@@ -525,5 +527,11 @@ namespace Driver
     int Driver::GetIndexInput(std::string prompt, int max)
     {
         return this->GetIntInput(prompt, 0, max - 1);
+    }
+
+    void Driver::LogError(std::string error)
+    {
+        fmt::print(error + "\n");
+        this->ErrorLog->error(error);
     }
 }
