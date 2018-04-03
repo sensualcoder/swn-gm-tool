@@ -19,7 +19,7 @@ namespace SwnGmTool
     {
         archive(cereal::make_nvp("DiceNum", d.DiceNum),
                 cereal::make_nvp("DiceType", d.DiceType),
-                cereal::make_nvp("Modfifier", d.Modifier) );
+                cereal::make_nvp("Modifier", d.Modifier) );
     }
 }
 

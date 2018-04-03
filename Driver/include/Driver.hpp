@@ -15,6 +15,7 @@
 
 #include "spdlog/spdlog.h"
 
+#include "AssetModel.hpp"
 #include "MenuOptionFactory.hpp"
 #include "SwnGmToolAPI.hpp"
 
@@ -73,6 +74,8 @@ namespace Driver
             std::shared_ptr<spdlog::logger> ErrorLog;
 
             std::unique_ptr<SwnGmTool::SwnGmToolAPI> SGTAPI;
+
+            std::vector<SwnGmTool::AssetModel> AssetList;
 
             std::vector<MenuOption> MainMenuOptions;
             std::map<char, DriverFunc> MainMenuOptionMap;

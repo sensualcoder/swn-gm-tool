@@ -33,12 +33,12 @@ namespace Driver
         SwnGmTool::ConfigModel config;
 
         // Init config
-        std::ifstream is("DefaultConfig.json");
-        SwnGmTool::FileAccess<SwnGmTool::ConfigModel> access;
+        std::ifstream inConf("ConfigDefaultConfig.json");
+        SwnGmTool::FileAccess<SwnGmTool::ConfigModel> confAccess;
 
         try
         {
-            access.Load(is, config);
+            confAccess.Load(inConf, config);
         }        
         catch(cereal::RapidJSONException ex)
         {
@@ -52,6 +52,19 @@ namespace Driver
 
         // Init the SwnGmTool API
         this->SGTAPI = std::unique_ptr<SwnGmTool::SwnGmToolAPI>(new SwnGmTool::SwnGmToolAPI(config) );
+        
+        // Load default asset list
+        std::ifstream inAsset("Config/DefaultAssets.json");
+        SwnGmTool::FileAccess<std::vector<SwnGmTool::AssetModel> > assetAccess;
+
+        try
+        {
+            assetAccess.Load(inAsset, AssetList);
+        }
+        catch(cereal::RapidJSONException ex)
+        {
+            this->ErrorLog->warn("WARN: Loading from default asset list file failed");
+        }
         
         // Build the menu option map
         this->BuildOptionMap();

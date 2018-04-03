@@ -64,6 +64,6 @@ if(BUILD_DRIVER)
     target_link_libraries(SwnGmTool ${EXTRA_LIBS})
 endif(BUILD_DRIVER)
 
-file(COPY Config/DefaultConfig.json DESTINATION .)
+file(COPY Config/ DESTINATION ./Config)
 add_custom_target(build-time-make_directory ALL
     COMMAND ${CMAKE_COMMAND} -E make_directory logs)

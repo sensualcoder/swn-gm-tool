@@ -1,3 +1,25 @@
 {
-    
+    "AssetList": [
+        {
+            "Name": "Test",
+            "RatingType": "",
+            "RatingLevel": 1,
+            "AssetType": "",
+            "Attack": {
+                "DiceNum": 0,
+                "DiceType": 0,
+                "Modifier": 0
+            },
+            "DefenderType": "",
+            "Counter": {
+                "DiceNum": 0,
+                "DiceType": 0,
+                "Modifier": 0
+            },
+            "TechLevel": 1,
+            "Cost": 1,
+            "CurrentHP": 0,
+            "MaxHP": 0
+        }
+    ]   
 }
