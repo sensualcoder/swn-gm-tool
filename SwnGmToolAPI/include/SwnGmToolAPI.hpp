@@ -9,7 +9,6 @@
 #include "ConfigModel.hpp"
 #include "FactionControl.hpp"
 #include "FactionCreateModel.hpp"
-#include "SectorGen.hpp"
 
 namespace SwnGmTool
 {
@@ -24,16 +23,16 @@ namespace SwnGmTool
             ConfigModel GetConfig();
 
             int GetFactionCount();
-            Faction_List GetFactionList();
-            FactionModel GetFactionDetails(int);
+            const Faction_List GetFactionList();
+            const FactionModel GetFactionDetails(int);
             void AddFaction(FactionModel);
             void AddFaction(FactionCreateModel);
             void RemoveFaction(int);
             void RemoveFaction(FactionModel);
-            void ClearMap();
+            void ClearFactions();
 
             int GetAssetCount(int);
-            Asset_List GetAssetList(int);
+            const Asset_List GetAssetList(int);
             void AddAsset(int, AssetModel);
             void RemoveAsset(int, int);
             void ClearAssets(int);
@@ -48,7 +47,6 @@ namespace SwnGmTool
             ConfigModel SGTConfig;
 
             std::unique_ptr<FactionControl> SGTFactionControl;
-            std::unique_ptr<SectorGen> SGTSectorGen;
     };
 }
 

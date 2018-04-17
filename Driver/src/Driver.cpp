@@ -370,7 +370,7 @@ namespace Driver
 
     void Driver::ClearFactionList()
     {
-        this->SGTAPI->ClearMap();
+        this->SGTAPI->ClearFactions();
 
         fmt::print("\nFaction list cleared\n");
     }

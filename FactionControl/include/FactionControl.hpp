@@ -2,6 +2,7 @@
 #define FACTION_CONTROL_HPP
 
 #include <cstdint>
+#include <list>
 #include <map>
 #include <string>
 #include <vector>

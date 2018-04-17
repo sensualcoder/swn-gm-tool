@@ -26,8 +26,6 @@ namespace SwnGmTool
 
     class FactionAssetMap : public std::vector<FAC>
     {
-        public:
-            std::vector<FAC>::iterator find(std::string);
     };
 
     template<class Archive>

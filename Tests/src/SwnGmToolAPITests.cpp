@@ -45,7 +45,7 @@ namespace Tests
             std::unique_ptr<SwnGmToolAPI> testAPI(new SwnGmToolAPI(defaultConfig) );
 
             testAPI->AddFaction(testFaction);
-            testAPI->ClearMap();
+            testAPI->ClearFactions();
 
             REQUIRE(testAPI->GetFactionList().size() == 0);
             REQUIRE(testAPI->GetFactionList().empty() == true);
