@@ -36,6 +36,11 @@ namespace SwnGmTool
         return a.Name == b.Name;
     }
 
+    inline bool operator<(const FactionModel& a, const FactionModel& b)
+    {
+        return a.Name < b.Name;
+    }
+
     template<class Archive>
     void serialize(Archive& archive, FactionModel& f)
     {

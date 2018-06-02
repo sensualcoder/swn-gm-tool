@@ -4,7 +4,7 @@ namespace SwnGmTool
 {
     SwnGmToolAPI::SwnGmToolAPI(ConfigModel config) 
         : SGTConfig(config), 
-            SGTFactionControl(new FactionControl(config) )
+            SGTFactionControl(new FactionControl() )
     {
     }
 
@@ -22,7 +22,7 @@ namespace SwnGmTool
         return this->SGTFactionControl->GetFactionCount();
     }
 
-    const Faction_List SwnGmToolAPI::GetFactionList()
+    const FAC::Faction_List SwnGmToolAPI::GetFactionList()
     { 
         return this->SGTFactionControl->GetFactionList();
     }
@@ -47,7 +47,7 @@ namespace SwnGmTool
         this->SGTFactionControl->ClearMap(); 
     }
 
-    const Asset_List SwnGmToolAPI::GetAssetList(int factionIndex)
+    const FAC::Asset_List SwnGmToolAPI::GetAssetList(int factionIndex)
     {
         return this->SGTFactionControl->GetAssetList(factionIndex);
     }

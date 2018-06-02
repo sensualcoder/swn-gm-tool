@@ -63,6 +63,8 @@
         "variant": "cpp",
         "vector": "cpp",
         "unordered_set": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "list": "cpp",
+        "unordered_map": "cpp"
     }
 }

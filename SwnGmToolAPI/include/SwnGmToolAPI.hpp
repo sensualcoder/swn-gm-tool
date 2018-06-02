@@ -23,7 +23,7 @@ namespace SwnGmTool
             ConfigModel GetConfig();
 
             int GetFactionCount();
-            const Faction_List GetFactionList();
+            const FAC::Faction_List GetFactionList();
             const FactionModel GetFactionDetails(int);
             void AddFaction(FactionModel);
             void AddFaction(FactionCreateModel);
@@ -32,7 +32,7 @@ namespace SwnGmTool
             void ClearFactions();
 
             int GetAssetCount(int);
-            const Asset_List GetAssetList(int);
+            const FAC::Asset_List GetAssetList(int);
             void AddAsset(int, AssetModel);
             void RemoveAsset(int, int);
             void ClearAssets(int);
