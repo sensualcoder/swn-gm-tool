@@ -9,6 +9,7 @@
 #include <cereal/cereal.hpp>
 #include <cereal/types/list.hpp>
 #include <cereal/types/map.hpp>
+#include <cereal/types/memory.hpp>
 #include <cereal/types/vector.hpp>
 
 #include "AssetModel.hpp"
@@ -19,6 +20,8 @@ namespace SwnGmTool
     namespace FAC
     {
         using Asset_List = std::list<AssetModel>;
+        using Asset_List_Ptr = std::shared_ptr<Asset_List>;
+        using Faction_Ptr = std::shared_ptr<FactionModel>;
         using Faction_List = std::vector<FactionModel>;
         using FAC = std::pair<const FactionModel, Asset_List>;
     }
@@ -26,7 +29,7 @@ namespace SwnGmTool
     class FactionAssetMap
     {
         public:
-            using fa_map = std::map<FactionModel, FAC::Asset_List>;
+            using fa_map = std::map<FAC::Faction_Ptr, FAC::Asset_List_Ptr>;
             using iterator = fa_map::iterator;
             using const_iterator = fa_map::const_iterator;
 
@@ -37,10 +40,10 @@ namespace SwnGmTool
             const_iterator cbegin() const { return this->Map.cbegin(); }
             const_iterator cend() const { return this->Map.cend(); }
 
-            void clear() { this->Map.clear(); }
-            void emplace(const FactionModel& faction, const FAC::Asset_List& assets) { this->Map.emplace(faction, assets); }
-            void erase(iterator it) { this->Map.erase(it); }
-            size_t size() { return this->Map.size(); }
+            void clear();
+            void emplace(const FactionModel& faction, const FAC::Asset_List& assets);
+            void erase(iterator it);
+            size_t size();
 
             template <class Archive>
             void serialize(Archive& archive)
@@ -50,6 +53,9 @@ namespace SwnGmTool
 
         private:
             fa_map Map;
+
+            std::vector<FAC::Asset_List_Ptr> AssetLists;
+            std::vector<FAC::Faction_Ptr> FactionList;
     };
 }
 

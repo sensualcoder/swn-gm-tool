@@ -30,7 +30,7 @@ namespace SwnGmTool
 
             for(auto& it : this->Map)
             {
-                factionList.push_back(it.first);
+                factionList.push_back(*it.first);
             }
         }
 
@@ -46,7 +46,7 @@ namespace SwnGmTool
             item++;
         }
 
-        return item->first;
+        return *item->first;
     }
 
     void FactionControl::AddFaction(const FactionModel& faction)
@@ -112,7 +112,7 @@ namespace SwnGmTool
         auto item = this->Map.begin();
         std::advance(item, index);
 
-        return item->second;
+        return *item->second;
     }
 
     void FactionControl::AddAsset(int index, const AssetModel& asset)
@@ -120,7 +120,7 @@ namespace SwnGmTool
         auto item = this->Map.begin();
         std::advance(item, index);
 
-        item->second.push_back(asset);
+        item->second->push_back(asset);
     }
 
     void FactionControl::RemoveAsset(int index, int assetIndex)
@@ -128,10 +128,10 @@ namespace SwnGmTool
         auto item = this->Map.begin();
         std::advance(item, index);
 
-        auto asset = item->second.begin();
+        auto asset = item->second->begin();
         std::advance(asset, assetIndex);
 
-        item->second.erase(asset);
+        item->second->erase(asset);
     }
 
     void FactionControl::RemoveAllAssetsOfType(int index, const AssetModel& asset)
@@ -139,7 +139,7 @@ namespace SwnGmTool
         auto item = this->Map.begin();
         std::advance(item, index);
 
-        item->second.remove(asset);
+        item->second->remove(asset);
     }
 
     void FactionControl::ClearAssets(int index)
@@ -147,6 +147,6 @@ namespace SwnGmTool
         auto item = this->Map.begin();
         std::advance(item, index);
 
-        item->second.clear();
+        item->second->clear();
     }
 }

@@ -8,7 +8,7 @@ using namespace SwnGmTool;
 
 namespace Tests
 {
-    TEST_CASE("Sector can be generated with default parameters")
+    TEST_CASE("SectorGenTests")
     {
         std::unique_ptr<SectorGen> testGen(new SectorGen() );
 

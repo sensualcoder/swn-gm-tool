@@ -14,7 +14,7 @@ using namespace SwnGmTool;
 
 namespace Tests
 {
-    TEST_CASE("Factions can be added and removed from a control")
+    TEST_CASE("FactionControlTests")
     {
         std::unique_ptr<FactionControl> testControl(new FactionControl() );
 
@@ -25,7 +25,7 @@ namespace Tests
 
         REQUIRE(testFaction.Name == testName);
 
-        SECTION("Adding factions increases map size and list shows new faction")
+        SECTION("Add faction")
         {
             testControl->AddFaction(testFaction);
 
@@ -34,7 +34,7 @@ namespace Tests
             REQUIRE(testControl->GetFactionList()[0] == testFaction);
         }
 
-        SECTION("Removing factions decreases map size and list is empty")
+        SECTION("Remove faction")
         {
             testControl->AddFaction(testFaction);
             testControl->RemoveFaction(0);
@@ -43,71 +43,39 @@ namespace Tests
             REQUIRE(testControl->GetFactionList().size() == 0);
         }
 
-        SECTION("Adding a large amount of factions increases map size and list returns same amount")
+        SECTION("Add large amount of factions")
         {
             int test_count = 1000;
             for(int i = 0; i < test_count; i++)
             {
                 std::string name = "Test" + std::to_string(i);
-                std::unique_ptr<FactionModel> tmp = std::unique_ptr<FactionModel>(new FactionModel { name });
-                testControl->AddFaction(*tmp);
+                FactionModel tmp = FactionModel { name };
+                testControl->AddFaction(tmp);
             }
 
             REQUIRE(testControl->GetFactionCount() == test_count);
             REQUIRE(testControl->GetFactionList().size() == test_count);
         }
-    }
 
-    TEST_CASE("Assets can be added and removed from a faction in the control")
-    {
-        std::unique_ptr<FactionControl> testControl(new FactionControl() );
-        
-        REQUIRE(testControl != nullptr);
-
-        std::string testName = "Test";
-        FactionModel testFaction { testName };
-
-        REQUIRE(testFaction.Name == testName);
-        
-        testControl->AddFaction(testFaction);
-        
-        REQUIRE(testControl->GetFactionCount() == 1);
-        REQUIRE(testControl->GetFactionList().size() == 1);
-        REQUIRE(testControl->GetFactionList()[0] == testFaction);
-
-        SECTION("Adding a large amount of assets to the list increases the list size")
+        SECTION("Add large amount of assets to a faction")
         {
+            testControl->AddFaction(testFaction);
+
             int test_count = 10000;
             for(int i = 0; i < test_count; i++)
             {
                 std::string name = testName + std::to_string(i);
-                std::unique_ptr<AssetModel> tmp = std::unique_ptr<AssetModel>(new AssetModel { name });
-                testControl->AddAsset(0, *tmp);
+                AssetModel tmp = AssetModel { name };
+                testControl->AddAsset(0, tmp);
             }
 
             REQUIRE(testControl->GetAssetList(0).size() == test_count);
         }
-    }
 
-    TEST_CASE("Saving and loading faction control")
-    {
-        std::unique_ptr<FactionControl> testControl(new FactionControl() );
-        
-        REQUIRE(testControl != nullptr);
-
-        std::string testName = "Test";
-        FactionModel testFaction { testName };
-
-        REQUIRE(testFaction.Name == testName);
-        
-        testControl->AddFaction(testFaction);
-        
-        REQUIRE(testControl->GetFactionCount() == 1);
-        REQUIRE(testControl->GetFactionList().size() == 1);
-        REQUIRE(testControl->GetFactionList()[0] == testFaction);
-
-        SECTION("Save and clear, then load")
+        SECTION("Save and load")
         {
+            testControl->AddFaction(testFaction);
+
             FileAccess<FactionControl> oaccess;
             std::ofstream out("test.sgt");
             oaccess.Save(out, *testControl, "Test");

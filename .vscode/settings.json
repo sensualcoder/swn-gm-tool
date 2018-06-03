@@ -65,6 +65,7 @@
         "unordered_set": "cpp",
         "algorithm": "cpp",
         "list": "cpp",
-        "unordered_map": "cpp"
+        "unordered_map": "cpp",
+        "deque": "cpp"
     }
 }

@@ -8,7 +8,7 @@ using namespace SwnGmTool;
 
 namespace Tests
 {
-    TEST_CASE("SWN GM Tool API tests")
+    TEST_CASE("SwnGmToolAPITests")
     {
         ConfigModel defaultConfig
         { 
