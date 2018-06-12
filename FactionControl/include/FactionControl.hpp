@@ -37,7 +37,7 @@ namespace SwnGmTool
     class FactionControl
     {
         public:
-            FactionControl();
+            FactionControl(int = 0);
             ~FactionControl();
 
             const int GetFactionCount();

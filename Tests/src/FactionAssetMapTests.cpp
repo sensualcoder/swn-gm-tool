@@ -8,7 +8,7 @@ namespace Tests
 {
     TEST_CASE("FactionAssetMapTests")
     {
-        std::unique_ptr<FactionAssetMap> testMap(new FactionAssetMap() );
+        std::unique_ptr<FactionAssetMap> testMap(new FactionAssetMap(0) );
 
         REQUIRE(testMap != nullptr);
 

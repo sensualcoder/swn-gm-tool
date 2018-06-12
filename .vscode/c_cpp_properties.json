@@ -39,6 +39,7 @@
                 "${workspaceRoot}/SectorGen/include",
                 "${workspaceRoot}/SwnGmToolAPI/include",
                 "${workspaceRoot}/Tests/include",
+                "${workspaceRoot}/Utils/include",
                 "/usr/include/c++/7.3.1/x86_64-pc-linux-gnu",
                 "/usr/include/c++/7.3.1/x86_64-pc-linux-gnu/32",
                 "/usr/include/c++/7.3.1",

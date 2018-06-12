@@ -29,11 +29,15 @@ namespace Driver
             fmt::print("Log init failure:\n\t{0}\n", ex.what() );
             return false;
         }
+        catch(const std::exception& ex)
+        {
+            this->ErrorLog->error(ex.what() );
+        }
 
         SwnGmTool::ConfigModel config;
 
         // Init config
-        std::ifstream inConf("ConfigDefaultConfig.json");
+        std::ifstream inConf("Config/DefaultConfig.json");
         SwnGmTool::FileAccess<SwnGmTool::ConfigModel> confAccess;
 
         try
@@ -49,13 +53,17 @@ namespace Driver
                 .DefaultFactionCount = 5 
             };
         }
+        catch(const std::exception& ex)
+        {
+            this->ErrorLog->error(ex.what() );
+        }
 
         // Init the SwnGmTool API
         this->SGTAPI = std::unique_ptr<SwnGmTool::SwnGmToolAPI>(new SwnGmTool::SwnGmToolAPI(config) );
         
         // Load default asset list
         std::ifstream inAsset("Config/DefaultAssets.json");
-        SwnGmTool::FileAccess<std::vector<SwnGmTool::AssetModel> > assetAccess;
+        SwnGmTool::FileAccess<std::map<SwnGmTool::AssetModel, SwnGmTool::AssetModel> > assetAccess;
 
         try
         {
@@ -64,6 +72,10 @@ namespace Driver
         catch(cereal::RapidJSONException ex)
         {
             this->ErrorLog->warn("WARN: Loading from default asset list file failed");
+        }
+        catch(const std::exception& ex)
+        {
+            this->ErrorLog->error(ex.what() );
         }
         
         // Build the menu option map
@@ -167,6 +179,36 @@ namespace Driver
                 .OptionFunc = std::bind(&Driver::ShowAssetList, this)
             },
             {
+                .Option = '2',
+                .Label = "Add Asset",
+                .OptionFunc = std::bind(&Driver::AddAsset, this)
+            },
+            {
+                .Option = '3',
+                .Label = "Remove Asset",
+                .OptionFunc = std::bind(&Driver::RemoveAsset, this)
+            },
+            {
+                .Option = '4',
+                .Label = "Remove all Assets of Type",
+                .OptionFunc = std::bind(&Driver::RemoveAllAssetsOfType, this)
+            },
+            {
+                .Option = '5',
+                .Label = "Remove all Assets at Location",
+                .OptionFunc = std::bind(&Driver::RemoveAllAssetsAtLocation, this)
+            },
+            {
+                .Option = '6',
+                .Label = "Clear Asset List",
+                .OptionFunc = std::bind(&Driver::ClearAssetList, this)
+            },
+            {
+                .Option = '7',
+                .Label = "Show Asset Detail",
+                .OptionFunc = std::bind(&Driver::ShowAssetDetails, this)
+            },
+            {
                 .Option = 'Q',
                 .Label = "Quit Asset Manager",
                 .OptionFunc = std::bind(&Driver::QuitAssetControl, this)
@@ -239,10 +281,7 @@ namespace Driver
 
     void Driver::Quit()
     {
-        if(IsRunning)
-        {
-            IsRunning = false;
-        }
+        IsRunning = false;
     }
 
     void Driver::PrintMenu(const std::vector<MenuOption>& options)
@@ -407,8 +446,7 @@ namespace Driver
 
     void Driver::QuitFactionControl()
     {
-        if(this->IsRunningFC)
-            this->IsRunningFC = false;
+        this->IsRunningFC = false;
     }
 
     void Driver::RunAssetControl()
@@ -478,6 +516,10 @@ namespace Driver
     void Driver::RemoveAllAssetsOfType()
     {
     }
+
+    void Driver::RemoveAllAssetsAtLocation()
+    {
+    }
     
     void Driver::ClearAssetList()
     {
@@ -489,10 +531,7 @@ namespace Driver
 
     void Driver::QuitAssetControl()
     {
-        if(this->IsRunningAC)
-        {
-            this->IsRunningAC = false;
-        }
+        this->IsRunningAC = false;
     }
 
     // Private methods

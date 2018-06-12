@@ -2,6 +2,12 @@
 
 namespace SwnGmTool
 {    
+    FactionAssetMap::FactionAssetMap(int size)
+    {
+        AssetLists.reserve(size);
+        FactionList.reserve(size);
+    }
+
     void FactionAssetMap::clear()
     {
         this->Map.clear();

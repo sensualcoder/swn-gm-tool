@@ -61,6 +61,7 @@ namespace Driver
             void AddAsset();
             void RemoveAsset();
             void RemoveAllAssetsOfType();
+            void RemoveAllAssetsAtLocation();
             void ClearAssetList();
             void ShowAssetDetails();
             void QuitAssetControl();
@@ -75,7 +76,7 @@ namespace Driver
 
             std::unique_ptr<SwnGmTool::SwnGmToolAPI> SGTAPI;
 
-            std::vector<SwnGmTool::AssetModel> AssetList;
+            std::map<SwnGmTool::AssetModel, SwnGmTool::AssetModel> AssetList;
 
             std::vector<MenuOption> MainMenuOptions;
             std::map<char, DriverFunc> MainMenuOptionMap;

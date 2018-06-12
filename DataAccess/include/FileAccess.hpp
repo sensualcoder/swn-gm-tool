@@ -15,8 +15,6 @@ namespace SwnGmTool
     class FileAccess : public DataAccess<T>
     {
         public:
-            FileAccess() {}
-
             void Save(std::ostream& out, T& toSave, std::string name) override
             {
                 cereal::JSONOutputArchive archive(out);

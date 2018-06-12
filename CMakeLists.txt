@@ -7,6 +7,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 
 option(BUILD_DRIVER "Build driver" ON)
 option(BUILD_TESTS "Build tests" ON)
+option(BUILD_UTILS "Build utilities" ON)
 
 include(GNUInstallDirs)
 
@@ -45,8 +46,15 @@ add_subdirectory(Driver)
 
 # Tests
 if(BUILD_TESTS)
+    include_directories(${PROJECT_SOURCE_DIR}/Tests/include)
     add_subdirectory(Tests)
 endif(BUILD_TESTS)
+
+# Tools
+if(BUILD_UTILS)
+    include_directories(${PROJECT_SOURCE_DIR}/Utils/include)
+    add_subdirectory(Utils)
+endif(BUILD_UTILS)
 
 # Check for external libs
 find_package(cereal REQUIRED)

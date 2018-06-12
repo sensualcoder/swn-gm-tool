@@ -29,6 +29,8 @@ namespace SwnGmTool
     class FactionAssetMap
     {
         public:
+            FactionAssetMap(int);
+
             using fa_map = std::map<FAC::Faction_Ptr, FAC::Asset_List_Ptr>;
             using iterator = fa_map::iterator;
             using const_iterator = fa_map::const_iterator;

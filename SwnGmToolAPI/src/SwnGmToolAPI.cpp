@@ -4,7 +4,7 @@ namespace SwnGmTool
 {
     SwnGmToolAPI::SwnGmToolAPI(ConfigModel config) 
         : SGTConfig(config), 
-            SGTFactionControl(new FactionControl() )
+            SGTFactionControl(new FactionControl(config.DefaultFactionCount) )
     {
     }
 

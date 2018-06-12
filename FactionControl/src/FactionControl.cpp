@@ -6,7 +6,7 @@ namespace SwnGmTool
 {
     // Public methods
 
-    FactionControl::FactionControl()
+    FactionControl::FactionControl(int size) : Map(size)
     {
     }
 
@@ -40,11 +40,7 @@ namespace SwnGmTool
     const FactionModel FactionControl::GetFactionDetails(int index)
     {
         auto item = this->Map.begin();
-
-        for(int i = 0; i < index; i++)
-        {
-            item++;
-        }
+        std::advance(item, index);
 
         return *item->first;
     }
