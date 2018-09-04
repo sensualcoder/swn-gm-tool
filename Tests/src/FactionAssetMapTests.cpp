@@ -48,5 +48,31 @@ namespace Tests
 
             REQUIRE(testMap->size() == test_count);
         }
+
+        AssetModel testAsset { testName };
+
+        REQUIRE(testAsset.Name == testName);
+
+        testMap->emplace(testFaction, FAC::Asset_List() );
+
+        SECTION("Add asset to faction")
+        {
+            auto item = testMap->begin();
+
+            item->second->push_back(testAsset);
+
+            REQUIRE(item->second->size() == 1);
+        }
+
+        SECTION("Remove asset from faction")
+        {
+            auto item = testMap->begin();
+
+            item->second->push_back(testAsset);
+
+            item->second->erase(item->second->begin() );
+
+            REQUIRE(item->second->size() == 0);
+        }
     }
 }

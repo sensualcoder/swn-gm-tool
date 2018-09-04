@@ -67,5 +67,6 @@
         "list": "cpp",
         "unordered_map": "cpp",
         "deque": "cpp"
-    }
+    },
+    "cmake.configureOnOpen": false
 }

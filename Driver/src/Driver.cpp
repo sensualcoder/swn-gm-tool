@@ -2,8 +2,8 @@
 
 #include <fstream>
 
-#include <fmt/format.h>
-#include <fmt/format.cc>
+#include "fmt/format.h"
+#include "fmt/format.cc"
 
 #include "FileAccess.hpp"
 
@@ -26,7 +26,7 @@ namespace Driver
         }
         catch(const spdlog::spdlog_ex& ex)
         {
-            fmt::print("Log init failure:\n\t{0}\n", ex.what() );
+            this->ErrorLog->error("Log init failure:\n\t{0}\n", ex.what() );
             return false;
         }
         catch(const std::exception& ex)
@@ -71,7 +71,7 @@ namespace Driver
         }
         catch(cereal::RapidJSONException ex)
         {
-            this->ErrorLog->warn("WARN: Loading from default asset list file failed");
+            this->ErrorLog->warn("WARN: Loading from default asset list file failed:\n\t{0}\n", ex.what() );
         }
         catch(const std::exception& ex)
         {
@@ -523,6 +523,19 @@ namespace Driver
     
     void Driver::ClearAssetList()
     {
+        int count = this->SGTAPI->GetFactionCount();
+
+        if(count == 0)
+        {
+            fmt::print("\nFaction List is empty\n");
+            return;
+        }
+
+        int index = this->GetIndexInput("Select which asset list to clear\n", count);
+
+        this->SGTAPI->ClearAssets(index);
+
+        fmt::print("\nAsset list cleared\n");
     }
 
     void Driver::ShowAssetDetails()

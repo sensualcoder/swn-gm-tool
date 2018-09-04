@@ -23,7 +23,7 @@ namespace SwnGmTool
         using Asset_List_Ptr = std::shared_ptr<Asset_List>;
         using Faction_Ptr = std::shared_ptr<FactionModel>;
         using Faction_List = std::vector<FactionModel>;
-        using FAC = std::pair<const FactionModel, Asset_List>;
+        using FAC = std::pair<FactionModel, Asset_List>;
     }
 
     class FactionAssetMap
