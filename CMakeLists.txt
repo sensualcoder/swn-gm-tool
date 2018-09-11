@@ -2,17 +2,22 @@ cmake_minimum_required(VERSION 3.9)
 project(SwnGmTool LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra -ansi -pedantic")
+set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra -pedantic")
 set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 
 option(BUILD_DRIVER "Build driver" ON)
 option(BUILD_TESTS "Build tests" ON)
 option(BUILD_UTILS "Build utilities" ON)
 
+# Check for Linux libraries
 include(GNUInstallDirs)
-
 include_directories(/usr/include)
 include_directories(/usr/local/include)
+
+# Check for required external libs
+find_package(cereal REQUIRED)
+find_package(fmt REQUIRED)
+find_package(spdlog CONFIG REQUIRED)
 
 # Data Access headers
 include_directories(${PROJECT_SOURCE_DIR}/DataAccess/include)
@@ -55,11 +60,6 @@ if(BUILD_UTILS)
     include_directories(${PROJECT_SOURCE_DIR}/Utils/include)
     add_subdirectory(Utils)
 endif(BUILD_UTILS)
-
-# Check for external libs
-find_package(cereal REQUIRED)
-find_package(fmt REQUIRED)
-find_package(spdlog CONFIG REQUIRED)
 
 if(BUILD_DRIVER)
     # Add all extra libs

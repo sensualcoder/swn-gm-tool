@@ -22,11 +22,10 @@ namespace Driver
     };
 
     template <typename T>
-    class MenuOptionFactory
+    struct MenuOptionFactory
     {
-        public:
-            void ParseMenuOptionMap(const MenuOptionMap<T>&, std::vector<MenuOption>&, std::map<char, T>&);
-            void BuildMenuOptionMapFromList(const std::vector<MenuOptionMap<T> >&, std::vector<MenuOption>&, std::map<char, T>&);
+        static void ParseMenuOptionMap(const MenuOptionMap<T>&, std::vector<MenuOption>&, std::map<char, T>&);
+        static void BuildMenuOptionMapFromList(const std::vector<MenuOptionMap<T> >&, std::vector<MenuOption>&, std::map<char, T>&);
     };
 
     template<typename T>
@@ -41,7 +40,7 @@ namespace Driver
     {
         for(auto i : list)
         {
-            this->ParseMenuOptionMap(i, options, functions);
+            ParseMenuOptionMap(i, options, functions);
         }
     }
 }

@@ -1,9 +1,7 @@
 #include "Driver.hpp"
 
+#include <chrono>
 #include <fstream>
-
-#include "fmt/format.h"
-#include "fmt/format.cc"
 
 #include "FileAccess.hpp"
 
@@ -21,17 +19,22 @@ namespace Driver
         try
         {
             // Init spdlog
-            this->ErrorLog = spdlog::rotating_logger_mt("error_logger", "logs/errors", 1024 * 1024 * 5, 3);
+            std::string log_file("logs/log_");
+            time_t log_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now() );
+            log_file += std::to_string(log_time);
+            
+            this->Logger = spdlog::rotating_logger_mt("file_logger", log_file, 1024 * 1024 * 5, 3);
             spdlog::drop_all();
         }
         catch(const spdlog::spdlog_ex& ex)
         {
-            this->ErrorLog->error("Log init failure:\n\t{0}\n", ex.what() );
+            fmt::print("Log init failure:\n\t{0}\n", ex.what() );
             return false;
         }
         catch(const std::exception& ex)
         {
-            this->ErrorLog->error(ex.what() );
+            fmt::print("Log init failure:\n\t{0}\n", ex.what() );
+            return false;
         }
 
         SwnGmTool::ConfigModel config;
@@ -46,7 +49,7 @@ namespace Driver
         }        
         catch(cereal::RapidJSONException ex)
         {
-            this->ErrorLog->warn("WARN: Loading from config file failed, falling back to default");
+            this->Logger->warn("Loading from config file failed, falling back to default\n");
 
             config = SwnGmTool::ConfigModel
             { 
@@ -55,15 +58,15 @@ namespace Driver
         }
         catch(const std::exception& ex)
         {
-            this->ErrorLog->error(ex.what() );
+            this->Logger->error("Loading from config file failed:\n\t{0}\n", ex.what() );
         }
 
         // Init the SwnGmTool API
-        this->SGTAPI = std::unique_ptr<SwnGmTool::SwnGmToolAPI>(new SwnGmTool::SwnGmToolAPI(config) );
+        this->SGTAPI = std::make_unique<SwnGmTool::SwnGmToolAPI>(config);
         
         // Load default asset list
         std::ifstream inAsset("Config/DefaultAssets.json");
-        SwnGmTool::FileAccess<std::map<SwnGmTool::AssetModel, SwnGmTool::AssetModel> > assetAccess;
+        SwnGmTool::FileAccess<std::vector<SwnGmTool::AssetModel> > assetAccess;
 
         try
         {
@@ -71,11 +74,11 @@ namespace Driver
         }
         catch(cereal::RapidJSONException ex)
         {
-            this->ErrorLog->warn("WARN: Loading from default asset list file failed:\n\t{0}\n", ex.what() );
+            this->Logger->warn("Loading from default asset list file failed:\n\t{0}\n", ex.what() );
         }
         catch(const std::exception& ex)
         {
-            this->ErrorLog->error(ex.what() );
+            this->Logger->error("Loading from asset list file failed:\n\t{0}\n", ex.what() );
         }
         
         // Build the menu option map
@@ -86,8 +89,6 @@ namespace Driver
 
     void Driver::BuildOptionMap()
     {
-        std::unique_ptr<MenuOptionFactory<DriverFunc> > optionFactory;
-
         // Main Menu options
         std::vector<MenuOptionMap<DriverFunc> > mainMenuOptions
         {
@@ -108,7 +109,7 @@ namespace Driver
             }
         };
 
-        optionFactory->BuildMenuOptionMapFromList(
+        MenuOptionFactory<DriverFunc>::BuildMenuOptionMapFromList(
             mainMenuOptions,
             this->MainMenuOptions,
             this->MainMenuOptionMap
@@ -164,7 +165,7 @@ namespace Driver
             }
         };
 
-        optionFactory->BuildMenuOptionMapFromList(
+        MenuOptionFactory<DriverFunc>::BuildMenuOptionMapFromList(
             factionManagerMenuOptions,
             this->FactionManagerOptions,
             this->FactionManagerOptionMap
@@ -215,7 +216,7 @@ namespace Driver
             }
         };
 
-        optionFactory->BuildMenuOptionMapFromList(
+        MenuOptionFactory<DriverFunc>::BuildMenuOptionMapFromList(
             assetManagerMenuOptions,
             this->AssetManagerOptions,
             this->AssetManagerOptionMap
@@ -226,7 +227,7 @@ namespace Driver
     {
         if(this->Init() != true)
         {
-            this->ErrorLog->error("Error on init");         
+            this->Logger->error("Error on init");         
             return;
         }
 
@@ -256,7 +257,7 @@ namespace Driver
         catch(const std::exception& ex)
         {
             fmt::print("Unable to load from file\n");
-            this->ErrorLog->error("Unable to load from file\nStack trace:\n{0}", ex.what() );
+            this->Logger->error("Unable to load from file\nStack trace:\n{0}", ex.what() );
             return;
         }
     }
@@ -274,7 +275,7 @@ namespace Driver
         catch(const std::exception& ex)
         {
             fmt::print("Unable to save to file\n");
-            this->ErrorLog->error("Unable to save to file\nStack trace:\n{0}", ex.what() );
+            this->Logger->error("Unable to save to file\nStack trace:\n{0}", ex.what() );
             return;
         }
     }
@@ -311,7 +312,7 @@ namespace Driver
         this->PrintMenu(AssetManagerOptions);
     }
 
-    void Driver::GetMenuInput(std::map<char, DriverFunc>& options)
+    void Driver::GetMenuInput(const std::map<char, DriverFunc>& options)
     {
         std::string input;
         std::getline(std::cin, input);
@@ -396,7 +397,7 @@ namespace Driver
         catch(const std::exception& ex)
         {
             fmt::print("Unable to create faction\n");
-            this->ErrorLog->error("Unable to create faction\nStack trace:\n{0}", ex.what() );
+            this->Logger->error("Unable to create faction\nStack trace:\n{0}", ex.what() );
             return;
         }
 
@@ -426,7 +427,7 @@ namespace Driver
         catch(const std::exception& ex)
         {
             fmt::print("Invalid index\n");
-            this->ErrorLog->error("Invalid index\nStack trace:\n{0}", ex.what() );
+            this->Logger->error("Invalid index\nStack trace:\n{0}", ex.what() );
             return;
         }
 
@@ -481,7 +482,7 @@ namespace Driver
         catch(const std::exception& ex)
         {
             fmt::print("Invalid index\n");
-            this->ErrorLog->error("Invalid index\nStack trace:\n{0}", ex.what() );
+            this->Logger->error("Invalid index\nStack trace:\n{0}", ex.what() );
             return;
         }
 
@@ -573,7 +574,7 @@ namespace Driver
         catch(const std::exception& ex)
         {
             std::string error = fmt::format("Value entered was invalid: {0}\n", input);
-            this->LogError(error);
+            this->Logger->error(error);
             
             throw ex;
         }
@@ -581,7 +582,7 @@ namespace Driver
         if(i < min || i > max)
         {
             std::string error = fmt::format("Value should be between {0} and {1}, was: {2}", min, max, i);
-            this->LogError(error);
+            this->Logger->error(error);
 
             throw std::exception();
         }
@@ -592,11 +593,5 @@ namespace Driver
     int Driver::GetIndexInput(std::string prompt, int max)
     {
         return this->GetIntInput(prompt, 0, max - 1);
-    }
-
-    void Driver::LogError(std::string error)
-    {
-        fmt::print(error + "\n");
-        this->ErrorLog->error(error);
     }
 }

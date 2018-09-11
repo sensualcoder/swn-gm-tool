@@ -15,7 +15,7 @@ namespace SwnGmTool
         this->Map.clear();
     }
 
-    const int FactionControl::GetFactionCount()
+    int FactionControl::GetFactionCount() const
     {
         return this->Map.size();
     }

@@ -8,11 +8,6 @@
 #include <string>
 #include <vector>
 
-// Prevent spdlog from including fmt headers to prevent redefinition errors
-#ifndef SPDLOG_FMT_EXTERNAL
-#define SPDLOG_FMT_EXTERNAL
-#endif
-
 #include "spdlog/spdlog.h"
 
 #include "AssetModel.hpp"
@@ -41,7 +36,7 @@ namespace Driver
             void PrintMainMenu();
             void PrintFactionMenu();
             void PrintAssetMenu();
-            void GetMenuInput(std::map<char, DriverFunc>&);
+            void GetMenuInput(const std::map<char, DriverFunc>&);
             void GetMainMenuInput();
             void GetFactionControlInput();
             void GetAssetControlInput();
@@ -72,11 +67,11 @@ namespace Driver
             int GetIndexInput(std::string, int);
             void LogError(std::string);
 
-            std::shared_ptr<spdlog::logger> ErrorLog;
+            std::shared_ptr<spdlog::logger> Logger;
 
             std::unique_ptr<SwnGmTool::SwnGmToolAPI> SGTAPI;
 
-            std::map<SwnGmTool::AssetModel, SwnGmTool::AssetModel> AssetList;
+            std::vector<SwnGmTool::AssetModel> AssetList;
 
             std::vector<MenuOption> MainMenuOptions;
             std::map<char, DriverFunc> MainMenuOptionMap;

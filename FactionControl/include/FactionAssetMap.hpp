@@ -45,7 +45,7 @@ namespace SwnGmTool
             void clear();
             void emplace(const FactionModel& faction, const FAC::Asset_List& assets);
             void erase(iterator it);
-            size_t size();
+            size_t size() const;
 
             template <class Archive>
             void serialize(Archive& archive)

@@ -49,7 +49,7 @@ namespace SwnGmTool
         this->Map.erase(it);
     }
 
-    size_t FactionAssetMap::size()
+    size_t FactionAssetMap::size() const
     {
         return this->Map.size();
     }

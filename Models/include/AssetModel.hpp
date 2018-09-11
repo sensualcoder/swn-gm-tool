@@ -34,7 +34,7 @@ namespace SwnGmTool
 
     inline std::string to_string(const AssetModel& a)
     {
-        return (a.Name + " " + a.RatingType + " " + a.AssetType + " " + to_string(a) + " " + to_string(a.Counter) );
+        return (a.Name);
     }
 
     inline std::ostream& operator<<(std::ostream& os, const AssetModel& a)

@@ -40,7 +40,7 @@ namespace SwnGmTool
             FactionControl(int = 0);
             ~FactionControl();
 
-            const int GetFactionCount();
+            int GetFactionCount() const;
             const FAC::Faction_List GetFactionList();
             const FactionModel GetFactionDetails(int);
             void AddFaction(const FactionModel&);
