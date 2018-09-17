@@ -34,6 +34,10 @@ add_subdirectory(HexGrid)
 include_directories(${PROJECT_SOURCE_DIR}/FactionControl/include)
 add_subdirectory(FactionControl)
 
+# Faction Turn lib
+include_directories(${PROJECT_SOURCE_DIR}/FactionTurn/include)
+add_subdirectory(FactionTurn)
+
 # Model headers
 include_directories(${PROJECT_SOURCE_DIR}/Models/include)
 
