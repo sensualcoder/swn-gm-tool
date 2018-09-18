@@ -13,11 +13,11 @@ namespace FT
     {
         this->CurrentHp = this->MaxHp = CalcHp(force, cunning, wealth);
         this->Income = CalcIncome(force, cunning, wealth);
-        this->Treasury = 0;
+        this->Treasury = this->Experience = 0;
     }
 
-    Faction::Faction(std::string name, uint8_t force, uint8_t cunning, uint8_t wealth, uint8_t income, uint8_t treasury, uint8_t currentHp, uint8_t maxHp) :
-        Name(name), Force(force), Cunning(cunning), Wealth(wealth), Income(income), Treasury(treasury), CurrentHp(currentHp), MaxHp(maxHp)
+    Faction::Faction(std::string name, uint8_t force, uint8_t cunning, uint8_t wealth, uint8_t income, uint8_t treasury, uint8_t currentHp, uint8_t maxHp, uint8_t experience) :
+        Name(name), Force(force), Cunning(cunning), Wealth(wealth), Income(income), Treasury(treasury), CurrentHp(currentHp), MaxHp(maxHp), Experience(experience)
     {
     }
 
@@ -29,7 +29,7 @@ namespace FT
 
         this->CurrentHp = this->MaxHp = CalcHp(faction.Force, faction.Cunning, faction.Wealth);
         this->Income = CalcIncome(faction.Force, faction.Cunning, faction.Wealth);
-        this->Treasury = 0;
+        this->Treasury = this->Experience = 0;
     }
 
     // Helper methods

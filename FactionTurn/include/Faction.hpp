@@ -30,7 +30,7 @@ namespace FT
     {
         public:
             Faction(std::string, uint8_t, uint8_t, uint8_t);
-            Faction(std::string, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t);
+            Faction(std::string, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t);
             Faction(const FactionCreateModel&);
 
         private:
@@ -38,6 +38,7 @@ namespace FT
             uint8_t Force, Cunning, Wealth;
             uint8_t Income, Treasury;
             uint8_t CurrentHp, MaxHp;
+            uint8_t Experience;
     };
 
     // Helper methods
