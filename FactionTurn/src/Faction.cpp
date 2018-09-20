@@ -4,9 +4,6 @@
 
 namespace FT
 {
-    // Forward declarations
-    class Faction;
-
     // Class public methods
     Faction::Faction(std::string name, uint8_t force, uint8_t cunning, uint8_t wealth) :
         Name(name), Force(force), Cunning(cunning), Wealth(wealth)
@@ -30,6 +27,11 @@ namespace FT
         this->CurrentHp = this->MaxHp = CalcHp(faction.Force, faction.Cunning, faction.Wealth);
         this->Income = CalcIncome(faction.Force, faction.Cunning, faction.Wealth);
         this->Treasury = this->Experience = 0;
+    }
+
+    void Faction::TakeDamage(uint8_t damage)
+    {
+        this->CurrentHp -= damage;
     }
 
     // Helper methods

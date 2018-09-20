@@ -1,29 +1,26 @@
 #ifndef FACTION_TURN_HPP
 #define FACTION_TURN_HPP
 
+#include <memory>
 #include <string>
 #include <vector>
 
 #include <cereal/cereal.hpp>
 #include <cereal/types/vector.hpp>
 
+#include "Actions.hpp"
 #include "Faction.hpp"
 
 namespace FT
 {
+    // Forward declarations
+    struct Action;
     class Faction;
 
+    // Enums, structs, const values and objects
     struct Asset
     {
         std::string Name;
-    };
-
-    struct Action
-    {
-    };
-
-    struct CombatAction : public Action
-    {
     };
 
     /** FactionTurnState
@@ -35,12 +32,16 @@ namespace FT
         std::vector<Action> ResolvedActions;
     };
 
+    // Class definition
+    /** FactionTurn
+     */
     class FactionTurn
     {
         public:
-            FactionTurn(size_t = 0);
             FactionTurn(const FactionTurn &) = delete;
             FactionTurn(FactionTurn &&) = delete;
+
+            FactionTurn(size_t turnNumber = 0);
 
             template<class Archive>
             void serialize(Archive& archive)

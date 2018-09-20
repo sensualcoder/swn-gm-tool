@@ -26,10 +26,6 @@ include_directories(${PROJECT_SOURCE_DIR}/DataAccess/include)
 include_directories(${PROJECT_SOURCE_DIR}/DiceRoll/include)
 add_subdirectory(DiceRoll)
 
-# Hex Grid lib
-include_directories(${PROJECT_SOURCE_DIR}/HexGrid/include)
-add_subdirectory(HexGrid)
-
 # Faction Control lib
 include_directories(${PROJECT_SOURCE_DIR}/FactionControl/include)
 add_subdirectory(FactionControl)
@@ -37,6 +33,10 @@ add_subdirectory(FactionControl)
 # Faction Turn lib
 include_directories(${PROJECT_SOURCE_DIR}/FactionTurn/include)
 add_subdirectory(FactionTurn)
+
+# Hex Grid lib
+include_directories(${PROJECT_SOURCE_DIR}/HexGrid/include)
+add_subdirectory(HexGrid)
 
 # Model headers
 include_directories(${PROJECT_SOURCE_DIR}/Models/include)

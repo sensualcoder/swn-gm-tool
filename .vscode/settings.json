@@ -67,7 +67,8 @@
         "list": "cpp",
         "unordered_map": "cpp",
         "deque": "cpp",
-        "hash_map": "cpp"
+        "hash_map": "cpp",
+        "map": "cpp"
     },
     "cmake.configureOnOpen": false
 }

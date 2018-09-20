@@ -4,9 +4,21 @@
 #include <cstdint>
 #include <map>
 
+#include "Events.hpp"
+
 namespace FT
 {
-    // Const items and structs
+    // Forward declarations
+    struct Event;
+    class Subject;
+
+    // Enums, structs, const values and objects
+    struct FactionCreateModel
+    {
+        std::string Name;
+        uint8_t Force, Cunning, Wealth;
+    };
+
     const std::map<int, int> RatingHpMap
     {
         {1, 1},
@@ -19,19 +31,18 @@ namespace FT
         {8, 20}
     };
 
-    struct FactionCreateModel
-    {
-        std::string Name;
-        uint8_t Force, Cunning, Wealth;
-    };
-
     // Class definition
+    /** Faction
+     */
     class Faction
     {
         public:
-            Faction(std::string, uint8_t, uint8_t, uint8_t);
-            Faction(std::string, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t);
-            Faction(const FactionCreateModel&);
+            Faction(std::string name, uint8_t force, uint8_t cunning, uint8_t wealth);
+            Faction(std::string name, uint8_t force, uint8_t cunning, uint8_t wealth, 
+                    uint8_t income, uint8_t treasury, uint8_t currentHp, uint8_t maxHp, uint8_t experience);
+            Faction(const FactionCreateModel& faction);
+
+            void TakeDamage(uint8_t damage);
 
         private:
             std::string Name;
@@ -42,8 +53,8 @@ namespace FT
     };
 
     // Helper methods
-    uint8_t CalcHp(uint8_t, uint8_t, uint8_t);
-    uint8_t CalcIncome(uint8_t, uint8_t, uint8_t);
+    uint8_t CalcHp(uint8_t force, uint8_t cunning, uint8_t wealth);
+    uint8_t CalcIncome(uint8_t force, uint8_t cunning, uint8_t wealth);
 }
 
 #endif

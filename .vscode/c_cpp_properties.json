@@ -33,6 +33,7 @@
                 "${workspaceRoot}/DataAccess/include",
                 "${workspaceRoot}/DiceRoll/include",
                 "${workspaceRoot}/Driver/include",
+                "${workspaceRoot}/EventHandler/include",
                 "${workspaceRoot}/FactionControl/include",
                 "${workspaceRoot}/FactionTurn/include",
                 "${workspaceRoot}/HexGrid/include",
