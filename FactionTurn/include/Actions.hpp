@@ -2,6 +2,9 @@
 #define ACTIONS_HPP
 
 #include <string>
+#include <vector>
+
+#include "Events.hpp"
 
 namespace FT
 {
@@ -13,6 +16,7 @@ namespace FT
     {
         std::string Name;
         ActionType Type;
+        std::vector<Event> Events;
     };
 }
 

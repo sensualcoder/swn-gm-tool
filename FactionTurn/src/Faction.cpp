@@ -5,32 +5,30 @@
 namespace FT
 {
     // Class public methods
-    Faction::Faction(std::string name, uint8_t force, uint8_t cunning, uint8_t wealth) :
-        Name(name), Force(force), Cunning(cunning), Wealth(wealth)
+    Faction::Faction(const FactionCreateModel& faction) :
+        Name(faction.Name), Force(faction.Force), Cunning(faction.Cunning), Wealth(faction.Wealth)
     {
-        this->CurrentHp = this->MaxHp = CalcHp(force, cunning, wealth);
-        this->Income = CalcIncome(force, cunning, wealth);
-        this->Treasury = this->Experience = 0;
-    }
-
-    Faction::Faction(std::string name, uint8_t force, uint8_t cunning, uint8_t wealth, uint8_t income, uint8_t treasury, uint8_t currentHp, uint8_t maxHp, uint8_t experience) :
-        Name(name), Force(force), Cunning(cunning), Wealth(wealth), Income(income), Treasury(treasury), CurrentHp(currentHp), MaxHp(maxHp), Experience(experience)
-    {
-    }
-
-    Faction::Faction(const FactionCreateModel& faction)
-    {
-        this->Force = faction.Force;
-        this->Cunning = faction.Cunning;
-        this->Wealth = faction.Wealth;
-
         this->CurrentHp = this->MaxHp = CalcHp(faction.Force, faction.Cunning, faction.Wealth);
         this->Income = CalcIncome(faction.Force, faction.Cunning, faction.Wealth);
         this->Treasury = this->Experience = 0;
     }
 
+    Faction::Faction(const FactionModel& faction) :
+         Name(faction.Name), Force(faction.Force), Cunning(faction.Cunning), 
+         Wealth(faction.Wealth), Income(faction.Income), Treasury(faction.Treasury), 
+         CurrentHp(faction.CurrentHp), MaxHp(faction.MaxHp), Experience(faction.Experience)
+    {
+    }
+
     void Faction::TakeDamage(uint8_t damage)
     {
+        this->Notify(Event { EventType::FACTION_DAMAGED } );
+
+        if(damage >= this->CurrentHp)
+        {
+            this->Notify(Event { EventType::FACTION_DESTROYED } );
+        }
+
         this->CurrentHp -= damage;
     }
 

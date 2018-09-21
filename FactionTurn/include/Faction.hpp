@@ -5,6 +5,7 @@
 #include <map>
 
 #include "Events.hpp"
+#include "Subject.hpp"
 
 namespace FT
 {
@@ -19,6 +20,16 @@ namespace FT
         uint8_t Force, Cunning, Wealth;
     };
 
+    struct FactionModel
+    {
+        std::string Name;
+        uint8_t Force, Cunning, Wealth;
+        uint8_t Income, Treasury;
+        uint8_t CurrentHp, MaxHp;
+        uint8_t Experience;
+    };
+
+    // TODO: Make into a configurable object that is loaded in from a file
     const std::map<int, int> RatingHpMap
     {
         {1, 1},
@@ -34,13 +45,11 @@ namespace FT
     // Class definition
     /** Faction
      */
-    class Faction
+    class Faction : public Subject
     {
         public:
-            Faction(std::string name, uint8_t force, uint8_t cunning, uint8_t wealth);
-            Faction(std::string name, uint8_t force, uint8_t cunning, uint8_t wealth, 
-                    uint8_t income, uint8_t treasury, uint8_t currentHp, uint8_t maxHp, uint8_t experience);
             Faction(const FactionCreateModel& faction);
+            Faction(const FactionModel& faction);
 
             void TakeDamage(uint8_t damage);
 

@@ -10,6 +10,7 @@
 
 #include "Actions.hpp"
 #include "Faction.hpp"
+#include "Observer.hpp"
 
 namespace FT
 {
@@ -35,13 +36,19 @@ namespace FT
     // Class definition
     /** FactionTurn
      */
-    class FactionTurn
+    class FactionTurn : public Observer
     {
         public:
             FactionTurn(const FactionTurn &) = delete;
             FactionTurn(FactionTurn &&) = delete;
 
             FactionTurn(size_t turnNumber = 0);
+            ~FactionTurn();
+
+            void Setup(std::vector<Faction> factions);
+
+            // Inherited from Observer
+            void OnNotify(const Event&) override;
 
             template<class Archive>
             void serialize(Archive& archive)
