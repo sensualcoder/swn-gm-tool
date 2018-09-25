@@ -5,29 +5,18 @@
 #include <map>
 
 #include "Events.hpp"
+#include "FactionCreateModel.hpp"
+#include "FactionModel.hpp"
 #include "Subject.hpp"
 
 namespace FT
 {
     // Forward declarations
-    struct Event;
+    struct FactionCreateModel;
+    struct FactionModel;
     class Subject;
 
     // Enums, structs, const values and objects
-    struct FactionCreateModel
-    {
-        std::string Name;
-        uint8_t Force, Cunning, Wealth;
-    };
-
-    struct FactionModel
-    {
-        std::string Name;
-        uint8_t Force, Cunning, Wealth;
-        uint8_t Income, Treasury;
-        uint8_t CurrentHp, MaxHp;
-        uint8_t Experience;
-    };
 
     // TODO: Make into a configurable object that is loaded in from a file
     const std::map<int, int> RatingHpMap
@@ -41,6 +30,10 @@ namespace FT
         {7, 16},
         {8, 20}
     };
+
+    // Helper methods
+    uint8_t CalcHp(uint8_t force, uint8_t cunning, uint8_t wealth);
+    uint8_t CalcIncome(uint8_t force, uint8_t cunning, uint8_t wealth);
 
     // Class definition
     /** Faction
@@ -60,10 +53,6 @@ namespace FT
             uint8_t CurrentHp, MaxHp;
             uint8_t Experience;
     };
-
-    // Helper methods
-    uint8_t CalcHp(uint8_t force, uint8_t cunning, uint8_t wealth);
-    uint8_t CalcIncome(uint8_t force, uint8_t cunning, uint8_t wealth);
 }
 
 #endif

@@ -4,6 +4,24 @@
 
 namespace FT
 {
+    // Forward declarations
+    struct Event;
+
+    // Helper methods
+    uint8_t CalcHp(uint8_t force, uint8_t cunning, uint8_t wealth)
+    {
+        return(RatingHpMap.find(force)->second
+                + RatingHpMap.find(cunning)->second
+                + RatingHpMap.find(wealth)->second
+                + 4);
+    }
+
+    uint8_t CalcIncome(uint8_t force, uint8_t cunning, uint8_t wealth)
+    {
+        return(std::ceil(wealth / 2.0)
+                + std::floor( (force + cunning) / 4.0) );
+    }
+
     // Class public methods
     Faction::Faction(const FactionCreateModel& faction) :
         Name(faction.Name), Force(faction.Force), Cunning(faction.Cunning), Wealth(faction.Wealth)
@@ -30,20 +48,5 @@ namespace FT
         }
 
         this->CurrentHp -= damage;
-    }
-
-    // Helper methods
-    uint8_t CalcHp(uint8_t force, uint8_t cunning, uint8_t wealth)
-    {
-        return(RatingHpMap.find(force)->second
-                + RatingHpMap.find(cunning)->second
-                + RatingHpMap.find(wealth)->second
-                + 4);
-    }
-
-    uint8_t CalcIncome(uint8_t force, uint8_t cunning, uint8_t wealth)
-    {
-        return(std::ceil(wealth / 2.0)
-                + std::floor( (force + cunning) / 4.0) );
     }
 }

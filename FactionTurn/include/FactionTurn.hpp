@@ -1,6 +1,7 @@
 #ifndef FACTION_TURN_HPP
 #define FACTION_TURN_HPP
 
+#include <map>
 #include <memory>
 #include <string>
 #include <vector>
@@ -29,7 +30,7 @@ namespace FT
      */
     struct FactionTurnState
     {
-        std::vector<Faction> FactionList;
+        std::vector<Faction> Factions;
         std::vector<Action> ResolvedActions;
     };
 
@@ -45,7 +46,9 @@ namespace FT
             FactionTurn(size_t turnNumber = 0);
             ~FactionTurn();
 
-            void Setup(std::vector<Faction> factions);
+            void Setup();
+            void StartTurn();
+            void EndTurn();
 
             // Inherited from Observer
             void OnNotify(const Event&) override;
