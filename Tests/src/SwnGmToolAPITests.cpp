@@ -1,5 +1,7 @@
 #include <catch/catch.hpp>
 
+#include <cereal/archives/json.hpp>
+
 #include "ConfigModel.hpp"
 #include "FactionModel.hpp"
 #include "SwnGmToolAPI.hpp"
@@ -25,8 +27,16 @@ namespace Tests
             std::unique_ptr<SwnGmToolAPI> testAPI(new SwnGmToolAPI(defaultConfig) );
 
             REQUIRE(testAPI->GetConfig().DefaultFactionCount == 5);
-            REQUIRE(testAPI->GetFactionList().empty() == true);
-            REQUIRE(testAPI->GetFactionList().size() == 0);
+
+            std::stringstream stream;
+            testAPI->GetFactionList(stream);
+            cereal::JSONInputArchive archive(stream);
+            
+            FAC::Faction_List list;
+            archive(list);
+
+            REQUIRE(list.empty() == true);
+            REQUIRE(list.size() == 0);
         }
 
         SECTION("API can add Factions to the control")
@@ -35,9 +45,16 @@ namespace Tests
 
             testAPI->AddFaction(testFaction);
 
-            REQUIRE(testAPI->GetFactionList().size() == 1);
-            REQUIRE(testAPI->GetFactionList().empty() == false);
-            REQUIRE(testAPI->GetFactionList()[0] == testFaction);
+            std::stringstream stream;
+            testAPI->GetFactionList(stream);
+            cereal::JSONInputArchive archive(stream);
+            
+            FAC::Faction_List list;
+            archive(list);
+
+            REQUIRE(list.size() == 1);
+            REQUIRE(list.empty() == false);
+            REQUIRE(list[0] == testFaction);
         }
 
         SECTION("API can clear Faction list from the control")
@@ -47,8 +64,15 @@ namespace Tests
             testAPI->AddFaction(testFaction);
             testAPI->ClearFactions();
 
-            REQUIRE(testAPI->GetFactionList().size() == 0);
-            REQUIRE(testAPI->GetFactionList().empty() == true);
+            std::stringstream stream;
+            testAPI->GetFactionList(stream);
+            cereal::JSONInputArchive archive(stream);
+            
+            FAC::Faction_List list;
+            archive(list);
+
+            REQUIRE(list.size() == 0);
+            REQUIRE(list.empty() == true);
         }
     }
 }

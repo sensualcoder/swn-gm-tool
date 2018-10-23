@@ -61,13 +61,11 @@ namespace SwnGmTool
             .Wealth = faction.Wealth
         };
 
-        model.MaxHP = model.CurrentHP = CalcHpFromAttributes(faction);
+        model.MaxHp = model.CurrentHp = CalcHpFromAttributes(faction);
 
         model.Income = CalcIncomeFromAttributes(faction);
 
-        model.FacCreds = model.Exp = 0;
-
-        model.Tags = faction.Tags;
+        model.Treasury = model.Experience = 0;
 
         this->AddFaction(model);
     }

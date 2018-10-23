@@ -1,5 +1,7 @@
 #include "SwnGmToolAPI.hpp"
 
+#include <cereal/archives/json.hpp>
+
 namespace SwnGmTool
 {
     SwnGmToolAPI::SwnGmToolAPI(ConfigModel config) 
@@ -22,14 +24,16 @@ namespace SwnGmTool
         return this->SGTFactionControl->GetFactionCount();
     }
 
-    const FAC::Faction_List SwnGmToolAPI::GetFactionList()
+    void SwnGmToolAPI::GetFactionList(std::ostream& out)
     { 
-        return this->SGTFactionControl->GetFactionList();
+        cereal::JSONOutputArchive archive(out);
+        archive(this->SGTFactionControl->GetFactionList() );
     }
 
-    const FactionModel SwnGmToolAPI::GetFactionDetails(int index)
+    void SwnGmToolAPI::GetFactionDetails(int index, std::ostream& out)
     {
-        return this->SGTFactionControl->GetFactionDetails(index);
+        cereal::JSONOutputArchive archive(out);
+        archive(this->SGTFactionControl->GetFactionDetails(index) );
     }
 
     void SwnGmToolAPI::AddFaction(FactionModel model) 
@@ -47,9 +51,13 @@ namespace SwnGmTool
         this->SGTFactionControl->ClearMap(); 
     }
 
-    const FAC::Asset_List SwnGmToolAPI::GetAssetList(int factionIndex)
+    std::stringstream SwnGmToolAPI::GetAssetList(int factionIndex)
     {
-        return this->SGTFactionControl->GetAssetList(factionIndex);
+        std::stringstream stream;
+        cereal::JSONOutputArchive archive(stream);
+        archive(this->SGTFactionControl->GetAssetList(factionIndex) );
+
+        return stream;
     }
 
     void SwnGmToolAPI::AddAsset(int factionIndex, AssetModel asset)

@@ -2,6 +2,7 @@
 #define SWN_GM_TOOL_API_HPP
 
 #include <memory>
+#include <ostream>
 #include <string>
 
 #include <cereal/cereal.hpp>
@@ -23,8 +24,8 @@ namespace SwnGmTool
             ConfigModel GetConfig();
 
             int GetFactionCount();
-            const FAC::Faction_List GetFactionList();
-            const FactionModel GetFactionDetails(int);
+            void GetFactionList(std::ostream& = std::cout);
+            void GetFactionDetails(int, std::ostream& = std::cout);
             void AddFaction(FactionModel);
             void AddFaction(FactionCreateModel);
             void RemoveFaction(int);
@@ -32,7 +33,7 @@ namespace SwnGmTool
             void ClearFactions();
 
             int GetAssetCount(int);
-            const FAC::Asset_List GetAssetList(int);
+            std::stringstream GetAssetList(int);
             void AddAsset(int, AssetModel);
             void RemoveAsset(int, int);
             void ClearAssets(int);

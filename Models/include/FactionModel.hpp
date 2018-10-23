@@ -3,11 +3,9 @@
 
 #include <cstdint>
 #include <string>
-#include <vector>
 
 #include <cereal/cereal.hpp>
 #include <cereal/types/string.hpp>
-#include <cereal/types/vector.hpp>
 
 namespace SwnGmTool
 {
@@ -16,19 +14,10 @@ namespace SwnGmTool
         std::string Name;
         std::string Description;
 
-        uint8_t Force;
-        uint8_t Cunning;
-        uint8_t Wealth;
-
-        uint8_t Income;
-        uint8_t FacCreds;
-
-        uint8_t CurrentHP;
-        uint8_t MaxHP;
-
-        uint8_t Exp;
-
-        std::vector<std::string> Tags;
+        uint8_t Force, Cunning, Wealth;
+        uint8_t Income, Treasury;
+        uint8_t CurrentHp, MaxHp;
+        uint8_t Experience;
     };
 
     inline bool operator==(const FactionModel& a, const FactionModel& b)
@@ -50,11 +39,10 @@ namespace SwnGmTool
                 cereal::make_nvp("Cunning", f.Cunning),
                 cereal::make_nvp("Wealth", f.Wealth),
                 cereal::make_nvp("Income", f.Income),
-                cereal::make_nvp("FacCreds", f.FacCreds),
-                cereal::make_nvp("CurrentHP", f.CurrentHP),
-                cereal::make_nvp("MaxHP", f.MaxHP), 
-                cereal::make_nvp("Exp", f.Exp),
-                cereal::make_nvp("Tags", f.Tags) );
+                cereal::make_nvp("Treasury", f.Treasury),
+                cereal::make_nvp("CurrentHP", f.CurrentHp),
+                cereal::make_nvp("MaxHP", f.MaxHp), 
+                cereal::make_nvp("Experience", f.Experience) );
     }
 }
 

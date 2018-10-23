@@ -3,6 +3,8 @@
 #include <chrono>
 #include <fstream>
 
+#include <cereal/archives/json.hpp>
+
 #include "FileAccess.hpp"
 
 namespace Driver
@@ -362,7 +364,12 @@ namespace Driver
 
     void Driver::ShowFactionList()
     {
-        auto list = this->SGTAPI->GetFactionList();
+        std::stringstream stream;
+        this->SGTAPI->GetFactionList(stream);     
+        cereal::JSONInputArchive archive(stream);
+
+        SwnGmTool::FAC::Faction_List list;
+        archive(list);
 
         fmt::print("\nFaction List:\n");
 
@@ -374,7 +381,7 @@ namespace Driver
 
         fmt::print("{0:<10} {1:20}\n", "Index", "Name");
 
-        for(int i = 0; i < list.size(); i++)
+        for(size_t i = 0; i < list.size(); ++i)
         {
             fmt::print("{0:<10} {1:20}\n", i, list[i].Name);
         }
@@ -431,7 +438,12 @@ namespace Driver
             return;
         }
 
-        auto item = this->SGTAPI->GetFactionDetails(i);
+        std::stringstream stream;
+        this->SGTAPI->GetFactionDetails(i, stream);
+        cereal::JSONInputArchive archive(stream);
+
+        SwnGmTool::FactionModel item;
+        archive(item);
 
         fmt::print("\nFaction Details\n");
         fmt::print("{0:<15} {1:>10}\n", "Name:", item.Name);
@@ -440,9 +452,9 @@ namespace Driver
         fmt::print("{0:<15} {1:>10}\n", "Cunning:", item.Cunning);
         fmt::print("{0:<15} {1:>10}\n", "Wealth:", item.Wealth);
         fmt::print("{0:<15} {1:>10}\n", "Income:", item.Income);
-        fmt::print("{0:<15} {1:>10}\n", "FacCreds:", item.FacCreds);
-        fmt::print("{0:<15} {1:>10}/{2}\n", "HP:", item.CurrentHP, item.MaxHP);
-        fmt::print("{0:<15} {1:>10}\n", "Exp:", item.Exp);
+        fmt::print("{0:<15} {1:>10}\n", "FacCreds:", item.Treasury);
+        fmt::print("{0:<15} {1:>10}/{2}\n", "HP:", item.CurrentHp, item.MaxHp);
+        fmt::print("{0:<15} {1:>10}\n", "Exp:", item.Experience);
     }
 
     void Driver::QuitFactionControl()
@@ -486,7 +498,11 @@ namespace Driver
             return;
         }
 
-        auto list = this->SGTAPI->GetAssetList(choice);
+        auto listStr = this->SGTAPI->GetAssetList(choice);
+        cereal::JSONInputArchive archive(listStr);
+
+        SwnGmTool::FAC::Asset_List list;
+        archive(list);
 
         fmt::print("\nAsset List\n");
 

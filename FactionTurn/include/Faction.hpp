@@ -12,8 +12,8 @@
 namespace FT
 {
     // Forward declarations
-    struct FactionCreateModel;
-    struct FactionModel;
+    using FactionCreateModel = SwnGmTool::FactionCreateModel;
+    using FactionModel = SwnGmTool::FactionModel;
     class Subject;
 
     // Enums, structs, const values and objects
