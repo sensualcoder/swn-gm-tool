@@ -4,9 +4,6 @@
 
 namespace FT
 {
-    // Forward declarations
-    struct Event;
-
     // Helper methods
     uint8_t CalcHp(uint8_t force, uint8_t cunning, uint8_t wealth)
     {
@@ -23,30 +20,43 @@ namespace FT
     }
 
     // Class public methods
-    Faction::Faction(const FactionCreateModel& faction) :
-        Name(faction.Name), Force(faction.Force), Cunning(faction.Cunning), Wealth(faction.Wealth)
+    Faction::Faction(const FactionCreateModel& faction) : Model()
     {
-        this->CurrentHp = this->MaxHp = CalcHp(faction.Force, faction.Cunning, faction.Wealth);
-        this->Income = CalcIncome(faction.Force, faction.Cunning, faction.Wealth);
-        this->Treasury = this->Experience = 0;
+        this->Model.Name = faction.Name;
+        this->Model.Force = faction.Force;
+        this->Model.Cunning = faction.Cunning;
+        this->Model.Wealth = faction.Wealth;
+
+        this->Model.CurrentHp = this->Model.MaxHp = CalcHp(faction.Force, faction.Cunning, faction.Wealth);
+        this->Model.Income = CalcIncome(faction.Force, faction.Cunning, faction.Wealth);
+        this->Model.Treasury = this->Model.Experience = 0;
     }
 
-    Faction::Faction(const FactionModel& faction) :
-         Name(faction.Name), Force(faction.Force), Cunning(faction.Cunning), 
-         Wealth(faction.Wealth), Income(faction.Income), Treasury(faction.Treasury), 
-         CurrentHp(faction.CurrentHp), MaxHp(faction.MaxHp), Experience(faction.Experience)
+    Faction::Faction(const FactionModel& faction) : Model(faction)
     {
     }
 
-    void Faction::TakeDamage(uint8_t damage)
+    void Faction::TakeDamage(unsigned int damage)
     {
+        if(damage >= this->Model.CurrentHp)
+        {
+            this->Model.CurrentHp = 0;
+        }
+        else
+        {
+            this->Model.CurrentHp -= damage;
+        }
+
         this->Notify(Event { EventType::FACTION_DAMAGED } );
 
-        if(damage >= this->CurrentHp)
+        if(this->Model.CurrentHp == 0)
         {
             this->Notify(Event { EventType::FACTION_DESTROYED } );
         }
+    }
 
-        this->CurrentHp -= damage;
+    const FactionModel& Faction::GetModel() const 
+    { 
+        return this->Model; 
     }
 }

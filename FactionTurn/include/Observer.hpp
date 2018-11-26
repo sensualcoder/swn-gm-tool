@@ -9,7 +9,7 @@ namespace FT
     {
         public:
             virtual ~Observer() {}
-            virtual void OnNotify(const Event &) = 0;
+            virtual void OnNotify(const Event& event) = 0;
     };
 }
 

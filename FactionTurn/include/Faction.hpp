@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <map>
 
+#include "Asset.hpp"
 #include "Events.hpp"
 #include "FactionCreateModel.hpp"
 #include "FactionModel.hpp"
@@ -11,13 +12,11 @@
 
 namespace FT
 {
-    // Forward declarations
     using FactionCreateModel = SwnGmTool::FactionCreateModel;
     using FactionModel = SwnGmTool::FactionModel;
-    class Subject;
 
     // Enums, structs, const values and objects
-
+    
     // TODO: Make into a configurable object that is loaded in from a file
     const std::map<int, int> RatingHpMap
     {
@@ -44,15 +43,47 @@ namespace FT
             Faction(const FactionCreateModel& faction);
             Faction(const FactionModel& faction);
 
-            void TakeDamage(uint8_t damage);
+            void Attack(Asset& target);
+            void BuyAsset(const AssetModel& asset);
+            void ChangeHomeworld();
+            void ExpandInfluence();
+            void RefitAsset(Asset& asset, const Asset& refitTo);
+            void Repair(Asset& target);
+            void Repair(Faction& target);
+            void Sell(Asset& asset);
+            void SeizePlanet();
+            void UseAssetAbility(Asset& asset);
+
+            void TakeDamage(unsigned int damage); 
+
+            const FactionModel& GetModel() const;
+
+            inline bool operator==(const FactionCreateModel& b) const
+            {
+                return(this->Model.Name == b.Name
+                    && this->Model.Force == b.Force
+                    && this->Model.Cunning == b.Cunning
+                    && this->Model.Wealth == b.Wealth);
+            }
+
+            inline bool operator==(const FactionModel& b) const
+            {
+                return(this->Model == b);
+            }
+
+            inline bool operator==(const Faction& b) const
+            {
+                return(this->Model == b.GetModel() );
+            }
 
         private:
-            std::string Name;
-            uint8_t Force, Cunning, Wealth;
-            uint8_t Income, Treasury;
-            uint8_t CurrentHp, MaxHp;
-            uint8_t Experience;
+            FactionModel Model;
+            std::vector<Asset> AssetList;
+
+            // TODO:
+            // Add Homeworld
+            // Add list of Planets with bases
     };
 }
 
-#endif
+#endif // FACTION_HPP

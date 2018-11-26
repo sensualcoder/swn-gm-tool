@@ -13,11 +13,18 @@
 
 namespace SwnGmTool
 {
+    enum rating_t
+    {
+        FORCE,
+        CUNNING,
+        WEALTH
+    };
+
     struct AssetModel
     {
         std::string Name;
 
-        std::string RatingType;
+        rating_t RatingType;
         uint8_t RatingLevel;
         std::string AssetType;
 

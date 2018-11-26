@@ -15,15 +15,7 @@
 
 namespace FT
 {
-    // Forward declarations
-    struct Action;
-    class Faction;
-
     // Enums, structs, const values and objects
-    struct Asset
-    {
-        std::string Name;
-    };
 
     /** FactionTurnState
      *  Stores the state of each faction turn
