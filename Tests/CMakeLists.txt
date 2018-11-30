@@ -3,7 +3,6 @@ include_directories(${PROJECT_SOURCE_DIR}/FactionControl/include)
 include_directories(${PROJECT_SOURCE_DIR}/Faction/include)
 include_directories(${PROJECT_SOURCE_DIR}/Models/include)
 include_directories(${PROJECT_SOURCE_DIR}/SectorGen/include)
-include_directories(${PROJECT_SOURCE_DIR}/SwnGmToolAPI/include)
 
 set(CATCH_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 add_library(Catch INTERFACE)
@@ -14,8 +13,7 @@ set(TEST_SOURCES src/Tests.cpp
     src/FactionControlTests.cpp 
     src/FactionTests.cpp
     src/FactionTurnTests.cpp
-    src/SectorGenTests.cpp 
-    src/SwnGmToolAPITests.cpp)
+    src/SectorGenTests.cpp)
 
 add_executable(tests ${TEST_SOURCES})
-target_link_libraries(tests Catch DiceRoll HexGrid FactionControl FactionTurn SectorGen SwnGmToolAPI)
+target_link_libraries(tests Catch DiceRoll HexGrid FactionControl FactionTurn SectorGen)

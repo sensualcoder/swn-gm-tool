@@ -5,7 +5,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra -pedantic")
 set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 
-option(BUILD_DRIVER "Build driver" ON)
 option(BUILD_TESTS "Build tests" ON)
 option(BUILD_UTILS "Build utilities" ON)
 
@@ -45,14 +44,6 @@ include_directories(${PROJECT_SOURCE_DIR}/Models/include)
 include_directories(${PROJECT_SOURCE_DIR}/SectorGen/include)
 add_subdirectory(SectorGen)
 
-# SwnGmToolAPI
-include_directories(${PROJECT_SOURCE_DIR}/SwnGmToolAPI/include)
-add_subdirectory(SwnGmToolAPI)
-
-# Driver
-include_directories(${PROJECT_SOURCE_DIR}/Driver/include)
-add_subdirectory(Driver)
-
 # Tests
 if(BUILD_TESTS)
     include_directories(${PROJECT_SOURCE_DIR}/Tests/include)
@@ -65,16 +56,14 @@ if(BUILD_UTILS)
     add_subdirectory(Utils)
 endif(BUILD_UTILS)
 
-if(BUILD_DRIVER)
-    # Add all extra libs
-    set(EXTRA_LIBS ${EXTRA_LIBS} DiceRoll HexGrid FactionControl SectorGen SwnGmToolAPI Driver)
-    set(EXTRA_LIBS ${EXTRA_LIBS} pthread)
+# Add all extra libs
+set(EXTRA_LIBS ${EXTRA_LIBS} DiceRoll HexGrid FactionControl SectorGen)
+set(EXTRA_LIBS ${EXTRA_LIBS} pthread)
 
-    set(SOURCES main.cpp)
+set(SOURCES main.cpp)
 
-    add_executable(SwnGmTool ${SOURCES})
-    target_link_libraries(SwnGmTool ${EXTRA_LIBS})
-endif(BUILD_DRIVER)
+add_executable(SwnGmTool ${SOURCES})
+target_link_libraries(SwnGmTool ${EXTRA_LIBS})
 
 file(COPY Config/ DESTINATION ./Config)
 add_custom_target(build-time-make_directory ALL
