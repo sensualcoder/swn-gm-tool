@@ -1,6 +1,9 @@
 #include "SectorGen.hpp"
 
 #include <ctime>
+#include <random>
+
+#include "Random.hpp"
 
 namespace SwnGmTool
 {
@@ -8,7 +11,6 @@ namespace SwnGmTool
         : SectorMap(HexGrid::HexMap() ), MapWidth(mapWidth), MapHeight(mapHeight)
     {
         this->CreateFTVRMap(mapWidth, mapHeight);
-        this->SetupRandomizer();
     }
 
     // Creates a map with flat-topped hexagons in a vertical rectangular configuration (FTVR).
@@ -27,23 +29,32 @@ namespace SwnGmTool
 
     void SectorGen::GenerateSector(int starsMod)
     {
-        int total_stars = (1 + (std::rand() % 10)) + starsMod;
+        std::uniform_int_distribution<int> star_dist {1, 10};
+
+        int total_stars = star_dist(prng() ) + starsMod;
 
         for(int i = 0; i < total_stars; i++)
         {
-            int q = std::rand() % this->MapWidth;
+            std::uniform_int_distribution<int> q_dist {0, this->MapWidth};   
+            int q = q_dist(prng() );
+            
             int q_offset = std::floor( (q+1)/2);
-            int r = std::rand() % this->MapHeight - q_offset;
+            
+            std::uniform_int_distribution<int> r_dist {0, this->MapHeight - q_offset};
+            int r = r_dist(prng() );
 
             auto hex = this->SectorMap.MapSet.find(HexGrid::Hex(q, r) );
 
             if(hex != this->SectorMap.MapSet.end() )
+            {
                 this->SystemList.push_back(SwnHex(*hex) );
+            }
         }
 
         for(auto system : this->SystemList)
         {
-            int planets = std::rand() % 3 + 1;
+            std::uniform_int_distribution<int> planet_dist {0, 4};
+            int planets = planet_dist(prng() );
 
             for(int i = 0; i < planets; i++)
             {
@@ -93,13 +104,5 @@ namespace SwnGmTool
         }
 
         return planetList;
-    }
-
-    // Sets up the randomization for generating sectors
-    // Only a simple srand() call for now
-    // TODO: Add in random distribution methods for customizable variability in star counts, planet counts, etc.
-    void SectorGen::SetupRandomizer()
-    {
-        std::srand(std::time(0) );
     }
 }

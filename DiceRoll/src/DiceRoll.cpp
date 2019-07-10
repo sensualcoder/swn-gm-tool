@@ -3,38 +3,37 @@
 #include <ctime>
 #include <string>
 
+#include "Random.hpp"
+
 namespace SwnGmTool
 {
-    void setup_basic_randomizer()
-    {
-        std::srand(std::time(0) );
-    }
-
-    int roll_dice(const DiceRollModel& d)
+    int roll_dice(const DiceRollModel& dice)
     {
         int roll = 0;
 
-        for(int i = 0; i < d.DiceNum; i++)
+        std::uniform_int_distribution<int> dist { 1, dice.DiceType };
+
+        for(int i = 0; i < dice.DiceNum; i++)
         {
-            int t = 1 + std::rand() % d.DiceType;
+            int t = dist(prng() );
             roll += t;
         }
 
-        roll += d.Modifier;
+        roll += dice.Modifier;
 
         return roll;
     }
 
-    bool is_none(const DiceRollModel& d)
+    bool is_none(const DiceRollModel& dice)
     {
-        return (d.DiceNum == 0);
+        return (dice.DiceNum == 0);
     }
 
-    std::string to_string(const DiceRollModel& d)
+    std::string to_string(const DiceRollModel& dice)
     {
-        if(is_none(d) )
+        if(is_none(dice) )
             return "None";
-        return (std::to_string(d.DiceNum) + "d" + std::to_string(d.DiceType) + 
-            ((d.Modifier != 0) ? ((d.Modifier > 0) ? "+" : "-") + std::to_string(d.Modifier) : "") );
+        return (std::to_string(dice.DiceNum) + "d" + std::to_string(dice.DiceType) + 
+            ((dice.Modifier != 0) ? ((dice.Modifier > 0) ? "+" : "-") + std::to_string(dice.Modifier) : "") );
     }
 }

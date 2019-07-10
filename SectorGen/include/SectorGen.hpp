@@ -38,8 +38,6 @@ namespace SwnGmTool
 
             HexGrid::HexMap SectorMap;
             std::list<SwnHex> SystemList;
-
-            void SetupRandomizer();
     };
 }
 

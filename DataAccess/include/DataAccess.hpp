@@ -10,8 +10,6 @@ namespace SwnGmTool
     class DataAccess
     {
         public:
-            DataAccess() {}
-
             virtual void Save(std::ostream&, T&, std::string) = 0;
             virtual void Load(std::istream&, T&) = 0;
     };

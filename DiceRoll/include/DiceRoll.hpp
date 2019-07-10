@@ -5,10 +5,9 @@
 
 namespace SwnGmTool
 {
-    void setup_basic_randomizer();
-    int roll_dice(const DiceRollModel&);
-    bool is_none(const DiceRollModel&);
-    std::string to_string(const DiceRollModel&);
+    int roll_dice(const DiceRollModel& dice);
+    bool is_none(const DiceRollModel& dice);
+    std::string to_string(const DiceRollModel& dice);
 }
 
 #endif

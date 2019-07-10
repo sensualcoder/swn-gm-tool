@@ -5,6 +5,8 @@
 
 #include <cereal/archives/json.hpp>
 
+#include <spdlog/sinks/rotating_file_sink.h>
+
 #include "FileAccess.hpp"
 
 namespace Driver

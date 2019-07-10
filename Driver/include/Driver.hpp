@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-#include "spdlog/spdlog.h"
+#include <spdlog/spdlog.h>
 
 #include "AssetModel.hpp"
 #include "MenuOptionFactory.hpp"
